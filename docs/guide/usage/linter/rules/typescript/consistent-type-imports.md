@@ -6,6 +6,12 @@ url: /docs/guide/usage/linter/rules/typescript/consistent-type-imports.md
 
 Enforce consistent usage of type imports.
 
+#### Ignored Files
+
+This rule ignores `.astro`, `.svelte` and `.vue` files entirely. Since Oxlint does
+not support parsing template syntax, this rule cannot tell if a variable
+is used or unused in a Vue / Svelte / Astro file.
+
 ### Why is this bad?
 
 Inconsistent usage of type imports can make the code harder to read and understand.

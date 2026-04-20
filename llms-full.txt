@@ -1564,6 +1564,8 @@ url: /docs/guide/usage/formatter/cli.md
 
 * **`-c`**, **`--config`**=*`PATH`* —
   Path to the configuration file (.json, .jsonc, .ts, .mts, .cts, .js, .mjs, .cjs)
+* **`    --disable-nested-config`** —
+  Do not search for configuration files in subdirectories
 
 ## Ignore Options
 
@@ -11330,6 +11332,19 @@ var {a = []} = foo;
 function foo({a = {}}) {}
 function foo({a = []}) {}
 ```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### allowObjectPatternsAsParameters
+
+type: `boolean`
+
+default: `false`
+
+When set to `true`, this rule allows empty object patterns used directly as function
+parameters, including parameters defaulted to an empty object literal.
 
 ## How to use
 
@@ -23671,6 +23686,9 @@ This rule accepts a configuration object with the following properties:
 type: `object`
 
 Jest configuration options.
+Deprecated config, it will be removed in future versions.
+Use please instead { "settings": { "jest": {"version": 29 } } } in `Oxlint config file`.
+Beware the value from the config have higher priority than the rule config.
 
 #### jest.version
 
@@ -35398,6 +35416,26 @@ Here's an example if you're using Next.js in a monorepo:
 }
 ```
 
+### settings.jest
+
+type: `object`
+
+Configure Jest plugin rules.
+
+See [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest)'s
+configuration for a full reference.
+
+#### settings.jest.version
+
+type: `integer`
+
+default: `null`
+
+Jest version — accepts a number (`29`) or a semver string (`"29.1.0"` or `"v29.1.0"`),
+storing only the major version.
+::: warning
+Using this config will override the `no-deprecated-functions`' config set.
+
 ### settings.jsdoc
 
 type: `object`
@@ -36219,6 +36257,26 @@ Here's an example if you're using Next.js in a monorepo:
   }
 }
 ```
+
+### settings.jest
+
+type: `object`
+
+Configure Jest plugin rules.
+
+See [eslint-plugin-jest](https://github.com/jest-community/eslint-plugin-jest)'s
+configuration for a full reference.
+
+#### settings.jest.version
+
+type: `integer`
+
+default: `null`
+
+Jest version — accepts a number (`29`) or a semver string (`"29.1.0"` or `"v29.1.0"`),
+storing only the major version.
+::: warning
+Using this config will override the `no-deprecated-functions`' config set.
 
 ### settings.jsdoc
 
@@ -47075,6 +47133,12 @@ url: /docs/guide/usage/linter/rules/typescript/consistent-type-imports.md
 
 Enforce consistent usage of type imports.
 
+#### Ignored Files
+
+This rule ignores `.astro`, `.svelte` and `.vue` files entirely. Since Oxlint does
+not support parsing template syntax, this rule cannot tell if a variable
+is used or unused in a Vue / Svelte / Astro file.
+
 ### Why is this bad?
 
 Inconsistent usage of type imports can make the code harder to read and understand.
@@ -47418,6 +47482,205 @@ type: `string[]`
 default: `[]`
 
 Array of function names that are exempt from requiring return type annotations.
+
+## How to use
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/typescript/explicit-member-accessibility.md
+---
+
+### What it does
+
+Require explicit accessibility modifiers on class properties and methods.
+
+### Why is this bad?
+
+TypeScript allows placing explicit `public`, `protected`, and `private`
+accessibility modifiers in front of class members. The modifiers exist
+solely in the type system and serve to describe who is allowed to access
+those members.
+
+Leaving off accessibility modifiers makes for less code to read and
+write. Members are `public` by default. However, adding explicit
+modifiers can make code more readable and explicit about who can use
+which properties.
+
+### Examples
+
+#### `{ "accessibility": "explicit" }` (default)
+
+Examples of **incorrect** code:
+
+```ts
+class Animal {
+  constructor(name: string) {}
+  animalName: string;
+  get name(): string {
+    return this.animalName;
+  }
+}
+```
+
+Examples of **correct** code:
+
+```ts
+class Animal {
+  public constructor(name: string) {}
+  private animalName: string;
+  public get name(): string {
+    return this.animalName;
+  }
+}
+```
+
+#### `{ "accessibility": "no-public" }`
+
+Examples of **incorrect** code:
+
+```ts
+class Animal {
+  public constructor(
+    public breed: string,
+    name: string,
+  ) {}
+  public animalName: string;
+  public get name(): string {
+    return this.animalName;
+  }
+}
+```
+
+Examples of **correct** code:
+
+```ts
+class Animal {
+  constructor(
+    protected breed: string,
+    name: string,
+  ) {}
+  private animalName: string;
+  get name(): string {
+    return this.animalName;
+  }
+}
+```
+
+#### `{ "overrides": { "constructors": "no-public" } }`
+
+Disallow the use of `public` on constructors while requiring explicit
+modifiers everywhere else.
+
+Examples of **incorrect** code:
+
+```ts
+class Animal {
+  public constructor(protected animalName: string) {}
+}
+```
+
+Examples of **correct** code:
+
+```ts
+class Animal {
+  constructor(protected animalName: string) {}
+  public get name(): string {
+    return this.animalName;
+  }
+}
+```
+
+#### `{ "accessibility": "no-public", "overrides": { "properties": "explicit" } }`
+
+Require explicit modifiers on properties while disallowing `public`
+everywhere else.
+
+Examples of **incorrect** code:
+
+```ts
+class Animal {
+  legs: number;
+  private hasFleas: boolean;
+}
+```
+
+Examples of **correct** code:
+
+```ts
+class Animal {
+  public legs: number;
+  private hasFleas: boolean;
+}
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### accessibility
+
+type: `"explicit" | "no-public" | "off"`
+
+Which accessibility modifier is required to exist or not exist.
+
+#### `"explicit"`
+
+Always require an accessibility modifier.
+
+#### `"no-public"`
+
+Require an accessibility modifier except when public.
+
+#### `"off"`
+
+Never check whether there is an accessibility modifier.
+
+### ignoredMethodNames
+
+type: `string[]`
+
+default: `[]`
+
+Specific method names that may be ignored.
+
+### overrides
+
+type: `object`
+
+Changes to required accessibility modifiers for specific kinds of class members.
+
+#### overrides.accessors
+
+type: `"explicit" | "no-public" | "off"`
+
+Which member accessibility modifier requirements to apply for accessors (getters/setters).
+
+#### overrides.constructors
+
+type: `"explicit" | "no-public" | "off"`
+
+Which member accessibility modifier requirements to apply for constructors.
+
+#### overrides.methods
+
+type: `"explicit" | "no-public" | "off"`
+
+Which member accessibility modifier requirements to apply for methods.
+
+#### overrides.parameterProperties
+
+type: `"explicit" | "no-public" | "off"`
+
+Which member accessibility modifier requirements to apply for parameter properties.
+
+#### overrides.properties
+
+type: `"explicit" | "no-public" | "off"`
+
+Which member accessibility modifier requirements to apply for properties.
 
 ## How to use
 
@@ -60419,6 +60682,8 @@ url: /docs/guide/usage/formatter/generated-cli.md
 
 * **`-c`**, **`--config`**=*`PATH`* —
   Path to the configuration file (.json, .jsonc, .ts, .mts, .cts, .js, .mjs, .cjs)
+* **`    --disable-nested-config`** —
+  Do not search for configuration files in subdirectories
 
 ## Ignore Options
 
@@ -61055,12 +61320,16 @@ url: /docs/guide/usage/linter/rules/vitest/no-importing-vitest-globals.md
 
 ### What it does
 
-The rule disallows import any vitest global function.
+The rule disallows importing any vitest global functions.
 
 ### Why is this bad?
 
-If the project is configured to use globals from vitest, the rule ensure
-that never imports the globals from `import` or `require`.
+If a project is [configured to provide Vitest functions as globals](https://vitest.dev/config/globals.html),
+this rule can be used to ensure that the globals are never imported
+via `import` or `require`.
+
+Note that this rule should *not* be used if the `globals` config
+option is set to `false` in Vitest (`false` is the default configuration).
 
 ### Examples
 

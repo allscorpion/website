@@ -548,6 +548,7 @@
 - [typescript/consistent-type-imports](/docs/guide/usage/linter/rules/typescript/consistent-type-imports.md)
 - [typescript/dot-notation](/docs/guide/usage/linter/rules/typescript/dot-notation.md)
 - [typescript/explicit-function-return-type](/docs/guide/usage/linter/rules/typescript/explicit-function-return-type.md)
+- [typescript/explicit-member-accessibility](/docs/guide/usage/linter/rules/typescript/explicit-member-accessibility.md)
 - [typescript/explicit-module-boundary-types](/docs/guide/usage/linter/rules/typescript/explicit-module-boundary-types.md)
 - [typescript/no-array-delete](/docs/guide/usage/linter/rules/typescript/no-array-delete.md)
 - [typescript/no-base-to-string](/docs/guide/usage/linter/rules/typescript/no-base-to-string.md)

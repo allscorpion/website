@@ -30,6 +30,8 @@ url: /docs/guide/usage/formatter/generated-cli.md
 
 * **`-c`**, **`--config`**=*`PATH`* —
   Path to the configuration file (.json, .jsonc, .ts, .mts, .cts, .js, .mjs, .cjs)
+* **`    --disable-nested-config`** —
+  Do not search for configuration files in subdirectories
 
 ## Ignore Options
 
