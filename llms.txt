@@ -199,8 +199,8 @@
 - [eslint/yoda](/docs/guide/usage/linter/rules/eslint/yoda.md)
 - [FAQ](/docs/guide/usage/minifier/faq.md)
 - [Formatter](/docs/contribute/formatter.md)
-- [Getting Started](/docs/contribute/development.md)
 - [Getting Started](/docs/guide/introduction.md)
+- [Getting Started](/docs/contribute/development.md)
 - [Global Variable Replacement](/docs/guide/usage/transformer/global-variable-replacement.md)
 - [Grammar](/docs/learn/ecmascript/grammar.md)
 - [Ignore files](/docs/guide/usage/formatter/ignore-files.md)
@@ -448,8 +448,8 @@
 - [promise/prefer-catch](/docs/guide/usage/linter/rules/promise/prefer-catch.md)
 - [promise/spec-only](/docs/guide/usage/linter/rules/promise/spec-only.md)
 - [promise/valid-params](/docs/guide/usage/linter/rules/promise/valid-params.md)
-- [Quickstart](/docs/guide/usage/linter/quickstart.md): Install Oxlint and learn the common workflows.
 - [Quickstart](/docs/guide/usage/formatter/quickstart.md): Install Oxfmt and learn the common workflows.
+- [Quickstart](/docs/guide/usage/linter/quickstart.md): Install Oxlint and learn the common workflows.
 - [react-perf/jsx-no-jsx-as-prop](/docs/guide/usage/linter/rules/react_perf/jsx-no-jsx-as-prop.md)
 - [react-perf/jsx-no-new-array-as-prop](/docs/guide/usage/linter/rules/react_perf/jsx-no-new-array-as-prop.md)
 - [react-perf/jsx-no-new-function-as-prop](/docs/guide/usage/linter/rules/react_perf/jsx-no-new-function-as-prop.md)
