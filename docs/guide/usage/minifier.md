@@ -3,10 +3,6 @@ url: /docs/guide/usage/minifier.md
 ---
 # Minifier
 
-::: tip
-We recommend thoroughly testing its output before deploying to production environments.
-:::
-
 ## Features
 
 * [Eliminate dead code.](./minifier/dead-code-elimination)
