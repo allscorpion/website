@@ -1411,6 +1411,26 @@ url: /docs/guide/usage/transformer/plugins.md
 
 Oxc transformer includes built-in support for popular transformation plugins to improve developer experience and build performance.
 
+## Tagged Template Escape
+
+When enabled, `</script>` sequences inside tagged template literals are escaped to prevent browsers from prematurely closing a surrounding `<script>` tag. This avoids parsing errors and potential XSS vulnerabilities when JavaScript is embedded directly in HTML.
+
+::: tip Recommendation
+Enable this option when the transformed output may be embedded directly in HTML `<script>` tags. Without it, tagged template literals containing `</script>` can break when embedded in HTML `<script>` tags. See [oxc-project/oxc#15306](https://github.com/oxc-project/oxc/issues/15306) for details.
+:::
+
+```javascript
+import { transform } from "oxc-transform";
+
+const result = await transform("lib.js", sourceCode, {
+  plugins: {
+    taggedTemplateEscape: true,
+  },
+});
+```
+
+For example, `` foo`</script>` `` is transformed into a helper call where the `</script>` sequence is escaped to `<\/script>`.
+
 ## Styled Components
 
 The styled-components plugin adds comprehensive support for styled-components with server-side rendering, style minification, and enhanced debugging capabilities.
@@ -2561,7 +2581,7 @@ export default defineConfig({
 ---
 
 ---
-url: /docs/guide/usage/formatter/generated-config.md
+url: /docs/guide/usage/formatter/config-file-reference.md
 ---
 
 # Configuration options for the Oxfmt.
@@ -3797,7 +3817,7 @@ Whether or not to indent the code inside `<script>` and `<style>` tags in Vue fi
 ---
 
 ---
-url: /docs/guide/usage/formatter/config-file-reference.md
+url: /docs/guide/usage/formatter/generated-config.md
 ---
 
 # Configuration options for the Oxfmt.
@@ -22935,7 +22955,13 @@ const result = await isolatedDeclaration("lib.ts", sourceCode, {
   sourcemap: false,
   stripInternal: false,
 });
+
+console.log(result.code); // the .d.ts content
+console.log(result.map); // the source map (if sourcemap is enabled)
+console.log(result.errors); // parse and transformation errors
 ```
+
+A synchronous `isolatedDeclarationSync` variant is also available with the same signature.
 
 ---
 
@@ -36713,6 +36739,249 @@ Test results are stored in snapshot files for tracking changes:
 ---
 
 ---
+url: /docs/guide/usage/parser.md
+---
+
+# Parser
+
+This is production ready.
+
+## Features
+
+* 3x faster than swc parser ([benchmark][url-benchmark]).
+* Parses `.js(x)` and `.ts(x)`.
+* Passes all parser tests from Test262 and 99% from Babel and TypeScript.
+* Returns ESM information directly, no need for [`es-module-lexer`](https://npmx.dev/package/es-module-lexer).
+* [✅ works with checker.ts](https://x.com/robpalmer2/status/1805502964435505559)
+
+## Installation
+
+### Node.js
+
+* Use the node binding [oxc-parser][url-oxc-parser-npm].
+* Try on [stackblitz](https://stackblitz.com/edit/oxc-parser).
+
+### Rust
+
+Use the umbrella crate [oxc][url-oxc-crate] or the individual [oxc\_ast][url-oxc-ast-crate] and [oxc\_parser][url-oxc-parser-crate] crates.
+
+Rust usage example can be found [here](https://github.com/oxc-project/oxc/blob/main/crates/oxc_parser/examples/parser.rs).
+
+## Print
+
+After parsing and transforming, you can print code.
+
+Here's a direct example using [esrap](https://npmx.dev/package/esrap) *(`parse` in reverse!)*:
+
+```js
+import { print } from "esrap";
+import ts from "esrap/languages/ts";
+import { parseSync } from "oxc-parser";
+
+const { program } = parseSync("test.js", 'alert("hello oxc & esrap");');
+const { code } = print(program, ts());
+
+console.log(code); // alert("hello oxc & esrap");
+```
+
+:::info
+Today, comments are not printed. *It will be supported thanks to [oxc-parser #13285](https://github.com/oxc-project/oxc/pull/13285).*
+:::
+
+[url-swc]: https://swc.rs
+
+[url-benchmark]: https://github.com/oxc-project/bench-javascript-parser-written-in-rust
+
+[url-oxc-crate]: https://docs.rs/oxc
+
+[url-oxc-ast-crate]: https://docs.rs/oxc_ast
+
+[url-oxc-parser-crate]: https://docs.rs/oxc_parser
+
+[url-oxc-parser-npm]: https://npmx.dev/package/oxc-parser
+
+---
+
+---
+url: /docs/learn/architecture/parser.md
+---
+
+# Parser Architecture
+
+Oxc maintains its own AST and parser, which is by far the fastest and most conformant JavaScript and TypeScript (including JSX and TSX) parser written in Rust.
+
+As the parser often represents a key performance bottleneck in JavaScript tooling,
+any minor improvements can have a cascading effect on our downstream tools.
+By developing our parser, we have the opportunity to explore and implement well-researched performance techniques.
+
+## AST Design Philosophy
+
+While many existing JavaScript tools rely on [estree] as their AST specification,
+a notable drawback is its abundance of ambiguous nodes.
+This ambiguity often leads to confusion during development with [estree].
+
+The Oxc AST differs from the [estree] AST by removing ambiguous nodes and introducing distinct types.
+For example, instead of using a generic [estree] `Identifier`,
+the Oxc AST provides specific types such as `BindingIdentifier`, `IdentifierReference`, and `IdentifierName`.
+
+This clear distinction greatly enhances the development experience by aligning more closely with the ECMAScript specification.
+
+### AST Node Types
+
+```rust
+// Instead of generic Identifier
+pub struct BindingIdentifier<'a> {
+    pub span: Span,
+    pub name: Atom<'a>,
+}
+
+pub struct IdentifierReference<'a> {
+    pub span: Span,
+    pub name: Atom<'a>,
+    pub reference_id: Cell<Option<ReferenceId>>,
+}
+
+pub struct IdentifierName<'a> {
+    pub span: Span,
+    pub name: Atom<'a>,
+}
+```
+
+### Semantic Clarity
+
+This approach provides semantic clarity:
+
+* **`BindingIdentifier`**: Variable declarations (`let x = 1`)
+* **`IdentifierReference`**: Variable usage (`console.log(x)`)
+* **`IdentifierName`**: Property names (`obj.property`)
+
+## Performance Architecture
+
+### How is it so fast
+
+* **Memory Arena**: AST is allocated in a [memory arena](https://crates.io/crates/bumpalo) for fast allocation and deallocation
+* **String Optimization**: Short strings are inlined by [CompactString](https://crates.io/crates/compact_str)
+* **Minimal Heap Usage**: No other heap allocations are done except the above two
+* **Separation of Concerns**: Scope binding, symbol resolution and some syntax errors are delegated to the semantic analyzer
+
+### Memory Management Details
+
+#### Arena Allocation
+
+```rust
+use oxc_allocator::Allocator;
+
+// All AST nodes are allocated in this arena
+let allocator = Allocator::default();
+let ast_node = allocator.alloc(Expression::NumericLiteral(
+    allocator.alloc(NumericLiteral { value: 42.0, span: SPAN })
+));
+```
+
+Benefits:
+
+* **O(1) allocation**: Simple pointer bump
+* **O(1) deallocation**: Drop entire arena at once
+* **Cache-friendly**: Linear memory layout
+* **No fragmentation**: Continuous memory usage
+
+#### String Interning with CompactString
+
+```rust
+// Strings ≤ 24 bytes are stored inline (no heap allocation)
+let short_name = CompactString::from("variableName");  // Stack allocated
+let long_name = CompactString::from("a_very_long_variable_name_that_exceeds_limit");  // Heap allocated
+```
+
+This reduces memory allocations for the majority of JavaScript identifiers and string literals.
+
+## Parser Architecture
+
+### Two-Phase Design
+
+The Oxc parser follows a two-phase approach:
+
+1. **Parsing Phase**: Build AST structure with minimal semantic analysis
+2. **Semantic Phase**: Perform scope analysis, symbol resolution, and advanced error checking
+
+```rust
+// Phase 1: Parse to AST
+let parser_result = Parser::new(&allocator, &source_text, source_type).parse();
+
+// Phase 2: Semantic analysis
+let semantic_result = SemanticBuilder::new()
+    // Enable additional syntax checks not performed by the parser
+    .with_check_syntax_error(true)
+    .build(&parser_result.program);
+```
+
+### Parser Components
+
+#### Lexer
+
+* **Token generation**: Converts source text to structured tokens
+* **SIMD optimization**: Uses SIMD instructions for whitespace skipping
+* **Context-aware**: Handles regex vs division operator disambiguation
+
+#### Recursive Descent Parser
+
+* **Hand-written**: Custom implementation for maximum performance
+* **Error recovery**: Advanced error handling with meaningful messages
+* **Grammar compliance**: Follows ECMAScript specification precisely
+
+#### AST Builder
+
+* **Type safety**: Leverages Rust's type system for correctness
+* **Memory efficiency**: Direct arena allocation
+* **Builder pattern**: Convenient node construction methods
+
+## Conformance Strategy
+
+### Test Suite Coverage
+
+* **Test262**: 100% pass rate on ECMAScript conformance tests
+* **Babel**: 99.62% compatibility with Babel parser tests
+* **TypeScript**: 99.86% compatibility with TypeScript compiler tests
+
+### Error Handling Philosophy
+
+```rust
+// Meaningful error messages with source location
+pub struct OxcDiagnostic {
+    pub message: String,
+    pub span: Span,
+    pub severity: Severity,
+    pub help: Option<String>,
+}
+```
+
+The parser provides:
+
+* **Precise error locations**: Exact source positions
+* **Recovery strategies**: Continue parsing after errors
+* **Helpful suggestions**: Actionable error messages
+
+## Advanced Features
+
+### TypeScript Support
+
+* **Type stripping**: Removes TypeScript-specific syntax
+* **Decorator parsing**: Handles experimental decorators
+* **Namespace support**: Full module and namespace parsing
+* **JSX integration**: TypeScript + JSX (TSX) support
+
+### Research Areas
+
+* **SIMD text processing**: Vectorized string operations
+* **Cache optimization**: Minimize memory access patterns
+* **Branch prediction**: Optimize hot parsing paths
+* **Zero-copy parsing**: Eliminate unnecessary string copies
+
+[estree]: https://github.com/estree/estree
+
+---
+
+---
 url: /docs/learn/parser_in_rust/parser.md
 ---
 
@@ -37119,249 +37388,6 @@ function isParenthesizedArrowFunctionExpression(): Tristate {
 ```
 
 In summary, the TypeScript parser uses a combination of lookahead (fast path) and backtracking to parse arrow functions.
-
----
-
----
-url: /docs/learn/architecture/parser.md
----
-
-# Parser Architecture
-
-Oxc maintains its own AST and parser, which is by far the fastest and most conformant JavaScript and TypeScript (including JSX and TSX) parser written in Rust.
-
-As the parser often represents a key performance bottleneck in JavaScript tooling,
-any minor improvements can have a cascading effect on our downstream tools.
-By developing our parser, we have the opportunity to explore and implement well-researched performance techniques.
-
-## AST Design Philosophy
-
-While many existing JavaScript tools rely on [estree] as their AST specification,
-a notable drawback is its abundance of ambiguous nodes.
-This ambiguity often leads to confusion during development with [estree].
-
-The Oxc AST differs from the [estree] AST by removing ambiguous nodes and introducing distinct types.
-For example, instead of using a generic [estree] `Identifier`,
-the Oxc AST provides specific types such as `BindingIdentifier`, `IdentifierReference`, and `IdentifierName`.
-
-This clear distinction greatly enhances the development experience by aligning more closely with the ECMAScript specification.
-
-### AST Node Types
-
-```rust
-// Instead of generic Identifier
-pub struct BindingIdentifier<'a> {
-    pub span: Span,
-    pub name: Atom<'a>,
-}
-
-pub struct IdentifierReference<'a> {
-    pub span: Span,
-    pub name: Atom<'a>,
-    pub reference_id: Cell<Option<ReferenceId>>,
-}
-
-pub struct IdentifierName<'a> {
-    pub span: Span,
-    pub name: Atom<'a>,
-}
-```
-
-### Semantic Clarity
-
-This approach provides semantic clarity:
-
-* **`BindingIdentifier`**: Variable declarations (`let x = 1`)
-* **`IdentifierReference`**: Variable usage (`console.log(x)`)
-* **`IdentifierName`**: Property names (`obj.property`)
-
-## Performance Architecture
-
-### How is it so fast
-
-* **Memory Arena**: AST is allocated in a [memory arena](https://crates.io/crates/bumpalo) for fast allocation and deallocation
-* **String Optimization**: Short strings are inlined by [CompactString](https://crates.io/crates/compact_str)
-* **Minimal Heap Usage**: No other heap allocations are done except the above two
-* **Separation of Concerns**: Scope binding, symbol resolution and some syntax errors are delegated to the semantic analyzer
-
-### Memory Management Details
-
-#### Arena Allocation
-
-```rust
-use oxc_allocator::Allocator;
-
-// All AST nodes are allocated in this arena
-let allocator = Allocator::default();
-let ast_node = allocator.alloc(Expression::NumericLiteral(
-    allocator.alloc(NumericLiteral { value: 42.0, span: SPAN })
-));
-```
-
-Benefits:
-
-* **O(1) allocation**: Simple pointer bump
-* **O(1) deallocation**: Drop entire arena at once
-* **Cache-friendly**: Linear memory layout
-* **No fragmentation**: Continuous memory usage
-
-#### String Interning with CompactString
-
-```rust
-// Strings ≤ 24 bytes are stored inline (no heap allocation)
-let short_name = CompactString::from("variableName");  // Stack allocated
-let long_name = CompactString::from("a_very_long_variable_name_that_exceeds_limit");  // Heap allocated
-```
-
-This reduces memory allocations for the majority of JavaScript identifiers and string literals.
-
-## Parser Architecture
-
-### Two-Phase Design
-
-The Oxc parser follows a two-phase approach:
-
-1. **Parsing Phase**: Build AST structure with minimal semantic analysis
-2. **Semantic Phase**: Perform scope analysis, symbol resolution, and advanced error checking
-
-```rust
-// Phase 1: Parse to AST
-let parser_result = Parser::new(&allocator, &source_text, source_type).parse();
-
-// Phase 2: Semantic analysis
-let semantic_result = SemanticBuilder::new()
-    // Enable additional syntax checks not performed by the parser
-    .with_check_syntax_error(true)
-    .build(&parser_result.program);
-```
-
-### Parser Components
-
-#### Lexer
-
-* **Token generation**: Converts source text to structured tokens
-* **SIMD optimization**: Uses SIMD instructions for whitespace skipping
-* **Context-aware**: Handles regex vs division operator disambiguation
-
-#### Recursive Descent Parser
-
-* **Hand-written**: Custom implementation for maximum performance
-* **Error recovery**: Advanced error handling with meaningful messages
-* **Grammar compliance**: Follows ECMAScript specification precisely
-
-#### AST Builder
-
-* **Type safety**: Leverages Rust's type system for correctness
-* **Memory efficiency**: Direct arena allocation
-* **Builder pattern**: Convenient node construction methods
-
-## Conformance Strategy
-
-### Test Suite Coverage
-
-* **Test262**: 100% pass rate on ECMAScript conformance tests
-* **Babel**: 99.62% compatibility with Babel parser tests
-* **TypeScript**: 99.86% compatibility with TypeScript compiler tests
-
-### Error Handling Philosophy
-
-```rust
-// Meaningful error messages with source location
-pub struct OxcDiagnostic {
-    pub message: String,
-    pub span: Span,
-    pub severity: Severity,
-    pub help: Option<String>,
-}
-```
-
-The parser provides:
-
-* **Precise error locations**: Exact source positions
-* **Recovery strategies**: Continue parsing after errors
-* **Helpful suggestions**: Actionable error messages
-
-## Advanced Features
-
-### TypeScript Support
-
-* **Type stripping**: Removes TypeScript-specific syntax
-* **Decorator parsing**: Handles experimental decorators
-* **Namespace support**: Full module and namespace parsing
-* **JSX integration**: TypeScript + JSX (TSX) support
-
-### Research Areas
-
-* **SIMD text processing**: Vectorized string operations
-* **Cache optimization**: Minimize memory access patterns
-* **Branch prediction**: Optimize hot parsing paths
-* **Zero-copy parsing**: Eliminate unnecessary string copies
-
-[estree]: https://github.com/estree/estree
-
----
-
----
-url: /docs/guide/usage/parser.md
----
-
-# Parser
-
-This is production ready.
-
-## Features
-
-* 3x faster than swc parser ([benchmark][url-benchmark]).
-* Parses `.js(x)` and `.ts(x)`.
-* Passes all parser tests from Test262 and 99% from Babel and TypeScript.
-* Returns ESM information directly, no need for [`es-module-lexer`](https://npmx.dev/package/es-module-lexer).
-* [✅ works with checker.ts](https://x.com/robpalmer2/status/1805502964435505559)
-
-## Installation
-
-### Node.js
-
-* Use the node binding [oxc-parser][url-oxc-parser-npm].
-* Try on [stackblitz](https://stackblitz.com/edit/oxc-parser).
-
-### Rust
-
-Use the umbrella crate [oxc][url-oxc-crate] or the individual [oxc\_ast][url-oxc-ast-crate] and [oxc\_parser][url-oxc-parser-crate] crates.
-
-Rust usage example can be found [here](https://github.com/oxc-project/oxc/blob/main/crates/oxc_parser/examples/parser.rs).
-
-## Print
-
-After parsing and transforming, you can print code.
-
-Here's a direct example using [esrap](https://npmx.dev/package/esrap) *(`parse` in reverse!)*:
-
-```js
-import { print } from "esrap";
-import ts from "esrap/languages/ts";
-import { parseSync } from "oxc-parser";
-
-const { program } = parseSync("test.js", 'alert("hello oxc & esrap");');
-const { code } = print(program, ts());
-
-console.log(code); // alert("hello oxc & esrap");
-```
-
-:::info
-Today, comments are not printed. *It will be supported thanks to [oxc-parser #13285](https://github.com/oxc-project/oxc/pull/13285).*
-:::
-
-[url-swc]: https://swc.rs
-
-[url-benchmark]: https://github.com/oxc-project/bench-javascript-parser-written-in-rust
-
-[url-oxc-crate]: https://docs.rs/oxc
-
-[url-oxc-ast-crate]: https://docs.rs/oxc_ast
-
-[url-oxc-parser-crate]: https://docs.rs/oxc_parser
-
-[url-oxc-parser-npm]: https://npmx.dev/package/oxc-parser
 
 ---
 
@@ -45015,11 +45041,15 @@ Each target environment is an environment name followed by a version number. The
 
 The values that are supported by [esbuild's target option](https://esbuild.github.io/api/#target) are supported, excluding ES5.
 
+You can pass a single string or an array of strings:
+
 ```js
 import { transform } from "oxc-transform";
 
 const result = await transform("lib.js", "const foo = a ?? b;", {
-  target: ["chrome87", "es2022"],
+  target: "es2020",
+  // or multiple targets:
+  // target: ["chrome87", "es2022"],
 });
 ```
 
@@ -45109,9 +45139,25 @@ const result = await transform("lib.js", "const foo = a ?? b;", {
 
 The following assumptions are supported.
 
+### `ignoreFunctionLength`
+
+Assume that no code relies on the `.length` property of function objects.
+
+::: info Note
+This assumption is not fully implemented yet. In particular, enabling it with object rest/spread currently produces a transform error.
+:::
+
 ### `noDocumentAll`
 
 Assume that the deprecated `document.all` with its special behavior is not used.
+
+### `objectRestNoSymbols`
+
+Assume that object rest/spread properties do not include Symbol keys.
+
+::: info Note
+This assumption is not fully implemented yet. In particular, enabling it with object rest/spread currently produces a transform error.
+:::
 
 ### `pureGetters`
 
@@ -45460,6 +45506,38 @@ url: /docs/guide/usage/transformer.md
 * [Built-in support for popular plugins like styled-components.](./transformer/plugins)
 * [Replacing global variables.](./transformer/global-variable-replacement)
 * [TypeScript Isolated Declarations Emit without using the TypeScript compiler.](./transformer/isolated-declarations)
+
+## General Options
+
+The `transform` function accepts a filename, source code, and an options object:
+
+```js
+import { transform } from "oxc-transform";
+
+const result = await transform("lib.ts", sourceCode, {
+  // Force the source language. Inferred from filename by default.
+  lang: "tsx", // "js" | "jsx" | "ts" | "tsx" | "dts"
+
+  // Treat the source as script, module, or CommonJS. Inferred by default.
+  sourceType: "module", // "script" | "module" | "commonjs" | "unambiguous"
+
+  // The current working directory. Used to resolve relative paths.
+  cwd: "/path/to/project",
+
+  // Enable source map generation.
+  sourcemap: true,
+
+  // Configure runtime helper strategy.
+  helpers: {
+    mode: "Runtime", // "Runtime" (import from @oxc-project/runtime) or "External" (use global babelHelpers)
+  },
+
+  // See sub-pages for more options:
+  // typescript, jsx, target, assumptions, define, inject, decorator, plugins
+});
+```
+
+The `transform` function is async. A synchronous `transformSync` variant is also available with the same signature.
 
 ## Installation
 
@@ -45872,6 +45950,8 @@ const result = await transform("lib.ts", sourceCode, {
     allowNamespaces: true,
     removeClassFieldsWithoutInitializer: false,
     rewriteImportExtensions: false,
+    optimizeConstEnums: false,
+    optimizeEnums: false,
   },
 });
 ```
@@ -45916,14 +45996,14 @@ const result = await transform("lib.ts", sourceCode, {
 
 Oxc transformer supports transforming legacy decorators. This is called experimental decorators in TypeScript.
 
-If you are using the [`experimentalDecorators`](https://www.typescriptlang.org/tsconfig/#experimentalDecorators) option in the tsconfig, you can use the `decorators.legacy` option.
-If you are using the [`emitDecoratorMetadata`](https://www.typescriptlang.org/tsconfig/#emitDecoratorMetadata) option in the tsconfig, you can use the `decorators.emitDecoratorMetadata` option.
+If you are using the [`experimentalDecorators`](https://www.typescriptlang.org/tsconfig/#experimentalDecorators) option in the tsconfig, you can use the `decorator.legacy` option.
+If you are using the [`emitDecoratorMetadata`](https://www.typescriptlang.org/tsconfig/#emitDecoratorMetadata) option in the tsconfig, you can use the `decorator.emitDecoratorMetadata` option.
 
 ```js
 import { transform } from "oxc-transform";
 
 const result = await transform("lib.ts", sourceCode, {
-  decorators: {
+  decorator: {
     legacy: true,
     emitDecoratorMetadata: true,
   },
@@ -46054,16 +46134,57 @@ See [JSX transform](./jsx) for more information.
 
 ## Rewriting import extensions
 
-If you are using the [`rewriteImportExtensions`](https://www.typescriptlang.org/tsconfig/#rewriteImportExtensions) option in the tsconfig, you can use the `typescript.rewriteImportExtensions` option.
+If you are using the [`rewriteRelativeImportExtensions`](https://www.typescriptlang.org/tsconfig/#rewriteRelativeImportExtensions) option in the tsconfig, you can use the `typescript.rewriteImportExtensions` option.
+
+* `"rewrite"` or `true`: rewrites `.ts` and `.tsx` to `.js`, `.mts` to `.mjs`, and `.cts` to `.cjs`.
+* `"remove"`: removes `.ts`/`.tsx`/`.mts`/`.cts` extensions entirely.
+* `false` (default): no changes.
 
 ```js
 import { transform } from "oxc-transform";
 
 const result = await transform("lib.ts", sourceCode, {
   typescript: {
-    rewriteImportExtensions: "rewrite", // or "remove"
+    rewriteImportExtensions: "rewrite", // or "remove", true, false
   },
 });
+```
+
+## Optimize Enums
+
+Oxc transformer can optimize enums by inlining their member values at usage sites.
+
+* `optimizeConstEnums`: inlines `const enum` values and removes the declaration.
+* `optimizeEnums`: inlines regular (non-const) enum member accesses when all members satisfy const enum constraints (i.e., their values are statically evaluable). Non-exported enum declarations are also removed when all members are evaluable and no references to the enum as a runtime value exist.
+
+```js
+import { transform } from "oxc-transform";
+
+const result = await transform("lib.ts", sourceCode, {
+  typescript: {
+    optimizeConstEnums: true,
+    optimizeEnums: true,
+  },
+});
+```
+
+## Declaration
+
+Generate `.d.ts` declaration files alongside the transform output. The source file must be compliant with all [`isolatedDeclarations`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-5.html#isolated-declarations) requirements.
+
+```js
+import { transform } from "oxc-transform";
+
+const result = await transform("lib.ts", sourceCode, {
+  typescript: {
+    declaration: {
+      stripInternal: false,
+    },
+  },
+});
+
+console.log(result.declaration); // the .d.ts content
+console.log(result.declarationMap); // the declaration source map (if sourcemap is enabled)
 ```
 
 ## Caveats
