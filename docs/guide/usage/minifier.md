@@ -3,6 +3,8 @@ url: /docs/guide/usage/minifier.md
 ---
 # Minifier
 
+A high-performance minifier that shrinks your code by removing unused code and transforming to a shorter equivalent.
+
 ## Features
 
 * [Eliminate dead code.](./minifier/dead-code-elimination)

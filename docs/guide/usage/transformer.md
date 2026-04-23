@@ -3,6 +3,8 @@ url: /docs/guide/usage/transformer.md
 ---
 # Transformer
 
+A high-performance transformer that rewrites unsupported syntax into forms supported by target runtimes.
+
 ## Features
 
 * [Lowering ESNext to ES2015.](./transformer/lowering)

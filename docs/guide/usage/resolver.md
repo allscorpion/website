@@ -4,7 +4,7 @@ url: /docs/guide/usage/resolver.md
 
 # Resolver
 
-Node.js cjs and esm path resolution.
+A high-performance module resolver that primarily supports the Node.js resolution algorithm and is configurable.
 
 ## Features
 
