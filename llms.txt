@@ -13,12 +13,12 @@
 - [Automatic fixes](/docs/guide/usage/linter/automatic-fixes.md): Apply safe, suggested, and dangerous fixes with Oxlint.
 - [Built-in Plugins](/docs/guide/usage/linter/plugins.md): Enable built in plugin rule sets and extend Oxlint with ESLint compatible JavaScript plugins.
 - [Built-in Plugins](/docs/guide/usage/transformer/plugins.md)
-- [Command-line Interface](/docs/guide/usage/formatter/cli.md)
 - [Command-line Interface](/docs/guide/usage/linter/cli.md)
-- [Configuration](/docs/guide/usage/formatter/config.md): Configure Oxfmt using a .oxfmtrc.json file.
+- [Command-line Interface](/docs/guide/usage/formatter/cli.md)
 - [Configuration](/docs/guide/usage/linter/config.md): Configure Oxlint using .oxlintrc.json or oxlint.config.ts.
-- [Configuration options for the Oxfmt.](/docs/guide/usage/formatter/config-file-reference.md)
+- [Configuration](/docs/guide/usage/formatter/config.md): Configure Oxfmt using a .oxfmtrc.json file.
 - [Configuration options for the Oxfmt.](/docs/guide/usage/formatter/generated-config.md)
+- [Configuration options for the Oxfmt.](/docs/guide/usage/formatter/config-file-reference.md)
 - [Dead Code Elimination](/docs/guide/usage/minifier/dead-code-elimination.md)
 - [Dealing with Errors](/docs/learn/parser_in_rust/errors.md)
 - [Debugging](/docs/contribute/debugging.md)
@@ -199,8 +199,8 @@
 - [eslint/yoda](/docs/guide/usage/linter/rules/eslint/yoda.md)
 - [FAQ](/docs/guide/usage/minifier/faq.md)
 - [Formatter](/docs/contribute/formatter.md)
-- [Getting Started](/docs/contribute/development.md)
 - [Getting Started](/docs/guide/introduction.md)
+- [Getting Started](/docs/contribute/development.md)
 - [Global Variable Replacement](/docs/guide/usage/transformer/global-variable-replacement.md)
 - [Grammar](/docs/learn/ecmascript/grammar.md)
 - [Ignore files](/docs/guide/usage/formatter/ignore-files.md)
