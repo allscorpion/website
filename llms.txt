@@ -238,8 +238,8 @@
 - [import/no-webpack-loader-syntax](/docs/guide/usage/linter/rules/import/no-webpack-loader-syntax.md)
 - [import/prefer-default-export](/docs/guide/usage/linter/rules/import/prefer-default-export.md)
 - [import/unambiguous](/docs/guide/usage/linter/rules/import/unambiguous.md)
-- [Inline ignore comments](/docs/guide/usage/formatter/ignore-comments.md)
 - [Inline ignore comments](/docs/guide/usage/linter/ignore-comments.md): Disable specific rules inline using Oxlint ignore comments
+- [Inline ignore comments](/docs/guide/usage/formatter/ignore-comments.md)
 - [Introduction](/docs/contribute/introduction.md)
 - [Introduction](/docs/learn/parser_in_rust/intro.md)
 - [Isolated Declarations Emit](/docs/guide/usage/transformer/isolated-declarations.md)
@@ -448,8 +448,8 @@
 - [promise/prefer-catch](/docs/guide/usage/linter/rules/promise/prefer-catch.md)
 - [promise/spec-only](/docs/guide/usage/linter/rules/promise/spec-only.md)
 - [promise/valid-params](/docs/guide/usage/linter/rules/promise/valid-params.md)
-- [Quickstart](/docs/guide/usage/formatter/quickstart.md): Install Oxfmt and learn the common workflows.
 - [Quickstart](/docs/guide/usage/linter/quickstart.md): Install Oxlint and learn the common workflows.
+- [Quickstart](/docs/guide/usage/formatter/quickstart.md): Install Oxfmt and learn the common workflows.
 - [react-perf/jsx-no-jsx-as-prop](/docs/guide/usage/linter/rules/react_perf/jsx-no-jsx-as-prop.md)
 - [react-perf/jsx-no-new-array-as-prop](/docs/guide/usage/linter/rules/react_perf/jsx-no-new-array-as-prop.md)
 - [react-perf/jsx-no-new-function-as-prop](/docs/guide/usage/linter/rules/react_perf/jsx-no-new-function-as-prop.md)
