@@ -47,4 +47,8 @@ new Promise((resolve, reject) => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.19.0.
+
 ## References

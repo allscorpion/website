@@ -72,4 +72,8 @@ to something other than `'error'` (e.g., `'exception'`).
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

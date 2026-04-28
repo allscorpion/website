@@ -48,4 +48,8 @@ When set to `true`, requires that catch clauses always have a parameter.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.16.0.
+
 ## References

@@ -38,4 +38,8 @@ const dirname = import.meta.dirname;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References

@@ -55,4 +55,8 @@ For example:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.11.
+
 ## References

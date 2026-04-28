@@ -128,4 +128,8 @@ return values checked.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.9.0.
+
 ## References

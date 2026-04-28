@@ -40,4 +40,8 @@ List of functions that are allowed to be used for deep cloning instead of struct
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.0.
+
 ## References

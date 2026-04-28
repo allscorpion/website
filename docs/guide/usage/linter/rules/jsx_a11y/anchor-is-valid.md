@@ -89,4 +89,8 @@ List of strings that are valid href values.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

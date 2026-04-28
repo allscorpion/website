@@ -33,4 +33,8 @@ export { first, second };
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.6.
+
 ## References

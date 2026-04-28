@@ -26,4 +26,8 @@ foo.slice(1);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.0.
+
 ## References

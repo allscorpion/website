@@ -29,4 +29,8 @@ import foo, { bar } from "./foo.js";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.3.
+
 ## References

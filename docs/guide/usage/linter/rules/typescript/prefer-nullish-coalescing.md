@@ -146,4 +146,8 @@ using the nullish coalescing operator.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References

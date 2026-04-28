@@ -33,4 +33,8 @@ Object.assign(mod_ns, { foo: "foo" }); // ERROR: The members of 'mod_ns' are rea
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References

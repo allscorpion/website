@@ -47,4 +47,8 @@ window.addEventListener("click", (event) => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References

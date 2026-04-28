@@ -256,4 +256,8 @@ type: `"consistent"`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.13.
+
 ## References

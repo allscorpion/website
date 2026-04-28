@@ -38,4 +38,8 @@ List of custom component names that should be treated as input elements.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References

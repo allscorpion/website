@@ -4,12 +4,12 @@ url: /docs/guide/usage/linter/rules/vitest/prefer-called-exactly-once-with.md
 
 ### What it does
 
-It checks when a target is expected with `toHaveBeenCalledOnce` and `toHaveBeenCalledWith` instead of
+It checks when a target is asserted with both `toHaveBeenCalledOnce` and `toHaveBeenCalledWith` instead of
 `toHaveBeenCalledExactlyOnceWith`.
 
 ### Why is this bad?
 
-The user must deduct from both expects that the spy function is called once and with a specific arguments.
+The reader must deduce from both expectations that the spy function is called once and with specific arguments.
 
 ### Examples
 
@@ -35,5 +35,9 @@ test("foo", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.58.0.
 
 ## References

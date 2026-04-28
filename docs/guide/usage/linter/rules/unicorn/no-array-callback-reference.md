@@ -38,4 +38,8 @@ const bar = array.filter(Boolean);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.19.0.
+
 ## References

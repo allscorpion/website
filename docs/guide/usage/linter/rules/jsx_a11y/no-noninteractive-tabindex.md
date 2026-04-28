@@ -71,4 +71,8 @@ An array of custom HTML elements that should be considered interactive.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References

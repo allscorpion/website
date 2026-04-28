@@ -63,4 +63,8 @@ cast inside inner expressions.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

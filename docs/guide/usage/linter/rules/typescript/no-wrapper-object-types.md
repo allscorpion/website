@@ -38,4 +38,8 @@ let myObject: object = "Type 'string' is not assignable to type 'object'.";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.8.0.
+
 ## References

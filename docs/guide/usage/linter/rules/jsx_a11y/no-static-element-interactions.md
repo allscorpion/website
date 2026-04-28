@@ -52,4 +52,8 @@ An array of event handler names that should trigger this rule (e.g., `onClick`, 
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References

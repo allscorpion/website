@@ -35,4 +35,8 @@ export function func() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.14.
+
 ## References

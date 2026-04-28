@@ -43,4 +43,8 @@ let num = parseInt("071", 10); // 71
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References

@@ -63,4 +63,8 @@ Whether to allow calls to `Promise.reject()` with no arguments.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.7.
+
 ## References

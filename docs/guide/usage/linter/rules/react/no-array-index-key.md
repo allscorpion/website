@@ -29,4 +29,8 @@ things.map((thing, index) => <Hello key={thing.id} />);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.0.
+
 ## References

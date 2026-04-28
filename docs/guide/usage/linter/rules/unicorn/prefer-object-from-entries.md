@@ -49,4 +49,8 @@ Additional functions to treat as equivalents to `Object.fromEntries`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.12.
+
 ## References

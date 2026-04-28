@@ -92,4 +92,8 @@ Determines whether the object destructuring rule applies to renamed variables.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.10.0.
+
 ## References

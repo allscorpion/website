@@ -38,4 +38,8 @@ List of Promise static methods that are allowed to be used.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References

@@ -30,4 +30,8 @@ const foo = `\${a}`;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.60.0.
+
 ## References

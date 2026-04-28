@@ -4,11 +4,11 @@ url: /docs/guide/usage/linter/rules/vitest/prefer-expect-type-of.md
 
 ### What it does
 
-Enforce using `expectTypeOf` instead of `expect(typeof ...)`
+Enforce using [`expectTypeOf`](https://vitest.dev/api/expect-typeof) instead of `expect(typeof ...)`.
 
 ### Why is this bad?
 
-Vitest provide a more expressive type-safe way to test type than using `expect(typeof ...)`
+Vitest provides a more expressive, type-safe way to test types than using `expect(typeof ...)`.
 
 ### Examples
 
@@ -43,5 +43,9 @@ test("type checking", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.44.0.
 
 ## References

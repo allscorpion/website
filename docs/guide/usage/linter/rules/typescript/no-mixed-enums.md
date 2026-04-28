@@ -55,4 +55,8 @@ enum Color {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

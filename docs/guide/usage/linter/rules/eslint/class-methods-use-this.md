@@ -97,4 +97,8 @@ Whether to ignore methods that are overridden.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.16.0.
+
 ## References

@@ -30,4 +30,8 @@ async function bad() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.12.
+
 ## References

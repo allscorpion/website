@@ -49,4 +49,8 @@ bar(void 0, "lorem");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.3.
+
 ## References

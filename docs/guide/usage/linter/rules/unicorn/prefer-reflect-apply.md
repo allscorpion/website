@@ -28,4 +28,8 @@ Reflect.apply(foo, null);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

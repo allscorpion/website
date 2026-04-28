@@ -102,4 +102,8 @@ If typed is `true`, disallow tags that are unnecessary/duplicative of TypeScript
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References

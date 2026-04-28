@@ -242,4 +242,8 @@ In these cases, `Object.assign` is not really more performant than spreads.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References

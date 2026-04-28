@@ -155,4 +155,8 @@ parts of the extension rather than parts of the filename.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

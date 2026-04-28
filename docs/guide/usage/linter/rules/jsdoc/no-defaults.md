@@ -45,4 +45,8 @@ If true, report the presence of optional param names (square brackets) on `@para
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References

@@ -65,4 +65,8 @@ Disallow function declarations in nested blocks regardless of strict mode.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References

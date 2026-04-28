@@ -31,4 +31,8 @@ expectTypeOf(foo).toBeFalsy();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.1.
+
 ## References

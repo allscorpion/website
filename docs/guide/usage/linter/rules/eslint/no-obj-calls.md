@@ -46,4 +46,8 @@ let segmenterFrom = Intl.Segmenter("fr", { granularity: "word" });
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References

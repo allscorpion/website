@@ -40,4 +40,8 @@ const y = function (a) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.1.0.
+
 ## References

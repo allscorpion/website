@@ -22,4 +22,8 @@ let foo = require("foo");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References

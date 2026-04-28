@@ -41,4 +41,8 @@ React.createElement("div", 'Child 1', 'Child 2')
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

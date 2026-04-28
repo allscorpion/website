@@ -38,4 +38,8 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.1.
+
 ## References

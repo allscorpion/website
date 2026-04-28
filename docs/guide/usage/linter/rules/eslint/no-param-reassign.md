@@ -54,4 +54,8 @@ When true, also check for modifications to properties of parameters.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References

@@ -229,4 +229,8 @@ Ignore Promises that are void expressions.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.11.0.
+
 ## References

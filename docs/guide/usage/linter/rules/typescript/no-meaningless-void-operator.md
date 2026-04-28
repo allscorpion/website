@@ -60,4 +60,8 @@ Whether to check `void` applied to expressions of type `never`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

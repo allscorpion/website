@@ -63,4 +63,8 @@ Maximum number of dependencies allowed in a file.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.0.
+
 ## References

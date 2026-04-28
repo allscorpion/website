@@ -42,4 +42,8 @@ const foo = 2e+5;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References

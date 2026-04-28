@@ -74,4 +74,8 @@ compared to direct calls, as they do not invoke JavaScript's scope chain.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

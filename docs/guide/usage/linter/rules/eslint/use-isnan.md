@@ -54,4 +54,8 @@ Whether to disallow NaN in switch cases and discriminants
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

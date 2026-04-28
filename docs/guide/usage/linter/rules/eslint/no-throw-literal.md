@@ -57,4 +57,8 @@ try {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.10.
+
 ## References

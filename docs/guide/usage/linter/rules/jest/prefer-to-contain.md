@@ -31,17 +31,10 @@ expect(a).toContain(b);
 expect(a).not.toContain(b);
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/prefer-to-contain.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/prefer-to-contain": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References

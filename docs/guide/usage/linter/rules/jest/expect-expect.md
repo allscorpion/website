@@ -21,17 +21,6 @@ it("should be a test", () => {
 test("should assert something", () => {});
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/expect-expect.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/expect-expect": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -56,5 +45,9 @@ NOTE: The default value is `["expect"]` for Jest and
 `["expect", "expectTypeOf", "assert", "assertType"]` for Vitest.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.12.
 
 ## References

@@ -36,20 +36,6 @@ test("plays video", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-restricted-vi-methods.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-restricted-vi-methods": [
-      "error",
-      { "badFunction": "Don't use `badFunction`, it is bad." }
-    ]
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -64,5 +50,9 @@ A mapping of restricted Jest method names to custom messages - or
 `null`, for a generic message.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.3.
 
 ## References

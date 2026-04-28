@@ -40,4 +40,8 @@ BigInt("1.23");
 
 ## How to use
 
+## Version
+
+This rule was added in v1.30.0.
+
 ## References

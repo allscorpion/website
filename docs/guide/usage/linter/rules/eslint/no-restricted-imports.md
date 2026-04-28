@@ -330,4 +330,8 @@ import { isEmpty } from "utils/collection-utils";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.0.
+
 ## References

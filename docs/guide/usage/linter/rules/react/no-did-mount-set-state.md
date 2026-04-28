@@ -62,4 +62,8 @@ When set, also disallows `setState` calls in nested functions within `componentD
 
 ## How to use
 
+## Version
+
+This rule was added in v1.36.0.
+
 ## References

@@ -191,4 +191,8 @@ both options are not useful together.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.14.1.
+
 ## References

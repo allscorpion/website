@@ -45,4 +45,8 @@ Variable names which are allowed to be accessed on `process.env`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.23.0.
+
 ## References

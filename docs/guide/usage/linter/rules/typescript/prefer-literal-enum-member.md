@@ -41,4 +41,8 @@ This includes bitwise NOT (`~`), AND (`&`), OR (`|`), XOR (`^`), and shift opera
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References

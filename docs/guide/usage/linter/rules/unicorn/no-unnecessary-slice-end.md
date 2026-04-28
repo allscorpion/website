@@ -32,4 +32,8 @@ const foo = string.slice(1);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.10.
+
 ## References

@@ -52,4 +52,8 @@ When set to `true`, ignores type annotations on class properties.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.14.0.
+
 ## References

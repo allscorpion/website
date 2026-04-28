@@ -128,4 +128,8 @@ Whether to check Promise-returning functions assigned to variables typed as void
 
 ## How to use
 
+## Version
+
+This rule was added in v1.11.0.
+
 ## References

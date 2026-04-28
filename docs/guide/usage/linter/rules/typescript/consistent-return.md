@@ -49,4 +49,8 @@ Treat explicit `return undefined` as equivalent to an unspecified return.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

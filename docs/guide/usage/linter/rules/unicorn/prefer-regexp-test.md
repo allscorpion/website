@@ -35,4 +35,8 @@ Boolean(string.match(/unicorn/));
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References

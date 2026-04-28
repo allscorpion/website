@@ -30,4 +30,8 @@ let log10e = Math.LOG10E;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References

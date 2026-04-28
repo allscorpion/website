@@ -40,4 +40,8 @@ function quux() {}
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References

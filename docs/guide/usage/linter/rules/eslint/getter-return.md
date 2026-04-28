@@ -55,4 +55,8 @@ When set to `true`, allows getters to implicitly return `undefined` with a `retu
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

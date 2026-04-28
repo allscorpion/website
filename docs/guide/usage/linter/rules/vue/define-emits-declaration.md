@@ -100,4 +100,8 @@ using an array or object, e.g. `defineEmits(['event1', 'event2'])`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.15.0.
+
 ## References

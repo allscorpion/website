@@ -85,17 +85,6 @@ line 4
 `;
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-large-snapshots.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-large-snapshots": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -126,5 +115,9 @@ default: `50`
 Maximum number of lines allowed for external snapshot files.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.3.
 
 ## References

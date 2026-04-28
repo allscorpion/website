@@ -44,4 +44,8 @@ const set = new Set(foo);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.28.0.
+
 ## References

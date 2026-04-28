@@ -55,4 +55,8 @@ Makes this rule more strict by disallowing calls to \`this.setState\`\` even wit
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References

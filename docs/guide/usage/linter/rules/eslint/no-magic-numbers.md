@@ -214,4 +214,8 @@ When true, numeric literals used to index TypeScript types are ignored.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References

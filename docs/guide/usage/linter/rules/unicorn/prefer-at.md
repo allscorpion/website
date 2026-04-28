@@ -57,4 +57,8 @@ These functions will be checked for `.at(-1)` usage.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References

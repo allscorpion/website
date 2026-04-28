@@ -28,4 +28,8 @@ a ** b;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.0.
+
 ## References

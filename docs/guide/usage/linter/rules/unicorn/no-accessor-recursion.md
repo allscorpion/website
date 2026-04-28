@@ -48,4 +48,8 @@ const baz = {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.5.
+
 ## References

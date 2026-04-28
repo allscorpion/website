@@ -46,4 +46,8 @@ test("slow test", async () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.58.0.
+
 ## References

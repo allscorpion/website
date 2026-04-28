@@ -47,4 +47,8 @@ export function Home() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References

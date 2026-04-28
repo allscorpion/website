@@ -63,4 +63,8 @@ List of allowed termination methods (e.g., `catch`, `done`).
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References

@@ -32,4 +32,8 @@ delete y.prop;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.4.
+
 ## References

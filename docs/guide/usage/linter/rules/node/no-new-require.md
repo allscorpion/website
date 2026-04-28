@@ -28,4 +28,8 @@ var appHeader = new AppHeader();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.10.0.
+
 ## References

@@ -44,4 +44,8 @@ When `true`, also check `import()` expressions for dynamic module specifiers.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References

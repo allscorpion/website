@@ -117,4 +117,8 @@ If omitted, all files will be matched.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.26.0.
+
 ## References

@@ -84,4 +84,8 @@ if (n === 1) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References

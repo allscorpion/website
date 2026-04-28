@@ -32,4 +32,8 @@ Math.max(height, 50);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.10.1.
+
 ## References

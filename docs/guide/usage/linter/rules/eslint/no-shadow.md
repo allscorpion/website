@@ -108,4 +108,8 @@ This is common in TypeScript: `type Foo = ...; const Foo = ...;`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.48.0.
+
 ## References

@@ -35,4 +35,8 @@ class MyError extends Error {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References

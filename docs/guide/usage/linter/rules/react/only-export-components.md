@@ -129,4 +129,8 @@ identifiers here to avoid false positives.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.23.0.
+
 ## References

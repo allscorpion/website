@@ -40,4 +40,8 @@ import { ref } from "vue";
 
 ## How to use
 
+## Version
+
+This rule was added in v1.21.0.
+
 ## References

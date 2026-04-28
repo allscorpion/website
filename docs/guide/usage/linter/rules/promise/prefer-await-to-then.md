@@ -52,4 +52,8 @@ If true, enforces the rule even after an `await` or `yield` expression.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.1.
+
 ## References

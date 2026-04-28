@@ -65,4 +65,8 @@ import { SomeNonsenseThatDoesntExist } from "react";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References

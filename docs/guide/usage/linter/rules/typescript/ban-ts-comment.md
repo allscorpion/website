@@ -74,4 +74,8 @@ How to handle the `@ts-nocheck` directive.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

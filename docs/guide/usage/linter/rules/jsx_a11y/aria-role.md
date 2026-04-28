@@ -75,4 +75,8 @@ Determines if developer-created components are checked.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References

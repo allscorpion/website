@@ -105,4 +105,8 @@ complexity by 1 irrespective of the number of `case` statements
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References

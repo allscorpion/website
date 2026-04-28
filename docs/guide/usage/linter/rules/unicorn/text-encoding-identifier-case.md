@@ -65,4 +65,8 @@ If `true`, prefer `utf-8` over `utf8`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References

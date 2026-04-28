@@ -35,4 +35,8 @@ function identity<T>(value: T): T {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.49.0.
+
 ## References

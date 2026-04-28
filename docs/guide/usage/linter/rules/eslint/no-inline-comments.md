@@ -53,4 +53,8 @@ Example configuration:
 
 ## How to use
 
+## Version
+
+This rule was added in v1.34.0.
+
 ## References

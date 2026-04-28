@@ -43,4 +43,8 @@ Only enforce ternary usage when the condition and both branches are single-line.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.50.0.
+
 ## References

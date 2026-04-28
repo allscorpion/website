@@ -60,4 +60,8 @@ This is the default behavior.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.1.
+
 ## References

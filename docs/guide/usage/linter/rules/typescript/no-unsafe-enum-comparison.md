@@ -67,4 +67,8 @@ if (Object.values(Status).includes(someValue)) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

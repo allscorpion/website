@@ -82,4 +82,8 @@ The message to display when this element is found
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.11.
+
 ## References

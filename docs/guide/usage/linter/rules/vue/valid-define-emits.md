@@ -87,4 +87,8 @@ defineEmits();
 
 ## How to use
 
+## Version
+
+This rule was added in v1.14.0.
+
 ## References

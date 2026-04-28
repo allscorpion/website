@@ -39,4 +39,8 @@ for (let i = 0; i < 10; i++) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References

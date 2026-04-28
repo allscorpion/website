@@ -69,4 +69,8 @@ Whether to allow `++` and `--` in for loop afterthoughts.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.5.
+
 ## References

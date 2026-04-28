@@ -31,4 +31,8 @@ import bar from "./bar.js"; // Correct: module imports another module
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References

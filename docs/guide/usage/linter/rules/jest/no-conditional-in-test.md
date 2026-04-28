@@ -8,7 +8,8 @@ Disallow conditional statements in tests.
 
 ### Why is this bad?
 
-Conditional statements in tests can make the test harder to read and understand. It is better to have a single test case per test function.
+Conditional statements in tests can make the test harder to read and understand.
+It is better to have a single test case per test function.
 
 ### Examples
 
@@ -78,17 +79,10 @@ it("baz", async () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-conditional-in-test.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-conditional-in-test": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.8.0.
 
 ## References

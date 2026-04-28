@@ -65,4 +65,8 @@ var x = 0x1fff_ffff_fff_fff;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References

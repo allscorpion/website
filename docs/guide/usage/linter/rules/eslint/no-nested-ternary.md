@@ -31,4 +31,8 @@ if (condition1) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References

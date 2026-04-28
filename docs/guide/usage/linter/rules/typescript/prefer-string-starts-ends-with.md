@@ -49,4 +49,8 @@ Never allow equality checks against the first or last character.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

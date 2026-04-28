@@ -59,4 +59,8 @@ For example, `["*.json"]` will ignore all JSON imports.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.12.0.
+
 ## References

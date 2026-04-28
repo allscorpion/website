@@ -35,4 +35,8 @@ class C {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.3.
+
 ## References

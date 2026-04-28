@@ -33,4 +33,8 @@ expectTypeOf(foo).toBe(false);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.57.0.
+
 ## References

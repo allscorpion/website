@@ -46,4 +46,8 @@ If set to `true`, allows the use of `Promise.reject` in async functions and prom
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References

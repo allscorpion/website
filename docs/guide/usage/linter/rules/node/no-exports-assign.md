@@ -39,4 +39,8 @@ exports = module.exports = {};
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References

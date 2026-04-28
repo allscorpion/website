@@ -50,4 +50,8 @@ Array of names of allowed modules. Defaults to an empty array.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.43.0.
+
 ## References

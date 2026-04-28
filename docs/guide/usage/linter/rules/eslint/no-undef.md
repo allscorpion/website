@@ -37,4 +37,8 @@ When set to `true`, warns on undefined variables used in a `typeof` expression.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

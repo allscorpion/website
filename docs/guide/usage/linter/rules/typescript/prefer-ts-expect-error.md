@@ -41,4 +41,8 @@ const multiLine: number = "value";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.11.
+
 ## References

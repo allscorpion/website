@@ -55,17 +55,6 @@ describe("test suite", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/require-top-level-describe.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/require-top-level-describe": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -74,10 +63,14 @@ This rule accepts a configuration object with the following properties:
 
 type: `integer`
 
-default: `18446744073709551615`
+default: `Infinity`
 
 The maximum number of top-level `describe` blocks allowed in a test file.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References

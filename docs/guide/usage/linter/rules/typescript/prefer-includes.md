@@ -72,4 +72,8 @@ if (/world/i.test(str)) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.29.0.
+
 ## References

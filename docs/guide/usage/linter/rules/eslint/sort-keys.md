@@ -77,4 +77,8 @@ Use natural sort order so that, for example, "a2" comes before "a10".
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.4.
+
 ## References

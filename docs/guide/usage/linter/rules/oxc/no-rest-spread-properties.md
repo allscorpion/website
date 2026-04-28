@@ -45,4 +45,8 @@ A message to display when object spread properties are found.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.2.
+
 ## References

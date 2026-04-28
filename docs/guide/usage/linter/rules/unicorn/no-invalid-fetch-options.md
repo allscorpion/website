@@ -33,4 +33,8 @@ const request = new Request("/", { method: "POST", body: "foo=bar" });
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.12.
+
 ## References

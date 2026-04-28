@@ -55,4 +55,8 @@ import type { A as AA, B as BB } from "mod";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.0.
+
 ## References

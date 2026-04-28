@@ -27,4 +27,8 @@ const list = new Array(5).fill().map((_) => createElement());
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

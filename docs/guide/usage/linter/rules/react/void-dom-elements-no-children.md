@@ -37,4 +37,8 @@ React.createElement('div', { dangerouslySetInnerHTML: { __html: 'HTML' } })
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.11.
+
 ## References

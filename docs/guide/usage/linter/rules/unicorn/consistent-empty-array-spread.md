@@ -31,4 +31,8 @@ const array = [a, ...(foo ? "bc" : "")];
 
 ## How to use
 
+## Version
+
+This rule was added in v0.10.1.
+
 ## References

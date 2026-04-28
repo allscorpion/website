@@ -4,12 +4,17 @@ url: /docs/guide/usage/linter/rules/vitest/hoisted-apis-on-top.md
 
 ### What it does
 
-Enforce hoisted APIs to be on top of the file.
+Requires [hoisted](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting) Vitest APIs
+(`vi.mock`, `vi.unmock`, and `vi.hoisted`) to appear in the top-level of the file.
 
 ### Why is this bad?
 
-Some Vitest APIs are hoisted automatically during the transform process. Using this APIs
-in look like runtime code can lead to unexpected results running tests.
+Vitest hoists certain APIs to the top of the file during transformation, so they always
+run before any imports — regardless of where they appear in the source. Writing them
+inside conditionals, test bodies, or other runtime locations can be misleading and confusing.
+
+The code looks like it executes at runtime, but it actually runs first. This rule ensures
+that these hoisted APIs are not allowed in confusing contexts.
 
 ### Examples
 
@@ -80,5 +85,9 @@ describe("suite", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.39.0.
 
 ## References

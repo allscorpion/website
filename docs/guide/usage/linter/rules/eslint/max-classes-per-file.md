@@ -52,4 +52,8 @@ The maximum number of classes allowed per file.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.4.
+
 ## References

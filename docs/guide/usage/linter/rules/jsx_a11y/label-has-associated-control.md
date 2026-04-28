@@ -100,4 +100,8 @@ Custom JSX components to be treated as labels.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.1.
+
 ## References

@@ -61,4 +61,8 @@ When true, warn on duplicate key values
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

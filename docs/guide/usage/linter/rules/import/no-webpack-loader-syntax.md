@@ -35,4 +35,8 @@ var theme = require("./theme.css");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.0.
+
 ## References

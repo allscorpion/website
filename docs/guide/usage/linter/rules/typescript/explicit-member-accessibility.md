@@ -193,4 +193,8 @@ Which member accessibility modifier requirements to apply for properties.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.61.0.
+
 ## References

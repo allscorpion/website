@@ -84,4 +84,8 @@ Component names to ignore when checking for event handler prefixes.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.13.0.
+
 ## References

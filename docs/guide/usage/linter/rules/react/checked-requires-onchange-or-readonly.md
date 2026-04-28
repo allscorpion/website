@@ -64,4 +64,8 @@ Ignore the requirement to provide either `onChange` or `readOnly` when the `chec
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References

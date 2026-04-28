@@ -46,4 +46,8 @@ import { bar } from "./bar"; // Correct: accessing named export directly
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.1.
+
 ## References

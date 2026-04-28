@@ -29,4 +29,8 @@ Array.isArray([1, 2, 3]);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

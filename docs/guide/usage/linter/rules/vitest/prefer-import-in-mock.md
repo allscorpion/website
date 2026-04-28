@@ -8,7 +8,7 @@ This rule enforces using a dynamic `import()` in `vi.mock()` or `vi.doMock()`, w
 
 ### Why is this bad?
 
-A lack of type information and IntelliSense increase the risk of mismatches between the real module and it's mock.
+A lack of type information and IntelliSense increases the risk of mismatches between the real module and its mock.
 
 ### Examples
 
@@ -39,5 +39,9 @@ default: `true`
 Whether the rule should generate fixes or not.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References

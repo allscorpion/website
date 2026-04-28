@@ -51,4 +51,8 @@ imports, especially when TypeScript paths are used or in monorepo setups with mu
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.3.
+
 ## References

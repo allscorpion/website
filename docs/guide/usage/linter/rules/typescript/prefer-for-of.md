@@ -32,4 +32,8 @@ for (const item of arr) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.16.
+
 ## References

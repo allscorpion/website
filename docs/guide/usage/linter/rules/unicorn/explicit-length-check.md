@@ -61,4 +61,8 @@ Enforces non-zero to be checked with `foo.length !== 0`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

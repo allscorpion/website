@@ -43,4 +43,8 @@ Allow fragments with a single expression child.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

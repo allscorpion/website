@@ -57,4 +57,8 @@ When true the rule will ignore the name of the destructured value.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References

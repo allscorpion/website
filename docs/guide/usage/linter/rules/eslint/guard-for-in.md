@@ -50,4 +50,8 @@ for (key in foo) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References

@@ -114,4 +114,8 @@ A list of function names that should be treated as assertion functions.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.60.0.
+
 ## References

@@ -28,17 +28,6 @@ describe("a test", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-standalone-expect.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-standalone-expect": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -52,5 +41,9 @@ default: `[]`
 An array of function names that should also be treated as test blocks.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References

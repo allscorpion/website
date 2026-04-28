@@ -56,4 +56,8 @@ If set to `true`, checks for usage of `NaN` as a global variable.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

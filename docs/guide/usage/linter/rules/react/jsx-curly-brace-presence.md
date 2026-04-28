@@ -270,4 +270,8 @@ Whether to enforce or disallow curly braces for props on JSX elements.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.0.
+
 ## References

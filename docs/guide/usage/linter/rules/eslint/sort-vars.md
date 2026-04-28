@@ -41,4 +41,8 @@ When `true`, the rule ignores case-sensitivity when sorting variables.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References

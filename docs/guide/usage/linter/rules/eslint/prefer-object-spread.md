@@ -50,4 +50,8 @@ Object.assign(foo, { ...baz });
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.9.
+
 ## References

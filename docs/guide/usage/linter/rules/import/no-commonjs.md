@@ -97,4 +97,8 @@ but `module.exports` is reported as usual.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References

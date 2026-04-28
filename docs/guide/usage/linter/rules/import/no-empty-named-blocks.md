@@ -29,4 +29,8 @@ import Default, { mod } from "mod";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.1.
+
 ## References

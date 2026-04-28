@@ -48,4 +48,8 @@ Allow callbacks that return `any` in places that expect a `void` callback.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

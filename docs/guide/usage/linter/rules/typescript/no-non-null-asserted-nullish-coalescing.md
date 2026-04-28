@@ -50,4 +50,8 @@ x! ?? "";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.0.
+
 ## References

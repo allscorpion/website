@@ -43,4 +43,8 @@ Case-sensitive array of flags that will be allowed.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.4.
+
 ## References

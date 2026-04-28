@@ -34,4 +34,8 @@ const bar = await Promise.all([baz(), bang()]);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.6.1.
+
 ## References

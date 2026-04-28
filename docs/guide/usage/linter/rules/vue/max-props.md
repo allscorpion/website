@@ -52,4 +52,8 @@ The maximum number of props allowed in a Vue SFC.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.19.0.
+
 ## References

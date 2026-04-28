@@ -30,4 +30,8 @@ const a = ref(0);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.17.0.
+
 ## References

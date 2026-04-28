@@ -30,4 +30,8 @@ Math.min(1000, Math.max(0, z));
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

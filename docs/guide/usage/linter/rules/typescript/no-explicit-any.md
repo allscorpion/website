@@ -68,4 +68,8 @@ Whether to ignore rest parameter arrays.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References

@@ -32,4 +32,8 @@ promisify(doSomething)().then(doSomethingElse).then(console.log).catch(console.e
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.1.
+
 ## References

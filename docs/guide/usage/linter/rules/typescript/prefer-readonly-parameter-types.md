@@ -132,4 +132,8 @@ Whether mutable methods should be treated as readonly members.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.49.0.
+
 ## References

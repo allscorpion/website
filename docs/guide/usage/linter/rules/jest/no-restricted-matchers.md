@@ -63,17 +63,6 @@ describe("when an error happens", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-restricted-matchers.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-restricted-matchers": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -89,5 +78,9 @@ The key is the matcher/modifier name (e.g., "toBeFalsy", "resolves", "not.toHave
 The value is an optional custom message to display when the matcher/modifier is used.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.3.
 
 ## References

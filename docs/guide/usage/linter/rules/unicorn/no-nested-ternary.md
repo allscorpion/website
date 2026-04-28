@@ -29,4 +29,8 @@ const foo = i > 5 ? (i < 100 ? true : false) : i < 100 ? true : false;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References

@@ -63,4 +63,8 @@ class D extends A {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.4.
+
 ## References

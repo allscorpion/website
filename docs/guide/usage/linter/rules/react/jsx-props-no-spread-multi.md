@@ -28,4 +28,8 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.2.
+
 ## References

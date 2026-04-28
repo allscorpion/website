@@ -115,4 +115,8 @@ Skip operands that are not typed with `null` and/or `undefined` when inspecting
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
 ## References

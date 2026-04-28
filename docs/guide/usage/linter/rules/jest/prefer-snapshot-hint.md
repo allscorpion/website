@@ -193,4 +193,8 @@ Require a hint to be provided when there are multiple external snapshot matchers
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References

@@ -51,4 +51,8 @@ Stateless basically just means function components, including those created via
 
 ## How to use
 
+## Version
+
+This rule was added in v1.43.0.
+
 ## References

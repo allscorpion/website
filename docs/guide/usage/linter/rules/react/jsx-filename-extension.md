@@ -71,4 +71,8 @@ If enabled, files that do not contain code (i.e. are empty, contain only whitesp
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.14.
+
 ## References

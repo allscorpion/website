@@ -53,4 +53,8 @@ and require a `displayName` property in this case.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.42.0.
+
 ## References

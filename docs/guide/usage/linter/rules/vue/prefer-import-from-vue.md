@@ -33,4 +33,8 @@ import { createApp, ref, Component } from "vue";
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References

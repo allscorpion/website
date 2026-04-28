@@ -31,4 +31,8 @@ const maxValue = Math.max.apply(Math, numbers);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.21.
+
 ## References

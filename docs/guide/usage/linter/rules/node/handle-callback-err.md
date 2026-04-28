@@ -72,4 +72,8 @@ type: `string`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.56.0.
+
 ## References

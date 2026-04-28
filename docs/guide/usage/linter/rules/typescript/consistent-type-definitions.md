@@ -57,4 +57,8 @@ type T = { x: number };
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.17.
+
 ## References

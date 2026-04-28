@@ -215,4 +215,8 @@ const x = { a: 1 } satisfies Foo;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.44.0.
+
 ## References

@@ -43,4 +43,8 @@ export {}; // simple way to mark side-effects-only file as 'module' without any 
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.1.
+
 ## References

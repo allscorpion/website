@@ -57,4 +57,8 @@ const counts = ["a", "b", "a"].reduce<Count>((acc, item) => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

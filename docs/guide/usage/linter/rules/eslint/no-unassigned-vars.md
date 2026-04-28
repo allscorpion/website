@@ -35,4 +35,8 @@ console.log(user.name);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.10.0.
+
 ## References

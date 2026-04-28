@@ -28,4 +28,8 @@ let y = "\\9";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.10.
+
 ## References

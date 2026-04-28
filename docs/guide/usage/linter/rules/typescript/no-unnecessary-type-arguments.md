@@ -63,4 +63,8 @@ const container2: Container<string> = { value: "hello" };
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

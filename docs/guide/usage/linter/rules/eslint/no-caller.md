@@ -61,4 +61,8 @@ function foo(n) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

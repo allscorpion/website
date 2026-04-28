@@ -97,4 +97,8 @@ When true, static methods can be referenced without binding.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

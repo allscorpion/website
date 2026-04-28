@@ -86,4 +86,8 @@ Enforce state initialization with a class property.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.26.0.
+
 ## References

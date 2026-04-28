@@ -52,4 +52,8 @@ before the rule is triggered.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.0.
+
 ## References

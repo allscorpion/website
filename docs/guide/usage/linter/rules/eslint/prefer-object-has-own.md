@@ -45,4 +45,8 @@ const hasProperty = Object.hasOwn(object, property);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References

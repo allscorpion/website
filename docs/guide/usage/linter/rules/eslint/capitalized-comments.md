@@ -112,4 +112,8 @@ A regex pattern. Comments that match the pattern will not cause violations.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.34.0.
+
 ## References

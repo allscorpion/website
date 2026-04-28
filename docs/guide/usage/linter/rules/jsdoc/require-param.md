@@ -100,4 +100,8 @@ List of JSDoc tags that exempt functions from `@param` checking.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.3.
+
 ## References

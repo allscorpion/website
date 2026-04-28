@@ -27,4 +27,8 @@ const x = Promise.resolve(value);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.6.1.
+
 ## References

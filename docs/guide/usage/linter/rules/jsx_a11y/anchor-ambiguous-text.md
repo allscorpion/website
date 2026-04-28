@@ -48,4 +48,8 @@ List of ambiguous words or phrases that should be flagged in anchor text.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.2.
+
 ## References

@@ -50,4 +50,8 @@ Always add a `./` prefix to the relative URL when possible.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.44.0.
+
 ## References

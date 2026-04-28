@@ -52,4 +52,8 @@ is used instead of the default `^_?resolve$` check.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.6.1.
+
 ## References

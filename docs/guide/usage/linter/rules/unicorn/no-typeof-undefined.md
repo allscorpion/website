@@ -39,4 +39,8 @@ variable that is not declared (commonly checked via `typeof foo === "undefined"`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References

@@ -67,4 +67,8 @@ Configuration option to specify whether to check for constant conditions in loop
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

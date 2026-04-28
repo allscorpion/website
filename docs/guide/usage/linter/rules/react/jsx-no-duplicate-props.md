@@ -35,4 +35,8 @@ is allowed). This is intentional, as props are case-sensitive in JSX.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

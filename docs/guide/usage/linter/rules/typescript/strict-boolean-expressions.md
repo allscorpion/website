@@ -146,4 +146,8 @@ Whether to allow string types in boolean contexts (checks for non-empty strings)
 
 ## How to use
 
+## Version
+
+This rule was added in v1.25.0.
+
 ## References

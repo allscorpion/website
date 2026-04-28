@@ -26,4 +26,8 @@ const bar = [1, 2, 3].flatMap((i) => [i]);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

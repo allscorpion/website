@@ -28,4 +28,8 @@ var barIsEnumerable = foo.propertyIsEnumerable("bar");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References

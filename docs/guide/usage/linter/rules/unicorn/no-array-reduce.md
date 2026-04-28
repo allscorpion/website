@@ -35,4 +35,8 @@ When set to `true`, allows simple operations (like summing numbers) in `reduce` 
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

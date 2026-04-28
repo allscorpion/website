@@ -66,4 +66,8 @@ When set to true, rule will also report forEach callbacks that return a value.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

@@ -64,4 +64,8 @@ When set to `true`, enforces the rule for unused JSX expressions also.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.14.0.
+
 ## References

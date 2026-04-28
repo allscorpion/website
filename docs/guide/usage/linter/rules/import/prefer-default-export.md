@@ -62,4 +62,8 @@ Prefer default export in any module that has exports.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.4.0.
+
 ## References

@@ -190,4 +190,8 @@ Ignore null comparisons, allow either `== null`/`!= null` or `=== null`/`!== nul
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

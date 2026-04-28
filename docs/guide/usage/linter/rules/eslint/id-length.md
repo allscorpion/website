@@ -144,7 +144,7 @@ For example, `["x", "y", "z"]` would allow single-letter identifiers "x", "y", a
 
 type: `integer`
 
-default: `18446744073709551615`
+default: `Infinity`
 
 The maximum number of graphemes allowed in an identifier.
 Defaults to no maximum (effectively unlimited).
@@ -174,5 +174,9 @@ Property names are checked just like other identifiers
 Property names are not checked for length.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.4.0.
 
 ## References

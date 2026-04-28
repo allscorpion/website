@@ -82,4 +82,8 @@ The name of the prop to forbid.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.24.0.
+
 ## References

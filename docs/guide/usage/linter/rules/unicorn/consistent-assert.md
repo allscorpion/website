@@ -34,4 +34,8 @@ assert.ok(divide(10, 2) === 5);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.9.
+
 ## References

@@ -42,4 +42,8 @@ If set to `true`, using `void` as a standalone statement is allowed.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.5.
+
 ## References

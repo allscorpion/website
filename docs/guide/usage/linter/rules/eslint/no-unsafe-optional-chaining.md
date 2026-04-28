@@ -40,4 +40,8 @@ If this is true, this rule warns arithmetic operations on optional chaining expr
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References

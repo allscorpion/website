@@ -46,4 +46,8 @@ Enables an autofix strategy that rewrites mixed exports using inline `type` spec
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References

@@ -52,4 +52,8 @@ A mapping of type names to ban configurations.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.31.0.
+
 ## References

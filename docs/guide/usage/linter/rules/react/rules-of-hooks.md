@@ -64,4 +64,8 @@ function useCustomHook() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References

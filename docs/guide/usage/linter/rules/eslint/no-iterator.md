@@ -46,4 +46,8 @@ Foo.prototype[Symbol.iterator] = function () {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References

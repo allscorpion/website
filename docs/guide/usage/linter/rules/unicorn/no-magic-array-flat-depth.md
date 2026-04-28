@@ -34,4 +34,8 @@ array.flat(Infinity);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.2.
+
 ## References

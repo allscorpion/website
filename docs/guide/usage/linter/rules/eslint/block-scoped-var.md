@@ -95,4 +95,8 @@ function doTry() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.9.
+
 ## References

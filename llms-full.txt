@@ -5913,6 +5913,10 @@ Report a setter without a getter.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -5984,6 +5988,10 @@ default: `false`
 When set to true, rule will also report forEach callbacks that return a value.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -6156,6 +6164,10 @@ default: `false`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.4.0.
+
 ## References
 
 ---
@@ -6256,6 +6268,10 @@ function doTry() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.9.
 
 ## References
 
@@ -6375,6 +6391,10 @@ A regex pattern. Comments that match the pattern will not cause violations.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.34.0.
+
 ## References
 
 ---
@@ -6477,6 +6497,10 @@ default: `false`
 Whether to ignore methods that are overridden.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.16.0.
 
 ## References
 
@@ -6589,6 +6613,10 @@ complexity by 1 irrespective of the number of `case` statements
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References
 
 ---
@@ -6666,6 +6694,10 @@ class C extends D {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -6929,6 +6961,10 @@ type: `"consistent"`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.13.
+
 ## References
 
 ---
@@ -7022,6 +7058,10 @@ switch (a) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.0.
+
 ## References
 
 ---
@@ -7099,6 +7139,10 @@ switch (foo) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -7163,6 +7207,10 @@ function combine(a: number, b?: number, c: number = 3) {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.15.
 
 ## References
 
@@ -7360,6 +7408,10 @@ Ignore null comparisons, allow either `== null`/`!= null` or `=== null`/`!== nul
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -7419,6 +7471,167 @@ for (let i = MIN; i <= MAX; i -= 0) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/eslint/func-name-matching.md
+---
+
+### What it does
+
+Requires function expression names to match the variable or property
+names they are assigned to, or disallows such matches with `"never"`.
+
+### Why is this bad?
+
+Matching names keep stack traces and source code easier to connect.
+If a project prefers distinct names, the `"never"` option enforces that
+convention consistently.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint func-name-matching: "error"*/
+
+let foo = function bar() {};
+foo = function bar() {};
+const obj = { foo: function bar() {} };
+obj.foo = function bar() {};
+obj["foo"] = function bar() {};
+
+class C {
+  foo = function bar() {};
+}
+
+/*eslint func-name-matching: ["error", "never"] */
+
+let foo = function foo() {};
+foo = function foo() {};
+const obj = { foo: function foo() {} };
+obj.foo = function foo() {};
+obj["foo"] = function foo() {};
+
+class C {
+  foo = function foo() {};
+}
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint func-name-matching: "error"*/
+// equivalent to /*eslint func-name-matching: ["error", "always"]*/
+
+const foo = function foo() {};
+const foo1 = function () {};
+const foo2 = () => {};
+foo = function foo() {};
+
+const obj = { foo: function foo() {} };
+obj.foo = function foo() {};
+obj["foo"] = function foo() {};
+
+const obj1 = { [foo]: function bar() {} };
+const obj3 = { foo: function () {} };
+
+obj["x" + 2] = function bar() {};
+const [bar] = [function bar() {}];
+
+class C {
+  foo = function foo() {};
+  baz = function () {};
+}
+
+// private names are ignored
+class D {
+  #foo = function foo() {};
+  #bar = function foo() {};
+  baz() {
+    this.#foo = function foo() {};
+    this.#foo = function bar() {};
+  }
+}
+
+module.exports = function foo(name) {};
+
+/*eslint func-name-matching: ["error", "never"] */
+
+let foo = function bar() {};
+const foo1 = function () {};
+const foo2 = () => {};
+foo = function bar() {};
+
+const obj = { foo: function bar() {} };
+obj.foo = function bar() {};
+obj["foo"] = function bar() {};
+
+const obj1 = { foo: function bar() {} };
+const obj2 = { [foo]: function foo() {} };
+const obj4 = { foo: function () {} };
+
+obj["x" + 2] = function bar() {};
+const [bar] = [function bar() {}];
+
+class C {
+  foo = function bar() {};
+  baz = function () {};
+}
+
+// private names are ignored
+class D {
+  #foo = function foo() {};
+  #bar = function foo() {};
+  baz() {
+    this.#foo = function foo() {};
+    this.#foo = function bar() {};
+  }
+}
+
+module.exports = function foo(name) {};
+```
+
+## Configuration
+
+This rule takes an optional string of `"always"` or `"never"` (when omitted, it defaults to `"always"`), and an optional options object with two properties `considerPropertyDescriptor` and `includeCommonJSModuleExports`.
+
+### The 1st option
+
+type: `"always" | "never"`
+
+### The 2nd option
+
+This option is an object with the following properties:
+
+#### considerPropertyDescriptor
+
+type: `boolean`
+
+default: `false`
+
+If `considerPropertyDescriptor` is set to `true`, the check will take into account the use of `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty`.
+
+#### includeCommonJSModuleExports
+
+type: `boolean`
+
+default: `false`
+
+If `includeCommonJSModuleExports` is set to `true`, `module.exports` and `module["exports"]` will be checked by this rule.
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
 
 ## References
 
@@ -7641,6 +7854,10 @@ function* foobar(i) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.0.
+
 ## References
 
 ---
@@ -7818,6 +8035,10 @@ default: `null`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.11.
+
 ## References
 
 ---
@@ -7878,6 +8099,10 @@ default: `false`
 When set to `true`, allows getters to implicitly return `undefined` with a `return` statement containing no expression.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -8043,6 +8268,10 @@ type Bar = {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.12.
+
 ## References
 
 ---
@@ -8098,6 +8327,10 @@ for (key in foo) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -8249,7 +8482,7 @@ For example, `["x", "y", "z"]` would allow single-letter identifiers "x", "y", a
 
 type: `integer`
 
-default: `18446744073709551615`
+default: `Infinity`
 
 The maximum number of graphemes allowed in an identifier.
 Defaults to no maximum (effectively unlimited).
@@ -8279,6 +8512,10 @@ Property names are checked just like other identifiers
 Property names are not checked for length.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.4.0.
 
 ## References
 
@@ -8390,6 +8627,10 @@ Only applies when mode is set to `"never"`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.11.
+
 ## References
 
 ---
@@ -8447,6 +8688,10 @@ default: `1`
 The maximum number of classes allowed per file.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.4.
 
 ## References
 
@@ -8530,6 +8775,10 @@ The `max` enforces a maximum depth that blocks can be nested
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.12.
+
 ## References
 
 ---
@@ -8579,6 +8828,10 @@ default: `false`
 Whether to ignore comments when counting.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -8675,6 +8928,10 @@ Skip lines containing just comments.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.12.
+
 ## References
 
 ---
@@ -8747,6 +9004,10 @@ default: `10`
 The `max` enforces a maximum depth that callbacks can be nested.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.12.
 
 ## References
 
@@ -8833,6 +9094,10 @@ default: `3`
 Maximum number of parameters allowed in function definitions.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -9001,6 +9266,10 @@ default: `10`
 Maximum number of statements allowed per function.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.35.0.
 
 ## References
 
@@ -9380,6 +9649,10 @@ default: `true`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.5.
+
 ## References
 
 ---
@@ -9426,6 +9699,10 @@ function foo() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References
 
 ---
@@ -9464,6 +9741,10 @@ let arr3 = new Array(9);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -9541,6 +9822,10 @@ const result = Promise.resolve(foo);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -9579,6 +9864,10 @@ async function good() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.2.
 
 ## References
 
@@ -9664,6 +9953,10 @@ const b = a | 0;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -9731,6 +10024,10 @@ function foo(n) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -9792,6 +10089,10 @@ switch (foo) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.4.
 
 ## References
 
@@ -9869,6 +10170,10 @@ class A {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -9925,6 +10230,10 @@ if (0 > x) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -9980,6 +10289,10 @@ enclosed in parentheses.
 Disallow all assignments in conditional expressions.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.5.
 
 ## References
 
@@ -10048,6 +10361,10 @@ console.info("foo");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -10091,6 +10408,10 @@ b += 1;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -10141,6 +10462,10 @@ const isEmpty = x.length === 0;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -10215,6 +10540,10 @@ Configuration option to specify whether to check for constant conditions in loop
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -10255,6 +10584,10 @@ class C {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.3.
 
 ## References
 
@@ -10302,6 +10635,10 @@ for (i = 0; i < 10; i++) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -10352,6 +10689,10 @@ var pattern8 = new RegExp("\\n");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References
 
 ---
@@ -10392,6 +10733,10 @@ async function main() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -10430,6 +10775,10 @@ delete y.prop;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.4.
+
 ## References
 
 ---
@@ -10466,6 +10815,10 @@ function bar() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References
 
@@ -10515,6 +10868,10 @@ a.foo();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -10606,6 +10963,10 @@ if (n === 1) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References
 
 ---
@@ -10657,6 +11018,10 @@ var foo = {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -10730,6 +11095,10 @@ switch (a) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -10834,6 +11203,10 @@ export * from "module";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.13.2.
 
 ## References
 
@@ -11006,6 +11379,10 @@ function foo() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.10.
+
 ## References
 
 ---
@@ -11054,6 +11431,10 @@ If set to `true`, allows an empty `catch` block without triggering the linter.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -11086,6 +11467,10 @@ var foo2 = /^abc[123]/;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -11305,6 +11690,10 @@ class Foo extends Base {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References
 
 ---
@@ -11384,6 +11773,10 @@ parameters, including parameters defaulted to an empty object literal.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -11428,6 +11821,10 @@ class Bar {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -11477,6 +11874,10 @@ if (bang === undefined) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -11558,6 +11959,10 @@ compared to direct calls, as they do not invoke JavaScript's scope chain.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -11601,6 +12006,10 @@ try {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.4.
 
 ## References
 
@@ -11667,6 +12076,10 @@ A list of objects which are allowed to be exceptions to the rule.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.7.
+
 ## References
 
 ---
@@ -11712,6 +12125,10 @@ const y = function (a) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.1.0.
 
 ## References
 
@@ -11781,6 +12198,10 @@ meaning that this rule by default does not warn about extra booleans
 cast inside inner expressions.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -11862,6 +12283,10 @@ C: switch (a) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.4.
 
 ## References
 
@@ -12070,6 +12495,10 @@ Whether to report unused fallthrough comments.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -12133,6 +12562,10 @@ function qux() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -12171,6 +12604,10 @@ List of global variable names to exclude from this rule.
 Globals listed here can be assigned to without triggering warnings.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -12252,6 +12689,10 @@ When `true`, warns on implicit string coercion (e.g., `"" + foo`).
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -12290,6 +12731,10 @@ Object.assign(mod_ns, { foo: "foo" }); // ERROR: The members of 'mod_ns' are rea
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.5.
 
 ## References
 
@@ -12349,6 +12794,10 @@ Example configuration:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.34.0.
 
 ## References
 
@@ -12421,6 +12870,10 @@ Disallow function declarations in nested blocks regardless of strict mode.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References
 
 ---
@@ -12470,6 +12923,10 @@ Case-sensitive array of flags that will be allowed.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.4.
+
 ## References
 
 ---
@@ -12507,7 +12964,55 @@ function example() {
 }
 ```
 
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### skipComments
+
+type: `boolean`
+
+default: `true`
+
+Whether to skip irregular whitespace in comments.
+
+### skipJSXText
+
+type: `boolean`
+
+default: `true`
+
+Whether to skip irregular whitespace in JSX text.
+
+### skipRegExps
+
+type: `boolean`
+
+default: `true`
+
+Whether to skip irregular whitespace in regular expression literals.
+
+### skipStrings
+
+type: `boolean`
+
+default: `true`
+
+Whether to skip irregular whitespace in string literals.
+
+### skipTemplates
+
+type: `boolean`
+
+default: `true`
+
+Whether to skip irregular whitespace in template literals.
+
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -12561,6 +13066,10 @@ Foo.prototype[Symbol.iterator] = function () {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References
 
 ---
@@ -12608,6 +13117,10 @@ function bar() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.6.0.
 
 ## References
 
@@ -12720,6 +13233,10 @@ label: switch (a) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References
 
 ---
@@ -12760,6 +13277,10 @@ if (condition) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.6.
 
 ## References
 
@@ -12837,6 +13358,10 @@ if (condition) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.0.
+
 ## References
 
 ---
@@ -12881,6 +13406,10 @@ for (let i = 0; i < 10; i++) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.33.0.
 
 ## References
 
@@ -12952,6 +13481,10 @@ var x = 0x1fff_ffff_fff_fff;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -13173,6 +13706,10 @@ When true, numeric literals used to index TypeScript types are ignored.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References
 
 ---
@@ -13259,6 +13796,10 @@ new RegExp("[\\u{1F1EF}\\u{1F1F5}]", "u");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.17.0.
 
 ## References
 
@@ -13362,6 +13903,10 @@ class Foo {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References
 
 ---
@@ -13390,6 +13935,10 @@ var x =
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.3.
 
 ## References
 
@@ -13435,6 +13984,10 @@ a ? doSomethingB() : doSomethingC();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -13472,6 +14025,10 @@ if (condition1) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References
 
 ---
@@ -13508,6 +14065,10 @@ var a = new Date()(() => new Date());
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.0.
 
 ## References
 
@@ -13547,6 +14108,10 @@ let x = function (a, b) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.2.
 
 ## References
 
@@ -13590,6 +14155,10 @@ let result = BigInt(9007199254740991);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.3.
 
 ## References
 
@@ -13636,6 +14205,10 @@ var symbolObject = Symbol("foo");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.10.
+
 ## References
 
 ---
@@ -13669,6 +14242,10 @@ let y = "\\9";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.10.
 
 ## References
 
@@ -13722,6 +14299,10 @@ let segmenterFrom = Intl.Segmenter("fr", { granularity: "word" });
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References
 
 ---
@@ -13757,6 +14338,10 @@ const createObject = (Object) => new Object();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.13.2.
 
 ## References
 
@@ -13817,6 +14402,10 @@ default: `false`
 When true, also check for modifications to properties of parameters.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.20.0.
 
 ## References
 
@@ -13892,6 +14481,10 @@ default: `false`
 Whether to allow `++` and `--` in for loop afterthoughts.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.5.
 
 ## References
 
@@ -13994,6 +14587,10 @@ If `true`, allows returning `void` expressions (e.g., `return void resolve()`).
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -14031,6 +14628,10 @@ obj["__proto__"] = b;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References
 
 ---
@@ -14064,6 +14665,10 @@ var barIsEnumerable = foo.propertyIsEnumerable("bar");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.5.
 
 ## References
 
@@ -14113,6 +14718,10 @@ When set `true`, it flags redeclaring built-in globals (e.g., `let Object = 1;`)
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -14144,6 +14753,10 @@ var re = /foo   bar/;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -14306,6 +14919,10 @@ export const foo = 1;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -14358,6 +14975,10 @@ Objects in the format
 are restricted from use.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.0.
 
 ## References
 
@@ -14695,6 +15316,10 @@ import { isEmpty } from "utils/collection-utils";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.0.
+
 ## References
 
 ---
@@ -14749,6 +15374,10 @@ This is the default mode.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.10.
+
 ## References
 
 ---
@@ -14779,6 +15408,10 @@ location.href = `javascript:void(0)`;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.15.
 
 ## References
 
@@ -14865,6 +15498,10 @@ obj[a] = obj[a];
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References
 
 ---
@@ -14894,6 +15531,10 @@ if (x === x) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -14966,6 +15607,10 @@ Default is `true`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -15000,6 +15645,10 @@ class URL {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -15115,6 +15764,10 @@ This is common in TypeScript: `type Foo = ...; const Foo = ...;`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.48.0.
+
 ## References
 
 ---
@@ -15197,6 +15850,10 @@ If true, also report shadowing of `globalThis`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -15253,6 +15910,10 @@ var colors = ["red", "blue"];
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.4.
+
 ## References
 
 ---
@@ -15294,6 +15955,10 @@ templateFunction`Hello ${name}`;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -15351,6 +16016,10 @@ function quux() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References
 
 ---
@@ -15386,6 +16055,10 @@ class A1 extends B {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.6.
 
 ## References
 
@@ -15450,6 +16123,10 @@ try {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.10.
+
 ## References
 
 ---
@@ -15490,6 +16167,10 @@ console.log(user.name);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.10.0.
 
 ## References
 
@@ -15533,6 +16214,10 @@ default: `false`
 When set to `true`, warns on undefined variables used in a `typeof` expression.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -15589,6 +16274,130 @@ bar(void 0, "lorem");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.3.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/eslint/no-underscore-dangle.md
+---
+
+### What it does
+
+Disallows dangling underscores in identifiers.
+
+### Why is this bad?
+
+There is a long history of using `_` as a prefix or suffix for private members in JavaScript.
+It is however recommended to use the formal private class feature introduced in ES2022.
+See <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_elements> for more information.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```js
+let foo_;
+const __proto__ = {};
+foo._bar();
+```
+
+Examples of **correct** code for this rule:
+
+```js
+const _ = require("underscore");
+const obj = _.contains(items, item);
+obj.__proto__ = {};
+const file = __filename;
+function foo(_bar) {}
+const bar = { onClick(_bar) {} };
+const baz = (_bar) => {};
+```
+
+## Configuration
+
+### allow
+
+type: `string[]`
+
+default: `[]`
+
+An array of variable names that are allowed to have dangling underscores.
+
+### allowAfterSuper
+
+type: `boolean`
+
+default: `false`
+
+Whether to allow dangling underscores in members of the `super` object.
+
+### allowAfterThis
+
+type: `boolean`
+
+default: `false`
+
+Whether to allow dangling underscores in members of the `this` object.
+
+### allowAfterThisConstructor
+
+type: `boolean`
+
+default: `false`
+
+Whether to allow dangling underscores in members of the `this.constructor` object.
+
+### allowFunctionParams
+
+type: `boolean`
+
+default: `true`
+
+Whether to allow dangling underscores in function parameter names.
+
+### allowInArrayDestructuring
+
+type: `boolean`
+
+default: `true`
+
+Whether to allow dangling underscores in variable names assigned by array destructuring.
+
+### allowInObjectDestructuring
+
+type: `boolean`
+
+default: `true`
+
+Whether to allow dangling underscores in variable names assigned by object destructuring.
+
+### enforceInClassFields
+
+type: `boolean`
+
+default: `false`
+
+Whether to enforce dangling underscores in class field names.
+
+### enforceInMethodNames
+
+type: `boolean`
+
+default: `false`
+
+Whether to enforce dangling underscores in method names.
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
+
 ## References
 
 ---
@@ -15641,6 +16450,10 @@ foo;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.7.
+
 ## References
 
 ---
@@ -15679,6 +16492,10 @@ while (!done) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.48.0.
 
 ## References
 
@@ -15738,6 +16555,10 @@ are allowed and not reported.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.12.
+
 ## References
 
 ---
@@ -15778,6 +16599,10 @@ function foo() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -15820,6 +16645,10 @@ Examples of **incorrect** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.5.
 
 ## References
 
@@ -15879,6 +16708,10 @@ when what is really intended is `!(a < b)`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -15924,6 +16757,10 @@ Disallow arithmetic operations on optional chaining expressions.
 If this is true, this rule warns arithmetic operations on optional chaining expressions, which possibly result in NaN.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.5.
 
 ## References
 
@@ -15995,6 +16832,10 @@ When set to `true`, enforces the rule for unused JSX expressions also.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.14.0.
+
 ## References
 
 ---
@@ -16036,6 +16877,10 @@ for (const student of students) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -16116,6 +16961,10 @@ class C {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -16650,6 +17499,10 @@ console.log(b);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.0.
+
 ## References
 
 ---
@@ -16745,6 +17598,10 @@ Check variable declarations.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.49.0.
+
 ## References
 
 ---
@@ -16824,6 +17681,10 @@ function fn3() {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -16868,6 +17729,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.10.
 
 ## References
 
@@ -16924,6 +17789,10 @@ obj.foo.apply(obj, args);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.9.
+
 ## References
 
 ---
@@ -16962,6 +17831,10 @@ doSomethingThatMightThrow();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.5.
 
 ## References
 
@@ -17066,6 +17939,10 @@ class SomeClass {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.16.0.
+
 ## References
 
 ---
@@ -17105,6 +17982,10 @@ var foo = "a" + "b" + "c";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References
 
@@ -17174,6 +18055,10 @@ class D extends A {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -17248,6 +18133,10 @@ Each string in this array must be a single character.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.5.
+
 ## References
 
 ---
@@ -17312,6 +18201,10 @@ When set to `true`, allows renaming imports to the same name.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References
 
 ---
@@ -17373,6 +18266,10 @@ function baz() {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.32.0.
+
 ## References
 
 ---
@@ -17409,6 +18306,10 @@ const CONFIG = {};
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -17457,6 +18358,10 @@ default: `false`
 If set to `true`, using `void` as a standalone statement is allowed.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.5.
 
 ## References
 
@@ -17532,6 +18437,10 @@ Useful for ignoring common comment decorations like `*` in JSDoc-style comments.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.24.0.
+
 ## References
 
 ---
@@ -17565,6 +18474,10 @@ with (point) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -17631,6 +18544,10 @@ default: `false`
 type: `string`
 
 ## How to use
+
+## Version
+
+This rule was added in v1.59.0.
 
 ## References
 
@@ -17702,6 +18619,10 @@ Requires assignment operator shorthand where possible.
 Disallows assignment operator shorthand.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.13.
 
 ## References
 
@@ -17781,6 +18702,10 @@ If `true`, the rule will not report variables that are read before their initial
 This is mainly useful for preventing conflicts with the `typescript/no-use-before-define` rule.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.43.0.
 
 ## References
 
@@ -17880,6 +18805,10 @@ Determines whether the object destructuring rule applies to renamed variables.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.10.0.
+
 ## References
 
 ---
@@ -17913,6 +18842,10 @@ a ** b;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.0.
 
 ## References
 
@@ -17949,6 +18882,10 @@ Number.parseInt("1F7", 16) === 503;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -18000,6 +18937,10 @@ const hasProperty = Object.hasOwn(object, property);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.11.0.
 
 ## References
 
@@ -18056,6 +18997,10 @@ Object.assign(foo, { ...baz });
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.9.
 
 ## References
 
@@ -18126,6 +19071,10 @@ Whether to allow calls to `Promise.reject()` with no arguments.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.7.
+
 ## References
 
 ---
@@ -18186,6 +19135,10 @@ function foo() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References
 
 ---
@@ -18245,6 +19198,10 @@ obj.foo.apply(obj, [1, 2, 3]);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.17.
+
 ## References
 
 ---
@@ -18279,6 +19236,10 @@ const str4 = "Hello, " + "World!";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -18334,6 +19295,10 @@ When set to `true`, requires that catch clauses always have a parameter.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.16.0.
+
 ## References
 
 ---
@@ -18382,6 +19347,10 @@ let num = parseInt("071", 10); // 71
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.3.
 
 ## References
 
@@ -18450,6 +19419,10 @@ async function foo() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.2.
+
 ## References
 
 ---
@@ -18477,6 +19450,10 @@ function* foo() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.4.
 
 ## References
 
@@ -18559,6 +19536,10 @@ Must include all 4 kinds!
 type: `"none" | "all" | "multiple" | "single"`
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -18643,6 +19624,10 @@ Use natural sort order so that, for example, "a2" comes before "a10".
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.4.
+
 ## References
 
 ---
@@ -18689,6 +19674,10 @@ default: `false`
 When `true`, the rule ignores case-sensitivity when sorting variables.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.3.
 
 ## References
 
@@ -18738,6 +19727,10 @@ var foo = Symbol("some description");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.0.
+
 ## References
 
 ---
@@ -18780,6 +19773,10 @@ Never allow a Unicode BOM (Byte Order Mark) at the beginning of the file.
 This is the default option.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.3.
 
 ## References
 
@@ -18840,6 +19837,10 @@ default: `true`
 Whether to disallow NaN in switch cases and discriminants
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -18915,6 +19916,10 @@ typeof bar === typeof qux;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -18998,6 +20003,10 @@ class C {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.4.
 
 ## References
 
@@ -19195,6 +20204,10 @@ option allows a superset of the exceptions which `exceptRange` allows, thus
 both options are not useful together.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.14.1.
 
 ## References
 
@@ -20544,6 +21557,10 @@ Prefer `import { type Foo } from 'foo'` for type imports.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.11.
+
 ## References
 
 ---
@@ -20592,6 +21609,10 @@ import { bar } from "./bar"; // correct usage of named import
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -20629,6 +21650,10 @@ export * from "./export-all"; // No conflict if export-all.js also exports foo
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.21.
 
 ## References
 
@@ -20670,6 +21695,10 @@ export function func() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.14.
 
 ## References
 
@@ -20926,6 +21955,10 @@ Glob pattern to match import specifiers. This uses Rust's fast-glob library for 
 
 ## How to use
 
+## Version
+
+This rule was added in v1.2.0.
+
 ## References
 
 ---
@@ -20992,6 +22025,10 @@ This is the default behavior.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.1.
+
 ## References
 
 ---
@@ -21030,6 +22067,10 @@ export { first, second };
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.6.
 
 ## References
 
@@ -21099,6 +22140,10 @@ default: `10`
 Maximum number of dependencies allowed in a file.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.0.
 
 ## References
 
@@ -21170,6 +22215,10 @@ import { SomeNonsenseThatDoesntExist } from "react";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -21245,6 +22294,10 @@ default: `false`
 Whether to allow computed references to an imported namespace.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.11.
 
 ## References
 
@@ -21351,6 +22404,10 @@ import foo from "/foo"; // reported
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.13.
+
 ## References
 
 ---
@@ -21388,6 +22445,10 @@ require(`../name`);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -21527,6 +22588,10 @@ Allow anonymous object as default export.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.14.
+
 ## References
 
 ---
@@ -21630,6 +22695,10 @@ but `module.exports` is reported as usual.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References
 
 ---
@@ -21730,6 +22799,10 @@ Maximum dependency depth to traverse
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -21769,6 +22842,10 @@ export const bar = "bar";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -21851,6 +22928,10 @@ import { Foo, type Bar } from "./module";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.11.
+
 ## References
 
 ---
@@ -21901,6 +22982,10 @@ When `true`, also check `import()` expressions for dynamic module specifiers.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References
 
 ---
@@ -21935,6 +23020,10 @@ import Default, { mod } from "mod";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.1.
 
 ## References
 
@@ -21978,6 +23067,10 @@ Note that exported function/class declaration identifiers may be reassigned,
 but are not flagged by this rule at this time. They may be in the future.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.13.
 
 ## References
 
@@ -22036,6 +23129,10 @@ imports, especially when TypeScript paths are used or in monorepo setups with mu
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.3.
+
 ## References
 
 ---
@@ -22088,6 +23185,10 @@ import { bar } from "./bar"; // Correct: accessing named export directly
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.1.
+
 ## References
 
 ---
@@ -22122,6 +23223,10 @@ import foo, { bar } from "./foo.js";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.3.
 
 ## References
 
@@ -22161,6 +23266,10 @@ export { foo as default }
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.19.0.
 
 ## References
 
@@ -22227,6 +23336,10 @@ For example, `["*.json"]` will ignore all JSON imports.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.12.0.
+
 ## References
 
 ---
@@ -22283,6 +23396,10 @@ Array of names of allowed modules. Defaults to an empty array.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.43.0.
+
 ## References
 
 ---
@@ -22323,6 +23440,10 @@ import b from "./b";
 
 ## How to use
 
+## Version
+
+This rule was added in v1.43.0.
+
 ## References
 
 ---
@@ -22359,6 +23480,10 @@ import bar from "./bar.js"; // Correct: module imports another module
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -22421,6 +23546,10 @@ For example:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.11.
+
 ## References
 
 ---
@@ -22461,6 +23590,10 @@ var theme = require("./theme.css");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -22530,6 +23663,10 @@ Prefer default export in any module that has exports.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.4.0.
+
 ## References
 
 ---
@@ -22578,6 +23715,10 @@ export {}; // simple way to mark side-effects-only file as 'module' without any 
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.11.1.
 
 ## References
 
@@ -23013,17 +24154,6 @@ describe("foo", function () {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/consistent-test-it.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/consistent-test-it": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -23046,6 +24176,10 @@ Decides whether to use `test` or `it` within a `describe` scope.
 If only `fn` is provided, this will default to the value of `fn`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.3.
 
 ## References
 
@@ -23074,17 +24208,6 @@ it("should be a test", () => {
 test("should assert something", () => {});
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/expect-expect.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/expect-expect": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -23109,6 +24232,10 @@ NOTE: The default value is `["expect"]` for Jest and
 `["expect", "expectTypeOf", "assert", "assertType"]` for Vitest.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.12.
 
 ## References
 
@@ -23152,17 +24279,6 @@ it("should not pass", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/max-expects.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/max-expects": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -23176,6 +24292,10 @@ default: `5`
 Maximum number of `expect()` assertion calls allowed within a single test.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -23271,17 +24391,6 @@ describe("foo", function () {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/max-nested-describe.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/max-nested-describe": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -23295,6 +24404,10 @@ default: `5`
 Maximum allowed depth of nested describe calls.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -23347,17 +24460,6 @@ expect(a).toHaveNthReturnedWith();
 expect(a).toThrow();
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/no-alias-methods.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-alias-methods": "error"
-  }
-}
-```
-
 Examples of **incorrect** code for this rule with vitest:
 
 ```javascript
@@ -23386,6 +24488,10 @@ expect(a);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.12.
+
 ## References
 
 ---
@@ -23396,7 +24502,7 @@ url: /docs/guide/usage/linter/rules/jest/no-commented-out-tests.md
 
 ### What it does
 
-This rule raises a warning about commented out tests. It's similar to the
+This rule raises a warning about commented-out tests. It's similar to the
 `no-disabled-tests` rule.
 
 ### Why is this bad?
@@ -23419,18 +24525,11 @@ Examples of **incorrect** code for this rule:
 // test.skip('foo', () => {});
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/no-commented-out-tests.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-commented-out-tests": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -23442,13 +24541,13 @@ url: /docs/guide/usage/linter/rules/jest/no-conditional-expect.md
 
 ### What it does
 
-This rule prevents the use of expect in conditional blocks, such as ifs & catch(s).
-This includes using expect in callbacks to functions named catch, which are assumed to be promises.
+This rule prevents the use of `expect` in conditional blocks, such as `if` and `catch`.
+This includes using `expect` in callbacks to functions named `catch`, which are assumed to be promises.
 
 ### Why is this bad?
 
 Jest only considers a test to have failed if it throws an error, meaning if calls to
-assertion functions like expect occur in conditional code such as a catch statement,
+assertion functions like `expect` occur in conditional code such as a `catch` statement,
 tests can end up passing but not actually test anything. Additionally, conditionals
 tend to make tests more brittle and complex, as they increase the amount of mental
 thinking needed to understand what is actually being tested.
@@ -23513,18 +24612,11 @@ it("throws an error", async () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-conditional-expect.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-conditional-expect": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.12.
 
 ## References
 
@@ -23540,7 +24632,8 @@ Disallow conditional statements in tests.
 
 ### Why is this bad?
 
-Conditional statements in tests can make the test harder to read and understand. It is better to have a single test case per test function.
+Conditional statements in tests can make the test harder to read and understand.
+It is better to have a single test case per test function.
 
 ### Examples
 
@@ -23610,18 +24703,11 @@ it("baz", async () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-conditional-in-test.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-conditional-in-test": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.8.0.
 
 ## References
 
@@ -23672,6 +24758,10 @@ describe("unit test", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -23752,6 +24842,10 @@ The version of Jest being used.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -23794,18 +24888,11 @@ it("foo", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/no-disabled-tests.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-disabled-tests": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -23860,6 +24947,10 @@ test("myFunction()", function (done) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -23948,18 +25039,11 @@ describe("foo", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-duplicate-hooks.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-duplicate-hooks": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.4.0.
 
 ## References
 
@@ -23991,6 +25075,10 @@ describe("a test", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -24031,18 +25119,11 @@ fit.each`
 `();
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/no-focused-tests.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-focused-tests": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -24107,17 +25188,6 @@ describe("foo", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-hooks.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-hooks": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -24131,6 +25201,10 @@ default: `[]`
 An array of hook function names that are permitted for use.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -24165,18 +25239,11 @@ describe("baz", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/no-identical-title.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-identical-title": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -24218,18 +25285,11 @@ expect(something).toMatchInlineSnapshot(
 expect(errorThrowingFunction).toThrowErrorMatchingInlineSnapshot(`${interpolated}`);
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-interpolation-in-snapshots.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-interpolation-in-snapshots": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -24280,6 +25340,10 @@ test("my test", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -24372,17 +25436,6 @@ line 4
 `;
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-large-snapshots.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-large-snapshots": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -24414,6 +25467,10 @@ Maximum number of lines allowed for external snapshot files.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.3.
+
 ## References
 
 ---
@@ -24424,7 +25481,7 @@ url: /docs/guide/usage/linter/rules/jest/no-mocks-import.md
 
 ### What it does
 
-This rule reports imports from a path containing a **mocks** component.
+This rule reports imports from a path containing a `__mocks__` component.
 
 ### Why is this bad?
 
@@ -24450,18 +25507,11 @@ import thing from "thing";
 require("thing");
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-mocks-import.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-mocks-import": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -24505,20 +25555,6 @@ test("plays video", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-restricted-vi-methods.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-restricted-vi-methods": [
-      "error",
-      { "badFunction": "Don't use `badFunction`, it is bad." }
-    ]
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -24533,6 +25569,10 @@ A mapping of restricted Jest method names to custom messages - or
 `null`, for a generic message.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.3.
 
 ## References
 
@@ -24603,17 +25643,6 @@ describe("when an error happens", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-restricted-matchers.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-restricted-matchers": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -24629,6 +25658,10 @@ The key is the matcher/modifier name (e.g., "toBeFalsy", "resolves", "not.toHave
 The value is an optional custom message to display when the matcher/modifier is used.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.3.
 
 ## References
 
@@ -24664,17 +25697,6 @@ describe("a test", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-standalone-expect.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-standalone-expect": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -24688,6 +25710,10 @@ default: `[]`
 An array of function names that should also be treated as test blocks.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References
 
@@ -24735,6 +25761,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -24785,6 +25815,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -24833,6 +25867,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.39.0.
 
 ## References
 
@@ -24907,6 +25945,10 @@ jest.mock(
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References
 
 ---
@@ -24945,6 +25987,10 @@ afterAll(() => {});
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.59.0.
 
 ## References
 
@@ -25002,6 +26048,10 @@ it("bar", () => {});
 
 ## How to use
 
+## Version
+
+This rule was added in v1.13.0.
+
 ## References
 
 ---
@@ -25052,6 +26102,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.5.
 
 ## References
 
@@ -25111,6 +26165,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References
 
 ---
@@ -25161,6 +26219,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.0.
 
 ## References
 
@@ -25282,6 +26344,10 @@ A list of function names that should be treated as assertion functions.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.60.0.
+
 ## References
 
 ---
@@ -25333,6 +26399,145 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.9.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/jest/prefer-expect-assertions.md
+---
+
+### What it does
+
+Enforces that every test has either `expect.assertions(<number>)` or
+`expect.hasAssertions()` as its first expression.
+
+### Why is this bad?
+
+Without explicit assertion counts, tests with asynchronous code,
+callbacks, or loops may pass even if some `expect` calls are never
+reached, silently hiding bugs.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+test("no assertions", () => {
+  // ...
+});
+test("assertions not first", () => {
+  expect(true).toBe(true);
+  // ...
+});
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+test("with assertion count", () => {
+  expect.assertions(1);
+  expect(true).toBe(true);
+});
+test("with hasAssertions", () => {
+  expect.hasAssertions();
+  expect(true).toBe(true);
+});
+```
+
+///Examples of **incorrect** code with `{ "onlyFunctionsWithAsyncKeyword": true }`:
+
+```javascript
+test("fetches data", async () => {
+  const data = await fetchData();
+  expect(data).toBe("peanut butter");
+});
+```
+
+Examples of **correct** code with `{ "onlyFunctionsWithAsyncKeyword": true }`:
+
+```javascript
+test("fetches data", async () => {
+  expect.assertions(1);
+  const data = await fetchData();
+  expect(data).toBe("peanut butter");
+});
+```
+
+Examples of **incorrect** code with `{ "onlyFunctionsWithExpectInLoop": true }`:
+
+```javascript
+test("all numbers are greater than zero", () => {
+  for (const number of getNumbers()) {
+    expect(number).toBeGreaterThan(0);
+  }
+});
+```
+
+Examples of **correct** code with `{ "onlyFunctionsWithExpectInLoop": true }`:
+
+```javascript
+test("all numbers are greater than zero", () => {
+  expect.hasAssertions();
+  for (const number of getNumbers()) {
+    expect(number).toBeGreaterThan(0);
+  }
+});
+```
+
+Examples of **incorrect** code with `{ "onlyFunctionsWithExpectInCallback": true }`:
+
+```javascript
+test("callback test", () => {
+  fetchData((data) => {
+    expect(data).toBe("peanut butter");
+  });
+});
+```
+
+Examples of **correct** code with `{ "onlyFunctionsWithExpectInCallback": true }`:
+
+```javascript
+test("callback test", () => {
+  expect.assertions(1);
+  fetchData((data) => {
+    expect(data).toBe("peanut butter");
+  });
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### onlyFunctionsWithAsyncKeyword
+
+type: `boolean`
+
+default: `false`
+
+### onlyFunctionsWithExpectInCallback
+
+type: `boolean`
+
+default: `false`
+
+### onlyFunctionsWithExpectInLoop
+
+type: `boolean`
+
+default: `false`
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
 
 ## References
 
@@ -25406,6 +26611,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -25532,6 +26741,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.6.0.
 
 ## References
 
@@ -25677,6 +26890,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.2.
+
 ## References
 
 ---
@@ -25735,6 +26952,10 @@ type: `"hook" | "describe" | "test" | "expect" | "jest" | "unknown"`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.60.0.
+
 ## References
 
 ---
@@ -25786,6 +27007,10 @@ jest.mocked([].foo).mockReturnValue(1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.0.
 
 ## References
 
@@ -25952,6 +27177,10 @@ describe("MyClass", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.9.
+
 ## References
 
 ---
@@ -26012,6 +27241,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.16.
 
 ## References
 
@@ -26074,6 +27307,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -26274,6 +27511,10 @@ Require a hint to be provided when there are multiple external snapshot matchers
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -26332,6 +27573,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References
 
 ---
@@ -26377,6 +27622,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.13.
 
 ## References
 
@@ -26435,6 +27684,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References
 
 ---
@@ -26472,18 +27725,11 @@ expect(a).toContain(b);
 expect(a).not.toContain(b);
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/prefer-to-contain.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/prefer-to-contain": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.2.14.
 
 ## References
 
@@ -26520,6 +27766,10 @@ expect(mock).toHaveBeenCalledTimes(1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.34.0.
 
 ## References
 
@@ -26571,6 +27821,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v1.34.0.
+
 ## References
 
 ---
@@ -26618,6 +27872,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.13.
+
 ## References
 
 ---
@@ -26651,18 +27909,11 @@ Examples of **correct** code for this rule:
 test.todo("i need to write this test");
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/prefer-todo.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/prefer-todo": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -26815,6 +28066,10 @@ An array of function names that are allowed to be called outside of hooks.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References
 
 ---
@@ -26871,6 +28126,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.9.
 
 ## References
 
@@ -26933,17 +28192,6 @@ describe("test suite", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/require-top-level-describe.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/require-top-level-describe": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -26952,11 +28200,15 @@ This rule accepts a configuration object with the following properties:
 
 type: `integer`
 
-default: `18446744073709551615`
+default: `Infinity`
 
 The maximum number of top-level `describe` blocks allowed in a test file.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References
 
@@ -27016,6 +28268,10 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References
 
 ---
@@ -27051,17 +28307,6 @@ Examples of **correct** code for this rule:
 expect("something").toEqual("something");
 expect(true).toBeDefined();
 expect(Promise.resolve("Hi!")).resolves.toBe("Hi!");
-```
-
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/valid-expect.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/valid-expect": "error"
-  }
-}
 ```
 
 ## Configuration
@@ -27101,6 +28346,10 @@ default: `1`
 Minimum number of arguments `expect` should be called with.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -27166,18 +28415,11 @@ test("promises test", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/valid-expect-in-promise.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/valid-expect-in-promise": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v1.60.0.
 
 ## References
 
@@ -27241,6 +28483,10 @@ interface Options {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -27461,6 +28707,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.16.
+
 ## References
 
 ---
@@ -27510,6 +28760,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.18.
 
 ## References
 
@@ -27619,6 +28873,10 @@ If typed is `true`, disallow tags that are unnecessary/duplicative of TypeScript
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References
 
 ---
@@ -27686,6 +28944,10 @@ Additional tags to check for their descriptions.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.16.
+
 ## References
 
 ---
@@ -27731,6 +28993,10 @@ function quux() {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.2.
 
 ## References
 
@@ -27782,6 +29048,10 @@ default: `false`
 If true, report the presence of optional param names (square brackets) on `@param` tags.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.2.
 
 ## References
 
@@ -27889,6 +29159,10 @@ List of JSDoc tags that exempt functions from `@param` checking.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.3.
+
 ## References
 
 ---
@@ -27922,6 +29196,10 @@ function quux(foo) {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -27957,6 +29235,10 @@ function quux(foo) {}
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.3.
+
 ## References
 
 ---
@@ -27990,6 +29272,10 @@ function quux(foo) {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -28040,6 +29326,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.18.
+
 ## References
 
 ---
@@ -28077,6 +29367,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.18.
 
 ## References
 
@@ -28116,6 +29410,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.18.
+
 ## References
 
 ---
@@ -28153,6 +29451,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.18.
 
 ## References
 
@@ -28245,6 +29547,10 @@ Whether to require a `@returns` tag for async functions.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.0.
+
 ## References
 
 ---
@@ -28280,6 +29586,10 @@ function quux(foo) {}
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.0.
+
 ## References
 
 ---
@@ -28313,6 +29623,10 @@ function quux(foo) {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.3.
 
 ## References
 
@@ -28385,6 +29699,10 @@ default: `false`
 When `true`, require `@yields` when a `@generator` tag is present.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.3.2.
 
 ## References
 
@@ -28603,6 +29921,10 @@ Custom components to check for alt text on `object` elements.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -28657,6 +29979,10 @@ List of ambiguous words or phrases that should be flagged in anchor text.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.2.
+
 ## References
 
 ---
@@ -28697,6 +30023,10 @@ Examples of **incorrect** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -28793,6 +30123,10 @@ List of strings that are valid href values.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -28846,6 +30180,10 @@ const Good = (
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.1.
+
 ## References
 
 ---
@@ -28881,6 +30219,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.22.
 
 ## References
 
@@ -28918,6 +30260,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.36.0.
 
 ## References
 
@@ -29000,6 +30346,10 @@ Determines if developer-created components are checked.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -29035,6 +30385,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -29080,6 +30434,10 @@ List of custom component names that should be treated as input elements.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -29112,6 +30470,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.1.
 
 ## References
 
@@ -29163,6 +30525,10 @@ These will be validated in addition to the standard h1-h6 elements.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -29197,6 +30563,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -29241,6 +30611,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -29302,6 +30676,10 @@ default: `["image", "photo", "picture"]`
 Words considered redundant in alt text that should trigger a warning.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -29409,6 +30787,10 @@ Custom JSX components to be treated as labels.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.1.
+
 ## References
 
 ---
@@ -29450,6 +30832,10 @@ Examples of **correct** code for this rule:
 * [IANA Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -29515,6 +30901,10 @@ Element names to treat as `<video>` elements
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -29568,6 +30958,10 @@ List of hover-out mouse event handlers that require corresponding keyboard event
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -29601,6 +30995,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.21.
+
 ## References
 
 ---
@@ -29632,6 +31030,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.22.
 
 ## References
 
@@ -29682,6 +31084,10 @@ default: `false`
 Determines if developer-created components are checked.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -29738,6 +31144,10 @@ List of distracting elements to check for.
 type: `"marquee" | "blink"`
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.22.
 
 ## References
 
@@ -29816,6 +31226,10 @@ An array of custom HTML elements that should be considered interactive.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.4.
+
 ## References
 
 ---
@@ -29859,6 +31273,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.1.
 
 ## References
 
@@ -29918,6 +31336,10 @@ An array of event handler names that should trigger this rule (e.g., `onClick`, 
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References
 
 ---
@@ -29949,6 +31371,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -29983,6 +31409,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -30027,6 +31457,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -30061,6 +31495,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -30097,6 +31535,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.21.
 
 ## References
 
@@ -31629,6 +33071,10 @@ export default Test = () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -31663,6 +33109,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -31745,6 +33195,10 @@ export default function Page() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -31809,6 +33263,10 @@ import Script from 'next/script'
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -31861,6 +33319,10 @@ console.log(module.exports);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -31941,6 +33403,10 @@ export default function MyComponent() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -32016,6 +33482,10 @@ export default MyDocument;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.7.
+
 ## References
 
 ---
@@ -32074,6 +33544,10 @@ import styles from './Button.module.css'
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -32120,6 +33594,10 @@ export default MyDocument;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.1.
 
 ## References
 
@@ -32184,6 +33662,10 @@ export default MyDocument;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References
 
 ---
@@ -32240,6 +33722,10 @@ export default Index;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.1.
 
 ## References
 
@@ -32306,6 +33792,10 @@ export default MyDocument;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -32377,6 +33867,10 @@ function HomePage() {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.7.0.
+
 ## References
 
 ---
@@ -32426,6 +33920,10 @@ export function MyComponent() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -32488,6 +33986,10 @@ export default Document;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References
 
 ---
@@ -32542,6 +34044,10 @@ export default function Index() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -32610,6 +34116,10 @@ class MyDocument extends Document {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References
 
 ---
@@ -32656,6 +34166,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -32710,6 +34224,10 @@ export function Home() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -32747,6 +34265,10 @@ export async function getServerSideProps() {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.1.
 
 ## References
 
@@ -32786,6 +34308,10 @@ Examples of **incorrect** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.7.
 
 ## References
 
@@ -32887,6 +34413,10 @@ var x = require("x"),
 
 ## How to use
 
+## Version
+
+This rule was added in v1.36.0.
+
 ## References
 
 ---
@@ -32965,6 +34495,10 @@ type: `string`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.56.0.
+
 ## References
 
 ---
@@ -33010,6 +34544,10 @@ exports = module.exports = {};
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.3.
+
 ## References
 
 ---
@@ -33043,6 +34581,10 @@ var appHeader = new AppHeader();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.10.0.
 
 ## References
 
@@ -33092,6 +34634,10 @@ const fullPath6 = `${__filename}.test.js`;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -33143,6 +34689,10 @@ default: `[]`
 Variable names which are allowed to be accessed on `process.env`.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.23.0.
 
 ## References
 
@@ -33342,6 +34892,10 @@ let log10e = Math.LOG10E;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -33393,6 +34947,10 @@ function sum(...args) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -33442,6 +35000,10 @@ input ||= "";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -33475,6 +35037,10 @@ a.charAt(4) === "\n";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.22.
 
 ## References
 
@@ -33513,6 +35079,10 @@ if (a == b && b == c) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References
 
 ---
@@ -33548,6 +35118,10 @@ Math.min(1000, Math.max(0, z));
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -33589,6 +35163,10 @@ if (Array.isArray(x) && x.length === 0) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -33620,6 +35198,10 @@ withSpaces.replaceAll(/\s+/g, ",");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.22.
 
 ## References
 
@@ -33680,6 +35262,10 @@ cleanup();
 
 ## How to use
 
+## Version
+
+This rule was added in v1.22.0.
+
 ## References
 
 ---
@@ -33727,6 +35313,10 @@ a <= b;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.22.
+
 ## References
 
 ---
@@ -33760,6 +35350,10 @@ x >= y;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.22.
 
 ## References
 
@@ -33797,6 +35391,10 @@ let y = 0;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -33832,6 +35430,10 @@ a -= b;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -33874,6 +35476,10 @@ const foo = () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -33937,6 +35543,10 @@ for (let i = 0; i < 10; i++) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -33971,6 +35581,10 @@ async function foo() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References
 
@@ -34088,6 +35702,10 @@ An array of names that are allowed to be async.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References
 
 ---
@@ -34146,6 +35764,10 @@ before the rule is triggered.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.0.
+
 ## References
 
 ---
@@ -34177,6 +35799,10 @@ const enum Color {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References
 
@@ -34426,6 +36052,10 @@ In these cases, `Object.assign` is not really more performant than spreads.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References
 
 ---
@@ -34475,6 +36105,10 @@ For example, "Our output target is ES2016, and optional chaining results in verb
 helpers and should be avoided."
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.0.
 
 ## References
 
@@ -34526,6 +36160,10 @@ default: `""`
 A message to display when object spread properties are found.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.2.
 
 ## References
 
@@ -34579,6 +36217,10 @@ export const bar = () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -34615,6 +36257,10 @@ var s_radix_16 = x.toString(16);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -34660,6 +36306,10 @@ function f(a: number): number {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -34692,6 +36342,10 @@ const list = new Array(5).fill().map((_) => createElement());
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.3.
 
 ## References
 
@@ -35300,6 +36954,16 @@ Equivalent to passing `--report-unused-disable-directives-severity` on the CLI.
 CLI flags take precedence over this value when both are set.
 Only supported in the root configuration file.
 
+### options.respectEslintDisableDirectives
+
+type: `boolean`
+
+Whether oxlint should respect `eslint-disable*` and `eslint-enable*`
+directives in addition to its native `oxlint-*` directives.
+
+Defaults to `true`.
+Only supported in the root configuration file.
+
 ### options.typeAware
 
 type: `boolean`
@@ -35478,7 +37142,7 @@ configuration for a full reference.
 
 #### settings.jest.version
 
-type: `integer`
+type: `integer | string`
 
 default: `null`
 
@@ -36142,6 +37806,16 @@ Equivalent to passing `--report-unused-disable-directives-severity` on the CLI.
 CLI flags take precedence over this value when both are set.
 Only supported in the root configuration file.
 
+### options.respectEslintDisableDirectives
+
+type: `boolean`
+
+Whether oxlint should respect `eslint-disable*` and `eslint-enable*`
+directives in addition to its native `oxlint-*` directives.
+
+Defaults to `true`.
+Only supported in the root configuration file.
+
 ### options.typeAware
 
 type: `boolean`
@@ -36320,7 +37994,7 @@ configuration for a full reference.
 
 #### settings.jest.version
 
-type: `integer`
+type: `integer | string`
 
 default: `null`
 
@@ -38550,6 +40224,10 @@ function foo() {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.13.0.
+
 ## References
 
 ---
@@ -38589,6 +40267,10 @@ const bar = await Promise.all([baz(), bang()]);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.6.1.
 
 ## References
 
@@ -38658,6 +40340,10 @@ default: `["catch"]`
 List of allowed termination methods (e.g., `catch`, `done`).
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.2.
 
 ## References
 
@@ -38736,6 +40422,10 @@ Boolean as to whether callbacks in timeout functions like `setTimeout` will err.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.10.0.
+
 ## References
 
 ---
@@ -38788,6 +40478,10 @@ new Promise((resolve, reject) => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.19.0.
 
 ## References
 
@@ -38850,6 +40544,10 @@ doThing().then((a) => getB(a).then((b) => getC(a, b)));
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.13.
+
 ## References
 
 ---
@@ -38882,6 +40580,10 @@ const x = Promise.resolve(value);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.6.1.
 
 ## References
 
@@ -38921,6 +40623,10 @@ promisify(doSomething)().then(doSomethingElse).then(console.log).catch(console.e
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.1.
+
 ## References
 
 ---
@@ -38957,6 +40663,10 @@ Promise.resolve(1).finally(() => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.1.
 
 ## References
 
@@ -39074,6 +40784,10 @@ myPromise()
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.14.
+
 ## References
 
 ---
@@ -39132,6 +40846,10 @@ is used instead of the default `^_?resolve$` check.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.6.1.
+
 ## References
 
 ---
@@ -39177,6 +40895,10 @@ eventEmitter.on("error", (err) => {});
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.10.
 
 ## References
 
@@ -39236,6 +40958,10 @@ If true, enforces the rule even after an `await` or `yield` expression.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.1.
+
 ## References
 
 ---
@@ -39281,6 +41007,10 @@ prom.catch(fn2);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.14.
+
 ## References
 
 ---
@@ -39325,6 +41055,10 @@ List of Promise static methods that are allowed to be used.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References
 
 ---
@@ -39359,6 +41093,10 @@ Promise.resolve(1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.1.
 
 ## References
 
@@ -39838,6 +41576,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.3.
+
 ## References
 
 ---
@@ -39879,6 +41621,10 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.3.
+
 ## References
 
 ---
@@ -39916,6 +41662,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.3.
 
 ## References
 
@@ -39958,6 +41708,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.3.
 
 ## References
 
@@ -40022,6 +41776,10 @@ default: `true`
 If true, allow `type="submit"`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -40093,6 +41851,10 @@ Ignore the requirement to provide either `onChange` or `readOnly` when the `chec
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References
 
 ---
@@ -40152,6 +41914,10 @@ and require a `displayName` property in this case.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.42.0.
+
 ## References
 
 ---
@@ -40206,6 +41972,128 @@ default: `null`
 Optionally provide a regex of additional hooks to check.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.12.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/react/forbid-component-props.md
+---
+
+### What it does
+
+This rule prevents passing of props to components. This rule only applies to Components (e.g. `<Foo />`) and not DOM nodes (e.g. `<div />`).
+By default this rule prevents passing of props that add lots of complexity (`className`, `style`) to Components.
+The list of forbidden props can be customized with the forbid option.
+
+### Why is this bad?
+
+This rule checks all JSX elements and verifies that no forbidden props are used on components. This rule is off by default.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```jsx
+<Hello className='foo' />
+<Hello style={{color: 'red'}} />
+```
+
+Examples of **correct** code for this rule:
+
+```jsx
+<Hello name='Joe' />
+<div className='foo' />
+<div style={{color: 'red'}} />
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### forbid
+
+type: `array`
+
+An array specifying the names of props that are forbidden.
+
+The default value is `["className", "style"]`.
+
+Each array element can be a string with the property name, or an object with `propName` / `propNamePattern`,
+`allowedFor` / `allowedForPatterns`, `disallowedFor` / `disallowedForPatterns`, optional custom `message`
+
+**Pattern matching**: Uses glob patterns to match prop names and component names.
+For example, a `propNamePattern` of `"**-**"` would match any prop name that contains a hyphen, and an `allowedForPatterns` entry of `"*Icon"` would match component names like `SomeIcon` and `AnotherIcon`.
+Note that the pattern matching is done in Rust with the fast-glob library, and so may differ
+from the JavaScript glob library used by the original ESLint rule.
+
+Examples:
+
+* `["error", { "forbid": ["className", "style"] }]`
+* `["error", { "forbid": [{ "propName": "className", "message": "Use variant instead" }] }]`
+* `["error", { "forbid": [{ "propName": "className", "allowedFor": ["ReactModal"] }] }]`
+* `["error", { "forbid": [{ "propNamePattern": "**-**", "disallowedFor": ["Foo"] }] }]`
+
+#### forbid\[n]
+
+type: `object | string`
+
+A forbidden prop, either as a plain prop name string or with options.
+
+##### forbid\[n].allowedFor
+
+type: `string[]`
+
+Component names for which this prop is **allowed** (all others are
+forbidden).
+
+##### forbid\[n].allowedForPatterns
+
+type: `string[]`
+
+Glob patterns for component names where the prop is **allowed**.
+
+##### forbid\[n].disallowedFor
+
+type: `string[]`
+
+Component names for which this prop is **disallowed** (all others are
+allowed).
+
+##### forbid\[n].disallowedForPatterns
+
+type: `string[]`
+
+Glob patterns for component names where the prop is **disallowed**.
+
+##### forbid\[n].message
+
+type: `string`
+
+Custom message to display.
+
+##### forbid\[n].propName
+
+type: `string`
+
+Exact prop name to forbid.
+
+##### forbid\[n].propNamePattern
+
+type: `string`
+
+Glob pattern to match prop names against.
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
 
 ## References
 
@@ -40295,6 +42183,10 @@ The name of the prop to forbid.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.24.0.
+
 ## References
 
 ---
@@ -40383,6 +42275,10 @@ The message to display when this element is found
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.11.
+
 ## References
 
 ---
@@ -40427,6 +42323,10 @@ function Component(props) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.9.
 
 ## References
 
@@ -40491,6 +42391,10 @@ When true the rule will ignore the name of the destructured value.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -40536,6 +42440,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.10.0.
 
 ## References
 
@@ -40636,6 +42544,10 @@ List of attribute names that should never have explicit boolean values.
 Only necessary when main mode is `"always"`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -40913,6 +42825,10 @@ Whether to enforce or disallow curly braces for props on JSX elements.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.7.0.
+
 ## References
 
 ---
@@ -40990,6 +42906,10 @@ If enabled, files that do not contain code (i.e. are empty, contain only whitesp
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.14.
+
 ## References
 
 ---
@@ -41064,6 +42984,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -41155,6 +43079,10 @@ Component names to ignore when checking for event handler prefixes.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.13.0.
+
 ## References
 
 ---
@@ -41222,6 +43150,10 @@ When true, warn on duplicate key values
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -41280,6 +43212,10 @@ The maximum allowed depth of nested JSX elements and fragments.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.36.0.
+
 ## References
 
 ---
@@ -41322,6 +43258,10 @@ const Hello = () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -41376,6 +43316,10 @@ const Component = () => <MyContext.Provider value="Some string" />;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.48.0.
+
 ## References
 
 ---
@@ -41416,6 +43360,10 @@ considered distinct and will not be flagged as duplicates (e.g., `<App foo Foo /
 is allowed). This is intentional, as props are case-sensitive in JSX.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -41474,6 +43422,10 @@ default: `false`
 Whether to include components from settings.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.13.2.
 
 ## References
 
@@ -41575,6 +43527,10 @@ Whether to warn when spread attributes are used.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.5.
+
 ## References
 
 ---
@@ -41604,6 +43560,10 @@ const C = <B />;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.1.1.
 
 ## References
 
@@ -41653,6 +43613,10 @@ default: `false`
 Allow fragments with a single expression child.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -41758,6 +43722,10 @@ List of component names to ignore.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.19.0.
+
 ## References
 
 ---
@@ -41791,6 +43759,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.2.
 
 ## References
 
@@ -41872,6 +43844,10 @@ default: `"enforce"`
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -41906,6 +43882,10 @@ things.map((thing, index) => <Hello key={thing.id} />);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.13.0.
 
 ## References
 
@@ -41953,6 +43933,10 @@ React.createElement("div", 'Child 1', 'Child 2')
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -42016,6 +44000,10 @@ function List({ items, renderItem }) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.53.0.
+
 ## References
 
 ---
@@ -42054,6 +44042,10 @@ const Hello = <div>Hello World</div>;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -42087,6 +44079,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.6.
 
 ## References
 
@@ -42155,6 +44151,121 @@ Allow `setState` calls in nested functions within `componentDidMount`, the defau
 When set, also disallows `setState` calls in nested functions within `componentDidMount`.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.36.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/react/no-did-update-set-state.md
+---
+
+### What it does
+
+Disallow usage of `setState` in `componentDidUpdate`.
+
+### Why is this bad?
+
+Updating the state after a component update will trigger a second `render()` call and can lead to property/layout thrashing.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```jsx
+var Hello = createReactClass({
+  componentDidUpdate: function () {
+    this.setState({
+      name: this.props.name.toUpperCase(),
+    });
+  },
+  render: function () {
+    return <div>Hello {this.state.name}</div>;
+  },
+});
+```
+
+Examples of **correct** code for this rule:
+
+```jsx
+var Hello = createReactClass({
+  componentDidUpdate: function () {
+    this.props.onUpdate();
+  },
+  render: function () {
+    return <div>Hello {this.props.name}</div>;
+  },
+});
+```
+
+```jsx
+var Hello = createReactClass({
+  componentDidUpdate: function () {
+    this.onUpdate(function callback(newName) {
+      this.setState({
+        name: newName,
+      });
+    });
+  },
+  render: function () {
+    return <div>Hello {this.props.name}</div>;
+  },
+});
+```
+
+## Configuration
+
+This rule accepts one of the following string values:
+
+### `"allowed"`
+
+Forbids any call to `this.setState` in `componentDidUpdate`
+outside of functions.
+
+### `"disallow-in-func"`
+
+The `disallow-in-func` mode makes this rule more strict by disallowing calls to
+`this.setState` even within functions.
+
+Examples of **incorrect** code for this rule with the `"disallow-in-func"` option:
+
+```jsx
+var Hello = createReactClass({
+  componentDidUpdate: function () {
+    this.setState({
+      name: this.props.name.toUpperCase(),
+    });
+  },
+  render: function () {
+    return <div>Hello {this.state.name}</div>;
+  },
+});
+```
+
+```jsx
+var Hello = createReactClass({
+  componentDidUpdate: function () {
+    this.onUpdate(function callback(newName) {
+      this.setState({
+        name: newName,
+      });
+    });
+  },
+  render: function () {
+    return <div>Hello {this.state.name}</div>;
+  },
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
 
 ## References
 
@@ -42230,6 +44341,10 @@ class Hello extends React.Component {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References
 
 ---
@@ -42268,6 +44383,10 @@ class MyComponent extends Component {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References
 
 ---
@@ -42303,6 +44422,10 @@ class Hello extends React.Component {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -42361,6 +44484,10 @@ Stateless basically just means function components, including those created via
 
 ## How to use
 
+## Version
+
+This rule was added in v1.43.0.
+
 ## References
 
 ---
@@ -42394,6 +44521,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.13.
 
 ## References
 
@@ -42471,6 +44602,10 @@ function Card({ children }) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.53.0.
 
 ## References
 
@@ -42555,6 +44690,10 @@ class Qux extends React.PureComponent {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -42594,6 +44733,10 @@ ReactDOM.render(<App />, document.body);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.15.
 
 ## References
 
@@ -42637,6 +44780,10 @@ var Hello = createReactClass({
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.2.
 
 ## References
 
@@ -42715,6 +44862,10 @@ Disallow template literals in addition to string literals.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References
 
 ---
@@ -42770,6 +44921,10 @@ class Foo extends React.Component {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References
 
 ---
@@ -42805,6 +44960,10 @@ Correct
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.15.
 
 ## References
 
@@ -42867,6 +45026,10 @@ default: `false`
 Require `data-*` attributes to be lowercase, e.g. `data-foobar` instead of `data-fooBar`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -42935,6 +45098,10 @@ avoid unsafe lifecycle methods.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.35.0.
+
 ## References
 
 ---
@@ -42995,6 +45162,10 @@ Forbids any call to `this.setState` in `componentWillUpdate` outside of function
 Makes this rule more strict by disallowing calls to \`this.setState\`\` even within functions.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.37.0.
 
 ## References
 
@@ -43131,6 +45302,10 @@ identifiers here to avoid false positives.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.23.0.
+
 ## References
 
 ---
@@ -43176,6 +45351,10 @@ Always prefer ES2015 class-style components.
 Do not allow ES2015 class-style, prefer `createReactClass`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.0.
 
 ## References
 
@@ -43254,6 +45433,10 @@ If `true`, classes that contain JSX but do not extend `Component` or
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -43298,6 +45481,10 @@ const a = <a />;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.20.
 
 ## References
 
@@ -43354,6 +45541,10 @@ class Hello extends React.Component {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -43425,6 +45616,10 @@ function useCustomHook() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References
 
 ---
@@ -43486,6 +45681,10 @@ default: `true`
 Whether to enforce self-closing for native HTML elements.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.3.
 
 ## References
 
@@ -43579,6 +45778,10 @@ Enforce state initialization with a class property.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.26.0.
+
 ## References
 
 ---
@@ -43641,6 +45844,10 @@ List of component names on which to allow `style` prop values of any type.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References
 
 ---
@@ -43683,6 +45890,10 @@ React.createElement('div', { dangerouslySetInnerHTML: { __html: 'HTML' } })
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.11.
 
 ## References
 
@@ -44028,6 +46239,152 @@ Upon visit, we can call `enter_scope` and `leave_scope` accordingly to build the
 ---
 
 ---
+url: /docs/guide/usage/linter/ci.md
+description: Run Oxlint in CI or as a git hook.
+---
+
+# Setup CI and other integrations
+
+You can - and should - setup your CI pipeline to run Oxlint and fail the build on lint errors.
+
+This page also covers other integrations you may want to include, like git pre-commit hooks.
+
+## CI
+
+These instructions assume you have already set up Oxlint in your project by adding `oxlint` to your devDependencies in your `package.json`, and already have an oxlint configuration file in the repo.
+
+### GitHub Actions
+
+First, add a `lint` script to your `package.json` if you don't have one already:
+
+```json [package.json]
+{
+  "scripts": {
+    "lint": "oxlint"
+  }
+}
+```
+
+Then create `.github/workflows/oxlint.yml`:
+
+```yaml [.github/workflows/oxlint.yml]
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  oxlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      # alternatively use npm install / yarn install here
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+```
+
+You can, alternatively, output using the github format option, for [better warning/error annotations](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-error-message):
+
+```json [package.json]
+{
+  "scripts": {
+    "lint:github": "oxlint --format=github"
+  }
+}
+```
+
+### GitLab CI
+
+If you use GitLab CI, you can set up Oxlint with `--format=gitlab` and [GitLab's Code Quality feature](https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format) to get inline annotations for lint violations in merge requests.
+
+To set this up, you can add a script to your `package.json` to output the gitlab format and save it to a file, like so:
+
+```json [package.json]
+{
+  "scripts": {
+    "lint:gitlab": "oxlint --format=gitlab > gitlab-oxlint-report.json"
+  }
+}
+```
+
+And then add a job to your `.gitlab-ci.yml`, to run the script and upload the report as a Code Quality artifact:
+
+```yml [.gitlab-ci.yml]
+oxlint:
+  image: node:lts
+  stage: test
+  before_script:
+    # alternatively use pnpm install / yarn install here
+    - npm install
+  script:
+    - npm run lint:gitlab
+  artifacts:
+    reports:
+      codequality:
+        # This is relative to your repository root, so adjust if your repo has a different structure or you put the report in a different location
+        - gitlab-oxlint-report.json
+```
+
+If you do not want to use the Code Quality feature, you can simply run oxlint without `--format=gitlab` in the CI job instead.
+
+You should ensure type-aware rules are enabled if you want to use them, and consider caching `node_modules` to speed up the installation of dependencies.
+
+## Git hooks
+
+### lint-staged
+
+For JS/TS projects using [lint-staged](https://npmx.dev/package/lint-staged), you can set up oxlint to run as a pre-commit hook as follows:
+
+```json [package.json]
+{
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint"
+  }
+}
+```
+
+To automatically install the git hook when installing dependencies, considering also using [husky](https://typicode.github.io/husky/get-started.html).
+
+### pre-commit
+
+If you use [pre-commit](https://pre-commit.com/) to manage git hooks, you can set up Oxlint as follows:
+
+```yaml [.pre-commit-config.yaml]
+repos:
+  - repo: https://github.com/oxc-project/mirrors-oxlint
+    rev: v0.0.0
+    hooks:
+      - id: oxlint
+        verbose: true
+```
+
+Replace `v0.0.0` with the latest version.
+
+## Other integrations
+
+### Unplugin
+
+Unplugin is supported via a [third-party package](https://npmx.dev/package/unplugin-oxlint)
+
+### Vite plugin
+
+A Vite plugin is supported via a [third-party package](https://npmx.dev/package/vite-plugin-oxlint)
+
+---
+
+---
 url: /docs/guide/usage/formatter/ci.md
 description: Run Oxfmt in CI or as a git hook.
 ---
@@ -44171,152 +46528,6 @@ For [lint-staged](https://npmx.dev/package/lint-staged), add to `package.json`:
 ```
 
 To automatically install the git hook when installing dependencies, considering also using [husky](https://typicode.github.io/husky/get-started.html).
-
----
-
----
-url: /docs/guide/usage/linter/ci.md
-description: Run Oxlint in CI or as a git hook.
----
-
-# Setup CI and other integrations
-
-You can - and should - setup your CI pipeline to run Oxlint and fail the build on lint errors.
-
-This page also covers other integrations you may want to include, like git pre-commit hooks.
-
-## CI
-
-These instructions assume you have already set up Oxlint in your project by adding `oxlint` to your devDependencies in your `package.json`, and already have an oxlint configuration file in the repo.
-
-### GitHub Actions
-
-First, add a `lint` script to your `package.json` if you don't have one already:
-
-```json [package.json]
-{
-  "scripts": {
-    "lint": "oxlint"
-  }
-}
-```
-
-Then create `.github/workflows/oxlint.yml`:
-
-```yaml [.github/workflows/oxlint.yml]
-name: Lint
-
-on:
-  pull_request:
-  push:
-    branches: [main]
-
-permissions: {}
-
-jobs:
-  oxlint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-
-      # alternatively use npm install / yarn install here
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run lint
-```
-
-You can, alternatively, output using the github format option, for [better warning/error annotations](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-error-message):
-
-```json [package.json]
-{
-  "scripts": {
-    "lint:github": "oxlint --format=github"
-  }
-}
-```
-
-### GitLab CI
-
-If you use GitLab CI, you can set up Oxlint with `--format=gitlab` and [GitLab's Code Quality feature](https://docs.gitlab.com/ci/testing/code_quality/#code-quality-report-format) to get inline annotations for lint violations in merge requests.
-
-To set this up, you can add a script to your `package.json` to output the gitlab format and save it to a file, like so:
-
-```json [package.json]
-{
-  "scripts": {
-    "lint:gitlab": "oxlint --format=gitlab > gitlab-oxlint-report.json"
-  }
-}
-```
-
-And then add a job to your `.gitlab-ci.yml`, to run the script and upload the report as a Code Quality artifact:
-
-```yml [.gitlab-ci.yml]
-oxlint:
-  image: node:lts
-  stage: test
-  before_script:
-    # alternatively use pnpm install / yarn install here
-    - npm install
-  script:
-    - npm run lint:gitlab
-  artifacts:
-    reports:
-      codequality:
-        # This is relative to your repository root, so adjust if your repo has a different structure or you put the report in a different location
-        - gitlab-oxlint-report.json
-```
-
-If you do not want to use the Code Quality feature, you can simply run oxlint without `--format=gitlab` in the CI job instead.
-
-You should ensure type-aware rules are enabled if you want to use them, and consider caching `node_modules` to speed up the installation of dependencies.
-
-## Git hooks
-
-### lint-staged
-
-For JS/TS projects using [lint-staged](https://npmx.dev/package/lint-staged), you can set up oxlint to run as a pre-commit hook as follows:
-
-```json [package.json]
-{
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint"
-  }
-}
-```
-
-To automatically install the git hook when installing dependencies, considering also using [husky](https://typicode.github.io/husky/get-started.html).
-
-### pre-commit
-
-If you use [pre-commit](https://pre-commit.com/) to manage git hooks, you can set up Oxlint as follows:
-
-```yaml [.pre-commit-config.yaml]
-repos:
-  - repo: https://github.com/oxc-project/mirrors-oxlint
-    rev: v0.0.0
-    hooks:
-      - id: oxlint
-        verbose: true
-```
-
-Replace `v0.0.0` with the latest version.
-
-## Other integrations
-
-### Unplugin
-
-Unplugin is supported via a [third-party package](https://npmx.dev/package/unplugin-oxlint)
-
-### Vite plugin
-
-A Vite plugin is supported via a [third-party package](https://npmx.dev/package/vite-plugin-oxlint)
 
 ---
 
@@ -46328,6 +48539,10 @@ export function foo(sn: string | number): void;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References
 
 ---
@@ -46436,6 +48651,10 @@ The array type expected for readonly cases. If omitted, the value for `default` 
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.8.
+
 ## References
 
 ---
@@ -46488,6 +48707,10 @@ await getPromise();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -46569,6 +48792,10 @@ How to handle the `@ts-nocheck` directive.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References
 
 ---
@@ -46602,6 +48829,10 @@ someCode();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.9.
 
 ## References
 
@@ -46649,6 +48880,10 @@ let bar: boolean = true;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -46737,6 +48972,10 @@ class C {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.47.0.
+
 ## References
 
 ---
@@ -46797,6 +49036,10 @@ Type arguments that only appear on the type annotation are disallowed.
 Type arguments that only appear on the constructor are disallowed.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.14.0.
 
 ## References
 
@@ -46878,6 +49121,10 @@ When set to `index-signature`, enforces the use of indexed signature types, e.g.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.2.
+
 ## References
 
 ---
@@ -46932,6 +49179,10 @@ default: `false`
 Treat explicit `return undefined` as equivalent to an unspecified return.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -47154,6 +49405,10 @@ const x = { a: 1 } satisfies Foo;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.44.0.
+
 ## References
 
 ---
@@ -47217,6 +49472,10 @@ type T = { x: number };
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.17.
+
 ## References
 
 ---
@@ -47268,6 +49527,10 @@ default: `false`
 Enables an autofix strategy that rewrites mixed exports using inline `type` specifiers.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -47410,6 +49673,10 @@ Will enforce that you always use `import Foo from '...'`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.2.
+
 ## References
 
 ---
@@ -47491,6 +49758,10 @@ default: `false`
 Allow bracket notation for protected class members.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -47632,6 +49903,10 @@ default: `[]`
 Array of function names that are exempt from requiring return type annotations.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.4.4.
 
 ## References
 
@@ -47832,6 +50107,10 @@ Which member accessibility modifier requirements to apply for properties.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.61.0.
+
 ## References
 
 ---
@@ -47966,6 +50245,10 @@ return values checked.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.9.0.
+
 ## References
 
 ---
@@ -48006,6 +50289,10 @@ delete obj.a;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -48083,6 +50370,10 @@ provide a custom implementation.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -48118,6 +50409,10 @@ a === b;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.6.1.
 
 ## References
 
@@ -48205,6 +50500,10 @@ Whether to ignore calling functions that are declared to return void.
 When true, allows expressions like `x = voidReturningFunction()`.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -48329,6 +50628,10 @@ If omitted, all files will be matched.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.26.0.
+
 ## References
 
 ---
@@ -48392,6 +50695,10 @@ enum E {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -48463,6 +50770,10 @@ When true, allows `type T = A | A`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -48498,6 +50809,10 @@ delete container.aab;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.2.
 
 ## References
 
@@ -48550,6 +50865,10 @@ default: `false`
 When set to `true`, allows empty interfaces that extend a single interface.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.6.
 
 ## References
 
@@ -48679,6 +50998,10 @@ type TypeProps = {};
 
 ## How to use
 
+## Version
+
+This rule was added in v0.12.0.
+
 ## References
 
 ---
@@ -48753,6 +51076,10 @@ Whether to ignore rest parameter arrays.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -48812,6 +51139,10 @@ function foo(bar?: { n: number }) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.6.
 
 ## References
 
@@ -48917,6 +51248,10 @@ default: `false`
 Allow classes with decorators.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -49153,6 +51488,10 @@ Ignore Promises that are void expressions.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.11.0.
+
 ## References
 
 ---
@@ -49214,6 +51553,10 @@ for (const key in obj) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -49267,6 +51610,10 @@ const fn = (a: number, b: number) => a + b;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -49329,6 +51676,10 @@ import type { A as AA, B as BB } from "mod";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.0.
+
 ## References
 
 ---
@@ -49387,6 +51738,10 @@ When set to `true`, ignores type annotations on class properties.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.14.0.
+
 ## References
 
 ---
@@ -49444,6 +51799,10 @@ type: `array | boolean`
 type: `string`
 
 ## How to use
+
+## Version
+
+This rule was added in v1.47.0.
 
 ## References
 
@@ -49511,6 +51870,10 @@ Whether to check `void` applied to expressions of type `never`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -49566,6 +51929,10 @@ interface I {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -49701,6 +52068,10 @@ Whether to check Promise-returning functions assigned to variables typed as void
 
 ## How to use
 
+## Version
+
+This rule was added in v1.11.0.
+
 ## References
 
 ---
@@ -49827,6 +52198,10 @@ If omitted, all files will be matched.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -49887,6 +52262,10 @@ enum Color {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -50003,6 +52382,10 @@ declare module "foo" {}
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References
 
 ---
@@ -50059,6 +52442,10 @@ x! ?? "";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.0.
+
 ## References
 
 ---
@@ -50102,6 +52489,10 @@ foo.bar!;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.6.
+
 ## References
 
 ---
@@ -50137,6 +52528,10 @@ x.y;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.5.0.
 
 ## References
 
@@ -50192,6 +52587,10 @@ type T5 = string & never;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -50295,6 +52694,10 @@ import foo from "foo";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.0.
+
 ## References
 
 ---
@@ -50352,6 +52755,10 @@ default: `{}`
 A mapping of type names to ban configurations.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.31.0.
 
 ## References
 
@@ -50411,6 +52818,10 @@ default: `[]`
 An array of variable names that are allowed to alias `this`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -50499,6 +52910,10 @@ When false, `x === true` where x is `boolean | null` will be flagged.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -50582,6 +52997,10 @@ Whether to check type predicate functions.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.48.0.
+
 ## References
 
 ---
@@ -50623,6 +53042,10 @@ class Foo {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.13.
+
 ## References
 
 ---
@@ -50660,6 +53083,10 @@ namespace A {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -50729,6 +53156,10 @@ const multiline = `
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -50797,6 +53228,10 @@ const container2: Container<string> = { value: "hello" };
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -50876,6 +53311,10 @@ Example: `["Foo", "Bar"]` to allow `x as Foo` or `x as Bar`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -50936,6 +53375,10 @@ class Baz<T> {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.6.
+
 ## References
 
 ---
@@ -50968,6 +53411,10 @@ const value = "asdf";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -51009,6 +53456,10 @@ function identity<T>(value: T): T {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -51066,6 +53517,10 @@ takesString(unknownValue as string); // explicitly unsafe, but intentional
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -51130,6 +53585,10 @@ const anything: any = unknownValue;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -51185,6 +53644,10 @@ if (typeof unknownValue === "function") {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -51219,6 +53682,10 @@ class Bar {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.11.
 
 ## References
 
@@ -51293,6 +53760,10 @@ if (Object.values(Status).includes(someValue)) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -51338,6 +53809,10 @@ identity = (value) => value;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.11.1.
 
 ## References
 
@@ -51408,6 +53883,10 @@ Default is `false`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -51470,6 +53949,10 @@ function safeGetString(): string | null {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -51517,6 +54000,10 @@ const number = items[0] as number | string | undefined;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -51578,6 +54065,10 @@ const result4 = -Number(str); // safe conversion
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -51610,6 +54101,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -51658,6 +54153,10 @@ export const value = "Hello, world!";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.4.
+
 ## References
 
 ---
@@ -51685,6 +54184,10 @@ let foo = require("foo");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.7.
 
 ## References
 
@@ -51729,6 +54232,10 @@ let myObject: object = "Type 'string' is not assignable to type 'object'.";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.8.0.
 
 ## References
 
@@ -51791,6 +54298,10 @@ const str = unknown as string; // This is a different type, not just removing nu
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -51948,6 +54459,10 @@ Whether to allow throwing values typed as `unknown`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -52035,6 +54550,10 @@ Whether to prefer parameter properties or class properties.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.48.0.
+
 ## References
 
 ---
@@ -52079,6 +54598,10 @@ let foo = { bar: "baz" };
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References
 
 ---
@@ -52118,6 +54641,10 @@ enum Status {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References
 
 ---
@@ -52150,6 +54677,10 @@ const first = list.find((item) => item.active);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -52188,6 +54719,10 @@ for (const item of arr) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.16.
 
 ## References
 
@@ -52258,6 +54793,10 @@ type Intersection = ((data: string) => number) & ((id: number) => string);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.11.
 
 ## References
 
@@ -52337,6 +54876,10 @@ if (/world/i.test(str)) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.29.0.
+
 ## References
 
 ---
@@ -52384,6 +54927,10 @@ This includes bitwise NOT (`~`), AND (`&`), OR (`|`), XOR (`^`), and shift opera
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.2.
+
 ## References
 
 ---
@@ -52425,6 +54972,10 @@ namespace Example {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -52578,6 +55129,10 @@ using the nullish coalescing operator.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -52698,6 +55253,10 @@ Skip operands that are not typed with `null` and/or `undefined` when inspecting
 "loose boolean" operands.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.39.0.
 
 ## References
 
@@ -52855,6 +55414,10 @@ Whether to allow rejecting Promises with values typed as `unknown`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -52911,6 +55474,10 @@ default: `false`
 Restrict checks to members immediately initialized with inline lambda values.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -53050,6 +55617,10 @@ Whether mutable methods should be treated as readonly members.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.49.0.
+
 ## References
 
 ---
@@ -53113,6 +55684,10 @@ const counts = ["a", "b", "a"].reduce<Count>((acc, item) => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -53147,6 +55722,10 @@ const text = "value";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -53233,6 +55812,10 @@ class ExtendedBuilder extends Builder {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -53288,6 +55871,10 @@ Never allow equality checks against the first or last character.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.8.
+
 ## References
 
 ---
@@ -53334,6 +55921,10 @@ const multiLine: number = "value";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.11.
 
 ## References
 
@@ -53462,6 +56053,10 @@ Whether to check method declarations for missing `async` keyword.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -53539,6 +56134,10 @@ class WriteOnlyProperty {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -53612,6 +56211,10 @@ default: `true`
 Whether to ignore arrays in which all elements are strings.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -53690,6 +56293,10 @@ async function processItems(items: string[]) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -53806,6 +56413,10 @@ default: `false`
 Whether to skip compound assignments (e.g., `a += b`).
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -54005,6 +56616,10 @@ Whether to allow RegExp values in template expressions.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -54105,6 +56720,10 @@ Disallow `await` before returning Promises in all cases.
 Example: `return Promise.resolve()` is required (no await).
 
 ## How to use
+
+## Version
+
+This rule was added in v1.12.0.
 
 ## References
 
@@ -54258,6 +56877,10 @@ Whether to allow string types in boolean contexts (checks for non-empty strings)
 
 ## How to use
 
+## Version
+
+This rule was added in v1.25.0.
+
 ## References
 
 ---
@@ -54311,6 +56934,10 @@ default: `false`
 Allow callbacks that return `any` in places that expect a `void` callback.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -54456,6 +57083,10 @@ When true, switches with non-exhaustive union types must have a default case.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -54546,6 +57177,10 @@ import { bar } from "foo";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.0.
 
 ## References
 
@@ -54650,6 +57285,10 @@ When true, static methods can be referenced without binding.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -54707,6 +57346,10 @@ be considered unifiable if the closest leading block comments for the signatures
 even if the signatures themselves are identical.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.48.0.
 
 ## References
 
@@ -54794,6 +57437,10 @@ try {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References
 
 ---
@@ -54872,6 +57519,10 @@ to something other than `'error'` (e.g., `'exception'`).
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -54912,6 +57563,10 @@ assert.ok(divide(10, 2) === 5);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.9.
+
 ## References
 
 ---
@@ -54947,6 +57602,10 @@ new Date(date);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.13.
 
 ## References
 
@@ -54984,6 +57643,10 @@ const array = [a, ...(foo ? "bc" : "")];
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.10.1.
 
 ## References
 
@@ -55033,6 +57696,10 @@ if (index !== -1) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.12.0.
 
 ## References
 
@@ -55144,6 +57811,10 @@ Whether to check scoping with arrow functions.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.8.0.
+
 ## References
 
 ---
@@ -55179,6 +57850,10 @@ const foo = `\${a}`;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.60.0.
 
 ## References
 
@@ -55277,6 +57952,10 @@ class CustomError extends Error {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.57.0.
+
 ## References
 
 ---
@@ -55316,6 +57995,10 @@ class A {}
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -55352,6 +58035,10 @@ throw new TypeError("Number expected");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -55392,6 +58079,10 @@ const foo = "\cA";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -55459,6 +58150,10 @@ Enforces non-zero to be checked with `foo.length > 0`.
 Enforces non-zero to be checked with `foo.length !== 0`.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -55621,6 +58316,10 @@ parts of the extension rather than parts of the filename.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -55661,6 +58360,10 @@ const bar = new Array(1, 2, 3);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -55727,6 +58430,10 @@ console.log(message);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -55781,6 +58488,10 @@ const baz = {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.5.
+
 ## References
 
 ---
@@ -55829,6 +58540,10 @@ module.exports = foo;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References
 
 ---
@@ -55873,6 +58588,10 @@ const bar = array.filter(Boolean);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.19.0.
+
 ## References
 
 ---
@@ -55916,6 +58635,10 @@ for (const element of foo) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -55962,6 +58685,10 @@ array.map(function (x) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.12.
+
 ## References
 
 ---
@@ -56002,6 +58729,10 @@ default: `true`
 When set to `true`, allows simple operations (like summing numbers) in `reduce` and `reduceRight` calls.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -56055,6 +58786,10 @@ array.reverse();
 
 ## How to use
 
+## Version
+
+This rule was added in v1.15.0.
+
 ## References
 
 ---
@@ -56107,6 +58842,10 @@ array.sort();
 
 ## How to use
 
+## Version
+
+This rule was added in v1.15.0.
+
 ## References
 
 ---
@@ -56143,6 +58882,10 @@ async function good() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -56188,6 +58931,10 @@ async function foo() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.18.
+
 ## References
 
 ---
@@ -56221,6 +58968,10 @@ console.log("abc", "def");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -56271,6 +59022,10 @@ async function storeCookies() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -56353,6 +59108,10 @@ const x = 0;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References
 
 ---
@@ -56389,6 +59148,10 @@ const foo = `\u001B${bar}`;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -56443,6 +59206,10 @@ const map = new Map([
 
 ## How to use
 
+## Version
+
+This rule was added in v1.35.0.
+
 ## References
 
 ---
@@ -56477,6 +59244,10 @@ Array.isArray([1, 2, 3]);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References
 
@@ -56564,6 +59335,10 @@ to be available.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.12.
+
 ## References
 
 ---
@@ -56603,6 +59378,10 @@ const request = new Request("/", { method: "POST", body: "foo=bar" });
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.12.
+
 ## References
 
 ---
@@ -56637,6 +59416,10 @@ el.removeEventListener("click", handler.bind(this));
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -56668,6 +59451,10 @@ foo.slice(1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -56706,6 +59493,10 @@ if (foo && bar) baz();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -56747,6 +59538,10 @@ array.flat(Infinity);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.2.
+
 ## References
 
 ---
@@ -56787,6 +59582,10 @@ if (!(foo === bar)) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.3.
+
 ## References
 
 ---
@@ -56821,6 +59620,10 @@ const foo = i > 5 ? (i < 100 ? true : false) : i < 100 ? true : false;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -56857,6 +59660,10 @@ const array = [42];
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -56888,6 +59695,10 @@ const buffer = Buffer.alloc(10);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -56937,6 +59748,10 @@ When set to `true`, the rule will also check strict equality/inequality comparis
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.21.
+
 ## References
 
 ---
@@ -56968,6 +59783,10 @@ function foo({ a = false } = {}) {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -57013,6 +59832,10 @@ if (problem) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.9.
+
 ## References
 
 ---
@@ -57056,6 +59879,10 @@ async function good() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.2.18.
 
 ## References
 
@@ -57109,6 +59936,10 @@ class X {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -57160,6 +59991,10 @@ async function example() {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -57208,6 +60043,10 @@ new Bar(this).method();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -57253,6 +60092,10 @@ variable that is not declared (commonly checked via `typeof foo === "undefined"`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -57284,6 +60127,10 @@ foo.flat();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.12.
 
 ## References
 
@@ -57323,6 +60170,10 @@ array.toSpliced(1);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -57358,6 +60209,10 @@ async function bad() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.12.
 
 ## References
 
@@ -57396,6 +60251,10 @@ const foo = string.slice(1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.10.
 
 ## References
 
@@ -57436,6 +60295,10 @@ const [, foo] = parts;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -57478,6 +60341,10 @@ const foo = ((bar) => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -57529,6 +60396,10 @@ const set = new Set(foo);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.28.0.
+
 ## References
 
 ---
@@ -57570,6 +60441,10 @@ class MyError extends Error {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -57602,6 +60477,10 @@ const object = { ...(foo || { not: "empty" }) };
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -57696,6 +60575,10 @@ iterator.toArray().filter(fn);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -57736,6 +60619,10 @@ if (array.every(Boolean)) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -57788,6 +60675,10 @@ default: `false`
 If set to `true`, allows the use of `Promise.reject` in async functions and promise callbacks.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -57867,6 +60758,10 @@ function foo(bar) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -57909,6 +60804,10 @@ switch (foo) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -57972,6 +60871,10 @@ Whether to check for useless `undefined` in arrow function bodies.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.6.1.
+
 ## References
 
 ---
@@ -58008,6 +60911,10 @@ const foo = 1.1;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -58056,6 +60963,10 @@ const foo = 2e+5;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -58201,6 +61112,10 @@ grouping will be enforced for eligible numbers even if they don't include separa
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -58234,6 +61149,10 @@ foo.addEventListener("click", () => {});
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -58271,6 +61190,10 @@ const match = users.find(fn);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.12.
 
 ## References
 
@@ -58315,6 +61238,10 @@ const foo = [maybeArray].flat();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.20.
+
 ## References
 
 ---
@@ -58346,6 +61273,10 @@ const bar = [1, 2, 3].flatMap((i) => [i]);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -58383,6 +61314,10 @@ values.lastIndexOf("bar");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.16.12.
 
 ## References
 
@@ -58424,6 +61359,10 @@ foo.some((element) => element.bar === 1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -58488,6 +61427,10 @@ These functions will be checked for `.at(-1)` usage.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -58534,6 +61477,10 @@ BigInt("1.23");
 
 ## How to use
 
+## Version
+
+This rule was added in v1.30.0.
+
 ## References
 
 ---
@@ -58578,6 +61525,10 @@ async function good() {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -58641,6 +61592,10 @@ class Foo {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -58683,6 +61638,10 @@ element.classList.toggle("className", condition);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -58720,6 +61679,10 @@ String.fromCodePoint(0x1f984);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -58752,6 +61715,10 @@ const ts = Date.now();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -58802,6 +61769,10 @@ function abc(foo) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -58833,6 +61804,10 @@ foo.append(bar);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -58866,6 +61841,10 @@ element.dataset.unicorn = "🦄";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -58898,6 +61877,10 @@ childNode.remove();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -58935,6 +61918,10 @@ const text = foo.textContent;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.21.
+
 ## References
 
 ---
@@ -58970,6 +61957,10 @@ class Foo extends OtherClass {}
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -59025,6 +62016,10 @@ globalThis.postMessage("done");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.12.
+
 ## References
 
 ---
@@ -59069,6 +62064,10 @@ const dirname = import.meta.dirname;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -59103,6 +62102,10 @@ if (str.includes("foo")) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -59157,6 +62160,10 @@ window.addEventListener("click", (event) => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References
 
 ---
@@ -59190,6 +62197,10 @@ console.log(foo ?? bar);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.15.
 
 ## References
 
@@ -59228,6 +62239,10 @@ Math.max(height, 50);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.10.1.
 
 ## References
 
@@ -59268,6 +62283,10 @@ const foo = Math.trunc(1.1);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -59310,6 +62329,10 @@ parentNode.replaceChild(newChildNode, oldChildNode);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.20.
+
 ## References
 
 ---
@@ -59349,6 +62372,10 @@ Math.hypot(a, b);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.1.1.
+
 ## References
 
 ---
@@ -59384,6 +62411,10 @@ export default foo;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.50.0.
 
 ## References
 
@@ -59423,6 +62454,10 @@ array.some(Boolean);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -59458,6 +62493,10 @@ foo.at(-1);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.2.
+
 ## References
 
 ---
@@ -59489,6 +62528,10 @@ import fs from "node:fs";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -59552,6 +62595,10 @@ If set to `true`, checks for usage of `NaN` as a global variable.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References
 
 ---
@@ -59607,6 +62654,10 @@ Additional functions to treat as equivalents to `Object.fromEntries`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.12.
+
 ## References
 
 ---
@@ -59642,6 +62693,10 @@ try {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.17.
 
 ## References
 
@@ -59679,6 +62734,10 @@ const maxValue = Math.max.apply(Math, numbers);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.21.
 
 ## References
 
@@ -59723,6 +62782,10 @@ document.querySelector("li").querySelectorAll("a");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References
 
 ---
@@ -59756,6 +62819,10 @@ Reflect.apply(foo, null);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -59798,6 +62865,10 @@ Boolean(string.match(/unicorn/));
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.16.
+
 ## References
 
 ---
@@ -59833,6 +62904,10 @@ const response = Response.json(data, { status: 200 });
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.29.0.
 
 ## References
 
@@ -59873,6 +62948,10 @@ const hasOne = array.includes(1);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.2.
+
 ## References
 
 ---
@@ -59904,6 +62983,10 @@ const size = new Set([1, 2, 3]).size;
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -59939,6 +63022,10 @@ Array.from(...argumentsArray);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.17.
+
 ## References
 
 ---
@@ -59972,6 +63059,10 @@ const regexp = new RegExp(String.raw`foo\.bar`);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.12.0.
 
 ## References
 
@@ -60009,6 +63100,10 @@ foo.replace(pattern, bar);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -60040,6 +63135,10 @@ Examples of **correct** code for this rule:
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.18.
 
 ## References
 
@@ -60075,6 +63174,10 @@ foo.startsWith("abc");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.18.
+
 ## References
 
 ---
@@ -60108,6 +63211,10 @@ str.trimEnd();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -60154,6 +63261,10 @@ default: `["cloneDeep", "utils.clone"]`
 List of functions that are allowed to be used for deep cloning instead of structuredClone.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.9.0.
 
 ## References
 
@@ -60204,6 +63315,10 @@ Only enforce ternary usage when the condition and both branches are single-line.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.50.0.
+
 ## References
 
 ---
@@ -60248,6 +63363,10 @@ try {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -60283,6 +63402,10 @@ if (Array.isArray(foo)) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -60340,6 +63463,10 @@ Always add a `./` prefix to the relative URL when possible.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.44.0.
+
 ## References
 
 ---
@@ -60372,6 +63499,10 @@ foo.join(",");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.19.
 
 ## References
 
@@ -60419,6 +63550,10 @@ const foo = await import("foo");
 
 ## How to use
 
+## Version
+
+This rule was added in v1.35.0.
+
 ## References
 
 ---
@@ -60456,6 +63591,10 @@ import foo from "foo";
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -60490,6 +63629,10 @@ number.toFixed(2);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.15.
 
 ## References
 
@@ -60532,6 +63675,10 @@ window.postMessage(message, "*");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.15.15.
 
 ## References
 
@@ -60597,6 +63744,10 @@ Allow braces only when needed for scoping (e.g., variable or function declaratio
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References
 
 ---
@@ -60640,6 +63791,10 @@ switch (foo) {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.59.0.
 
 ## References
 
@@ -60712,6 +63867,10 @@ If `true`, prefer `utf-8` over `utf8`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References
 
 ---
@@ -60750,6 +63909,10 @@ throw new lib.TypeError("unicorn");
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.14.
 
 ## References
 
@@ -61116,13 +64279,13 @@ url: /docs/guide/usage/linter/rules/vitest/consistent-each-for.md
 
 ### What it does
 
-This rule ensure consistency on which method used to create parameterized test.
-This configuration affects to different test function types (`test`, `it`, `describe`, `suite`).
+This rule enforces consistency in which method is used to create parameterized tests.
+This configuration affects different test function types (`test`, `it`, `describe`, `suite`).
 
 ### Why is this bad?
 
-Not having a consistent way to create parametrized tests, we rely on the developer to remember that
-`.for` spread the values as different arguments and `.each` pass the array as an unique argument.
+Without a consistent way to create parameterized tests, we rely on the developer to remember that
+`.for` spreads the values as different arguments while `.each` passes the array as a single argument.
 
 ### Examples
 
@@ -61184,6 +64347,10 @@ Preferred method to create parameterized tests for `test` blocks.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
 ## References
 
 ---
@@ -61231,6 +64398,89 @@ Required regex to check if a test filename have a valid formart.
 Pattern doesn't have a default value, you must provide one.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.36.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/consistent-test-it.md
+---
+
+### What it does
+
+Jest allows you to choose how you want to define your tests, using the `it` or
+the `test` keywords, with multiple permutations for each:
+
+* **it:** `it`, `xit`, `fit`, `it.only`, `it.skip`.
+* **test:** `test`, `xtest`, `test.only`, `test.skip`.
+
+### Why is this bad?
+
+It's a good practice to be consistent in your test suite, so that all tests are written in the same way.
+
+### Examples
+
+```javascript
+/* jest/consistent-test-it: ["error", {"fn": "test"}] */
+test("foo"); // valid
+test.only("foo"); // valid
+
+it("foo"); // invalid
+it.only("foo"); // invalid
+```
+
+```javascript
+/* jest/consistent-test-it: ["error", {"fn": "it"}] */
+it("foo"); // valid
+it.only("foo"); // valid
+test("foo"); // invalid
+test.only("foo"); // invalid
+```
+
+```javascript
+/* jest/consistent-test-it: ["error", {"fn": "it", "withinDescribe": "test"}] */
+it("foo"); // valid
+describe("foo", function () {
+  test("bar"); // valid
+});
+
+test("foo"); // invalid
+describe("foo", function () {
+  it("bar"); // invalid
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### fn
+
+type: `"it" | "test"`
+
+default: `"test"`
+
+Decides whether to use `test` or `it`.
+
+### withinDescribe
+
+type: `"it" | "test"`
+
+default: `"it"`
+
+Decides whether to use `test` or `it` within a `describe` scope.
+If only `fn` is provided, this will default to the value of `fn`.
+
+## How to use
+
+## Version
+
+This rule was added in v0.5.3.
 
 ## References
 
@@ -61281,6 +64531,66 @@ Decides whether to prefer vitest function accessor
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/expect-expect.md
+---
+
+### What it does
+
+This rule triggers when there is no call made to `expect` in a test, ensure that there is at least one `expect` call made in a test.
+
+### Why is this bad?
+
+People may forget to add assertions.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+it("should be a test", () => {
+  console.log("no assertion");
+});
+test("should assert something", () => {});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### additionalTestBlockFunctions
+
+type: `string[]`
+
+default: `[]`
+
+An array of function names that should also be treated as test blocks.
+
+### assertFunctionNames
+
+type: `string[]`
+
+default: `["expect"]`
+
+A list of function names that should be treated as assertion functions.
+
+NOTE: The default value is `["expect"]` for Jest and
+`["expect", "expectTypeOf", "assert", "assertType"]` for Vitest.
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.12.
+
 ## References
 
 ---
@@ -61291,12 +64601,17 @@ url: /docs/guide/usage/linter/rules/vitest/hoisted-apis-on-top.md
 
 ### What it does
 
-Enforce hoisted APIs to be on top of the file.
+Requires [hoisted](https://developer.mozilla.org/en-US/docs/Glossary/Hoisting) Vitest APIs
+(`vi.mock`, `vi.unmock`, and `vi.hoisted`) to appear in the top-level of the file.
 
 ### Why is this bad?
 
-Some Vitest APIs are hoisted automatically during the transform process. Using this APIs
-in look like runtime code can lead to unexpected results running tests.
+Vitest hoists certain APIs to the top of the file during transformation, so they always
+run before any imports — regardless of where they appear in the source. Writing them
+inside conditionals, test bodies, or other runtime locations can be misleading and confusing.
+
+The code looks like it executes at runtime, but it actually runs first. This rule ensures
+that these hoisted APIs are not allowed in confusing contexts.
 
 ### Examples
 
@@ -61368,6 +64683,482 @@ describe("suite", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/max-expects.md
+---
+
+### What it does
+
+This rule enforces a maximum number of `expect()` calls in a single test.
+
+### Why is this bad?
+
+Tests with many different assertions are likely mixing multiple objectives.
+It is generally better to have a single objective per test to ensure that when a test fails,
+the problem is easy to identify.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+test("should not pass", () => {
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+});
+
+it("should not pass", () => {
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+  expect(true).toBeDefined();
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### max
+
+type: `integer`
+
+default: `5`
+
+Maximum number of `expect()` assertion calls allowed within a single test.
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.18.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/max-nested-describe.md
+---
+
+### What it does
+
+This rule enforces a maximum depth to nested `describe()` calls.
+
+### Why is this bad?
+
+Nesting `describe()` blocks too deeply can make the test suite hard to read and understand.
+
+### Examples
+
+The following patterns are considered warnings (with the default option of
+`{ "max": 5 } `):
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+describe("foo", () => {
+  describe("bar", () => {
+    describe("baz", () => {
+      describe("qux", () => {
+        describe("quxx", () => {
+          describe("too many", () => {
+            it("should get something", () => {
+              expect(getSomething()).toBe("Something");
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+describe("foo", function () {
+  describe("bar", function () {
+    describe("baz", function () {
+      describe("qux", function () {
+        describe("quxx", function () {
+          describe("too many", function () {
+            it("should get something", () => {
+              expect(getSomething()).toBe("Something");
+            });
+          });
+        });
+      });
+    });
+  });
+});
+```
+
+Examples of **correct** code for this rule:
+
+```ts
+describe("foo", () => {
+  describe("bar", () => {
+    it("should get something", () => {
+      expect(getSomething()).toBe("Something");
+    });
+  });
+  describe("qux", () => {
+    it("should get something", () => {
+      expect(getSomething()).toBe("Something");
+    });
+  });
+});
+
+describe("foo2", function () {
+  it("should get something", () => {
+    expect(getSomething()).toBe("Something");
+  });
+});
+
+describe("foo", function () {
+  describe("bar", function () {
+    describe("baz", function () {
+      describe("qux", function () {
+        describe("this is the limit", function () {
+          it("should get something", () => {
+            expect(getSomething()).toBe("Something");
+          });
+        });
+      });
+    });
+  });
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### max
+
+type: `integer`
+
+default: `5`
+
+Maximum allowed depth of nested describe calls.
+
+## How to use
+
+## Version
+
+This rule was added in v0.4.4.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-alias-methods.md
+---
+
+### What it does
+
+This rule ensures that only the canonical name as used in the Jest documentation is used in the code.
+
+### Why is this bad?
+
+These aliases are going to be removed in the next major version of Jest - see [jestjs/jest#13164](https://github.com/jestjs/jest/issues/13164) for more.
+This rule will make it easier to search for all occurrences of the method within code, and it ensures consistency among the method names used.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+expect(a).toBeCalled();
+expect(a).toBeCalledTimes();
+expect(a).toBeCalledWith();
+expect(a).lastCalledWith();
+expect(a).nthCalledWith();
+expect(a).toReturn();
+expect(a).toReturnTimes();
+expect(a).toReturnWith();
+expect(a).lastReturnedWith();
+expect(a).nthReturnedWith();
+expect(a).toThrowError();
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+expect(a).toHaveBeenCalled();
+expect(a).toHaveBeenCalledTimes();
+expect(a).toHaveBeenCalledWith();
+expect(a).toHaveBeenLastCalledWith();
+expect(a).toHaveBeenNthCalledWith();
+expect(a).toHaveReturned();
+expect(a).toHaveReturnedTimes();
+expect(a).toHaveReturnedWith();
+expect(a).toHaveLastReturnedWith();
+expect(a).toHaveNthReturnedWith();
+expect(a).toThrow();
+```
+
+Examples of **incorrect** code for this rule with vitest:
+
+```javascript
+expect(a).toBeCalled();
+expect(a).toBeCalledTimes();
+expect(a).not["toThrowError"]();
+```
+
+Examples of **correct** code for this rule with vitest:
+
+```javascript
+expect(a).toHaveBeenCalled();
+expect(a).toHaveBeenCalledTimes();
+expect(a).toHaveBeenCalledWith();
+expect(a).toHaveBeenLastCalledWith();
+expect(a).toHaveBeenNthCalledWith();
+expect(a).toHaveReturned();
+expect(a).toHaveReturnedTimes();
+expect(a).toHaveReturnedWith();
+expect(a).toHaveLastReturnedWith();
+expect(a).toHaveNthReturnedWith();
+expect(a).toThrow();
+expect(a).rejects;
+expect(a);
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.12.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-commented-out-tests.md
+---
+
+### What it does
+
+This rule raises a warning about commented-out tests. It's similar to the
+`no-disabled-tests` rule.
+
+### Why is this bad?
+
+You may forget to uncomment some tests. This rule raises a warning about commented-out tests.
+
+It is generally better to skip a test if it's flaky, or remove it if it's no longer needed.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+// describe('foo', () => {});
+// it('foo', () => {});
+// test('foo', () => {});
+
+// describe.skip('foo', () => {});
+// it.skip('foo', () => {});
+// test.skip('foo', () => {});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.8.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-conditional-expect.md
+---
+
+### What it does
+
+This rule prevents the use of `expect` in conditional blocks, such as `if` and `catch`.
+This includes using `expect` in callbacks to functions named `catch`, which are assumed to be promises.
+
+### Why is this bad?
+
+Jest only considers a test to have failed if it throws an error, meaning if calls to
+assertion functions like `expect` occur in conditional code such as a `catch` statement,
+tests can end up passing but not actually test anything. Additionally, conditionals
+tend to make tests more brittle and complex, as they increase the amount of mental
+thinking needed to understand what is actually being tested.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```js
+it("foo", () => {
+  doTest && expect(1).toBe(2);
+});
+
+it("bar", () => {
+  if (!skipTest) {
+    expect(1).toEqual(2);
+  }
+});
+
+it("baz", async () => {
+  try {
+    await foo();
+  } catch (err) {
+    expect(err).toMatchObject({ code: "MODULE_NOT_FOUND" });
+  }
+});
+
+it("throws an error", async () => {
+  await foo().catch((error) => expect(error).toBeInstanceOf(error));
+});
+```
+
+Examples of **correct** code for this rule:
+
+```js
+it("foo", () => {
+  expect(!value).toBe(false);
+});
+
+function getValue() {
+  if (process.env.FAIL) {
+    return 1;
+  }
+  return 2;
+}
+
+it("foo", () => {
+  expect(getValue()).toBe(2);
+});
+
+it("validates the request", () => {
+  try {
+    processRequest(request);
+  } catch {
+  } finally {
+    expect(validRequest).toHaveBeenCalledWith(request);
+  }
+});
+
+it("throws an error", async () => {
+  await expect(foo).rejects.toThrow(Error);
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.12.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-conditional-in-test.md
+---
+
+### What it does
+
+Disallow conditional statements in tests.
+
+### Why is this bad?
+
+Conditional statements in tests can make the test harder to read and understand.
+It is better to have a single test case per test function.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```js
+it("foo", () => {
+  if (true) {
+    doTheThing();
+  }
+});
+
+it("bar", () => {
+  switch (mode) {
+    case "none":
+      generateNone();
+    case "single":
+      generateOne();
+    case "multiple":
+      generateMany();
+  }
+
+  expect(fixtures.length).toBeGreaterThan(-1);
+});
+
+it("baz", async () => {
+  const promiseValue = () => {
+    return something instanceof Promise ? something : Promise.resolve(something);
+  };
+
+  await expect(promiseValue()).resolves.toBe(1);
+});
+```
+
+Examples of **correct** code for this rule:
+
+```js
+describe("my tests", () => {
+  if (true) {
+    it("foo", () => {
+      doTheThing();
+    });
+  }
+});
+
+beforeEach(() => {
+  switch (mode) {
+    case "none":
+      generateNone();
+    case "single":
+      generateOne();
+    case "multiple":
+      generateMany();
+  }
+});
+
+it("bar", () => {
+  expect(fixtures.length).toBeGreaterThan(-1);
+});
+
+const promiseValue = (something) => {
+  return something instanceof Promise ? something : Promise.resolve(something);
+};
+
+it("baz", async () => {
+  await expect(promiseValue()).resolves.toBe(1);
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.8.0.
+
 ## References
 
 ---
@@ -61413,6 +65204,316 @@ describe("my tests", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.8.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-disabled-tests.md
+---
+
+### What it does
+
+This rule raises a warning about disabled tests.
+
+### Why is this bad?
+
+Jest has a feature that allows you to temporarily mark tests as disabled. This
+feature is often helpful while debugging or to create placeholders for future
+tests. Before committing changes we may want to check that all tests are
+running.
+
+### Examples
+
+```js
+describe.skip("foo", () => {});
+it.skip("foo", () => {});
+test.skip("foo", () => {});
+
+describe["skip"]("bar", () => {});
+it["skip"]("bar", () => {});
+test["skip"]("bar", () => {});
+
+xdescribe("foo", () => {});
+xit("foo", () => {});
+xtest("foo", () => {});
+
+it("bar");
+test("bar");
+
+it("foo", () => {
+  pending();
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.7.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-duplicate-hooks.md
+---
+
+### What it does
+
+Disallows duplicate hooks in describe blocks.
+
+### Why is this bad?
+
+Having duplicate hooks in a describe block can lead to confusion and unexpected behavior.
+When multiple hooks of the same type exist, they all execute in order, which can make it
+difficult to understand the test setup flow and may result in redundant or conflicting
+operations. This makes tests harder to maintain and debug.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+describe("foo", () => {
+  beforeEach(() => {
+    // some setup
+  });
+  beforeEach(() => {
+    // some setup
+  });
+  test("foo_test", () => {
+    // some test
+  });
+});
+
+// Nested describe scenario
+describe("foo", () => {
+  beforeEach(() => {
+    // some setup
+  });
+  test("foo_test", () => {
+    // some test
+  });
+  describe("bar", () => {
+    test("bar_test", () => {
+      afterAll(() => {
+        // some teardown
+      });
+      afterAll(() => {
+        // some teardown
+      });
+    });
+  });
+});
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+describe("foo", () => {
+  beforeEach(() => {
+    // some setup
+  });
+  test("foo_test", () => {
+    // some test
+  });
+});
+
+// Nested describe scenario
+describe("foo", () => {
+  beforeEach(() => {
+    // some setup
+  });
+  test("foo_test", () => {
+    // some test
+  });
+  describe("bar", () => {
+    test("bar_test", () => {
+      beforeEach(() => {
+        // some setup
+      });
+    });
+  });
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.4.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-focused-tests.md
+---
+
+### What it does
+
+This rule reminds you to remove `.only` from your tests by raising a warning
+whenever you are using the exclusivity feature.
+
+### Why is this bad?
+
+Jest has a feature that allows you to focus tests by appending `.only` or
+prepending `f` to a test-suite or a test-case. This feature is really helpful to
+debug a failing test, so you don’t have to execute all of your tests. After you
+have fixed your test and before committing the changes you have to remove
+`.only` to ensure all tests are executed on your build system.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+describe.only("foo", () => {});
+it.only("foo", () => {});
+describe["only"]("bar", () => {});
+it["only"]("bar", () => {});
+test.only("foo", () => {});
+test["only"]("bar", () => {});
+fdescribe("foo", () => {});
+fit("foo", () => {});
+fit.each`
+  table
+`();
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.8.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-hooks.md
+---
+
+### What it does
+
+Disallows Jest setup and teardown hooks, such as `beforeAll`.
+
+### Why is this bad?
+
+Jest provides global functions for setup and teardown tasks, which are
+called before/after each test case and each test suite. The use of these
+hooks promotes shared state between tests.
+
+This rule reports for the following function calls:
+
+* `beforeAll`
+* `beforeEach`
+* `afterAll`
+* `afterEach`
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+function setupFoo(options) {
+  /* ... */
+}
+function setupBar(options) {
+  /* ... */
+}
+
+describe("foo", () => {
+  let foo;
+  beforeEach(() => {
+    foo = setupFoo();
+  });
+  afterEach(() => {
+    foo = null;
+  });
+  it("does something", () => {
+    expect(foo.doesSomething()).toBe(true);
+  });
+  describe("with bar", () => {
+    let bar;
+    beforeEach(() => {
+      bar = setupBar();
+    });
+    afterEach(() => {
+      bar = null;
+    });
+    it("does something with bar", () => {
+      expect(foo.doesSomething(bar)).toBe(true);
+    });
+  });
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### allow
+
+type: `string[]`
+
+default: `[]`
+
+An array of hook function names that are permitted for use.
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.16.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-identical-title.md
+---
+
+### What it does
+
+This rule looks at the title of every test and test suite.
+It will report when two test suites or two test cases at the same level of a test suite have the same title.
+
+### Why is this bad?
+
+Having identical titles for two different tests or test suites may create confusion.
+For example, when a test with the same title as another test in the same test suite fails, it is harder to know which one failed and thus harder to fix.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+describe("baz", () => {
+  //...
+});
+
+describe("baz", () => {
+  // Has the same title as a previous test suite
+  // ...
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -61456,6 +65557,10 @@ test("foo", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.0.
 
 ## References
 
@@ -61508,6 +65613,426 @@ test("foo", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.49.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-interpolation-in-snapshots.md
+---
+
+### What it does
+
+Prevents the use of string interpolations in snapshots.
+
+### Why is this bad?
+
+Interpolation prevents snapshots from being updated. Instead, properties should
+be overloaded with a matcher by using
+[property matchers](https://jestjs.io/docs/en/snapshot-testing#property-matchers).
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+expect(something).toMatchInlineSnapshot(
+  `Object {
+    property: ${interpolated}
+  }`,
+);
+
+expect(something).toMatchInlineSnapshot(
+  { other: expect.any(Number) },
+  `Object {
+    other: Any<Number>,
+    property: ${interpolated}
+  }`,
+);
+
+expect(errorThrowingFunction).toThrowErrorMatchingInlineSnapshot(`${interpolated}`);
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.13.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-large-snapshots.md
+---
+
+### What it does
+
+Disallow large snapshots.
+
+### Why is this bad?
+
+When using Jest's snapshot capability one should be mindful of the size of
+created snapshots. As a general best practice snapshots should be limited in
+size in order to be more manageable and reviewable. A stored snapshot is only as
+good as its review and as such keeping it short, sweet, and readable is
+important to allow for thorough reviews.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+exports[`a large snapshot 1`] = `
+line 1
+line 2
+line 3
+line 4
+line 5
+line 6
+line 7
+line 8
+line 9
+line 10
+line 11
+line 12
+line 13
+line 14
+line 15
+line 16
+line 17
+line 18
+line 19
+line 20
+line 21
+line 22
+line 23
+line 24
+line 25
+line 26
+line 27
+line 28
+line 29
+line 30
+line 31
+line 32
+line 33
+line 34
+line 35
+line 36
+line 37
+line 38
+line 39
+line 40
+line 41
+line 42
+line 43
+line 44
+line 45
+line 46
+line 47
+line 48
+line 49
+line 50
+line 51
+`;
+```
+
+Examples of **incorrect** code for this rule:
+
+```js
+exports[`a more manageable and readable snapshot 1`] = `
+line 1
+line 2
+line 3
+line 4
+`;
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### allowedSnapshots
+
+type: `Record<string, array>`
+
+default: `{}`
+
+A map of snapshot file paths to arrays of snapshot names that are allowed to exceed the size limit.
+Snapshot names can be specified as regular expressions.
+
+### inlineMaxSize
+
+type: `integer`
+
+default: `50`
+
+Maximum number of lines allowed for inline snapshots.
+
+### maxSize
+
+type: `integer`
+
+default: `50`
+
+Maximum number of lines allowed for external snapshot files.
+
+## How to use
+
+## Version
+
+This rule was added in v0.4.3.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-mocks-import.md
+---
+
+### What it does
+
+This rule reports imports from a path containing a `__mocks__` component.
+
+### Why is this bad?
+
+Manually importing mocks from a `__mocks__` directory can lead to unexpected behavior
+and breaks Jest's automatic mocking system. Jest is designed to automatically resolve
+and use mocks from `__mocks__` directories when `jest.mock()` is called. Directly
+importing from these directories bypasses Jest's module resolution system and can cause
+inconsistencies between test and production environments.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```ts
+import thing from "./__mocks__/index";
+require("./__mocks__/index");
+```
+
+Examples of **correct** code for this rule:
+
+```ts
+import thing from "thing";
+require("thing");
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.13.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-restricted-matchers.md
+---
+
+### What it does
+
+Ban specific matchers & modifiers from being used, and can suggest alternatives.
+
+### Why is this bad?
+
+Some matchers or modifiers might be discouraged in your codebase for various reasons:
+they might be deprecated, cause confusion, have performance implications, or there
+might be better alternatives available. This rule allows you to enforce consistent
+testing patterns by restricting certain Jest matchers and providing guidance on
+preferred alternatives.
+
+### Examples
+
+Bans are expressed in the form of a map, with the value being either a string message to be shown,
+or null if only the default rule message should be used. Bans are checked against the start of
+the expect chain - this means that to ban a specific matcher entirely you must specify all
+six permutations, but allows you to ban modifiers as well. By default, this map is empty, meaning
+no matchers or modifiers are banned.
+
+Example configuration:
+
+```json
+{
+  "jest/no-restricted-matchers": [
+    "error",
+    {
+      "toBeFalsy": null,
+      "resolves": "Use `expect(await promise)` instead.",
+      "toHaveBeenCalledWith": null,
+      "not.toHaveBeenCalledWith": null,
+      "resolves.toHaveBeenCalledWith": null,
+      "rejects.toHaveBeenCalledWith": null,
+      "resolves.not.toHaveBeenCalledWith": null,
+      "rejects.not.toHaveBeenCalledWith": null
+    }
+  ]
+}
+```
+
+Examples of **incorrect** code for this rule with the above configuration:
+
+```javascript
+it("is false", () => {
+  // if this has a modifier (i.e. `not.toBeFalsy`), it would be considered fine
+  expect(a).toBeFalsy();
+});
+
+it("resolves", async () => {
+  // all uses of this modifier are disallowed, regardless of matcher
+  await expect(myPromise()).resolves.toBe(true);
+});
+
+describe("when an error happens", () => {
+  it("does not upload the file", async () => {
+    // all uses of this matcher are disallowed
+    expect(uploadFileMock).not.toHaveBeenCalledWith("file.name");
+  });
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### restrictedMatchers
+
+type: `Record<string, string>`
+
+default: `{}`
+
+A map of restricted matchers/modifiers to custom messages.
+The key is the matcher/modifier name (e.g., "toBeFalsy", "resolves", "not.toHaveBeenCalledWith").
+The value is an optional custom message to display when the matcher/modifier is used.
+
+## How to use
+
+## Version
+
+This rule was added in v0.2.3.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-restricted-vi-methods.md
+---
+
+### What it does
+
+Restrict the use of specific `jest` and `vi` methods.
+
+### Why is this bad?
+
+Certain Jest or Vitest methods may be deprecated, discouraged in specific
+contexts, or incompatible with your testing environment. Restricting
+them helps maintain consistent and reliable test practices.
+
+By default, no methods are restricted by this rule.
+You must configure the rule for it to disable anything.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+jest.useFakeTimers();
+it("calls the callback after 1 second via advanceTimersByTime", () => {
+  // ...
+
+  jest.advanceTimersByTime(1000);
+
+  // ...
+});
+
+test("plays video", () => {
+  const spy = jest.spyOn(video, "play");
+
+  // ...
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### restrictedJestMethods
+
+type: `Record<string, string>`
+
+default: `{}`
+
+A mapping of restricted Jest method names to custom messages - or
+`null`, for a generic message.
+
+## How to use
+
+## Version
+
+This rule was added in v0.2.3.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/no-standalone-expect.md
+---
+
+### What it does
+
+Prevents `expect` statements outside of a `test` or `it` block. An `expect`
+within a helper function (but outside of a `test` or `it` block) will not
+trigger this rule.
+
+Statements like `expect.hasAssertions()` will NOT trigger this rule since these
+calls will execute if they are not in a test block.
+
+### Why is this bad?
+
+`expect` statements outside of test blocks will not be executed by the Jest
+test runner, which means they won't actually test anything. This can lead to
+false confidence in test coverage and may hide bugs that would otherwise be
+caught by proper testing.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+describe("a test", () => {
+  expect(1).toBe(1);
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### additionalTestBlockFunctions
+
+type: `string[]`
+
+default: `[]`
+
+An array of function names that should also be treated as test blocks.
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.13.
+
 ## References
 
 ---
@@ -61518,12 +66043,12 @@ url: /docs/guide/usage/linter/rules/vitest/prefer-called-exactly-once-with.md
 
 ### What it does
 
-It checks when a target is expected with `toHaveBeenCalledOnce` and `toHaveBeenCalledWith` instead of
+It checks when a target is asserted with both `toHaveBeenCalledOnce` and `toHaveBeenCalledWith` instead of
 `toHaveBeenCalledExactlyOnceWith`.
 
 ### Why is this bad?
 
-The user must deduct from both expects that the spy function is called once and with a specific arguments.
+The reader must deduce from both expectations that the spy function is called once and with specific arguments.
 
 ### Examples
 
@@ -61550,6 +66075,10 @@ test("foo", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.58.0.
+
 ## References
 
 ---
@@ -61565,9 +66094,9 @@ Substitute `toBeCalledTimes(1)` and `toHaveBeenCalledTimes(1)` with
 
 ### Why is this bad?
 
-The \*Times method required to read the arguments to know how many times
-is expected a spy to be called. Most of the times you expecting a method is called
-once.
+The `*Times` matchers require reading the argument to know how many
+times a spy is expected to be called. Most of the time, you expect a
+method to be called once.
 
 ### Examples
 
@@ -61594,6 +66123,10 @@ test("foo", () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.39.0.
 
 ## References
 
@@ -61637,6 +66170,10 @@ test("foo", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.35.0.
+
 ## References
 
 ---
@@ -61652,9 +66189,9 @@ instead of an equivalent hardcoded string.
 
 ### Why is this bad?
 
-Tests that are related to a specific function, if the function being tested is renamed,
-the describe title will be not match anymore and can make confusion in the future. Using the function
-ensure a consistency even if the function is renamed.
+For tests that are related to a specific function, if the function being tested is renamed,
+the describe title will no longer match and can cause confusion in the future. Using the function
+directly ensures consistency even if the function is renamed.
 
 ### Examples
 
@@ -61682,6 +66219,145 @@ describe(myFunction, () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/prefer-expect-assertions.md
+---
+
+### What it does
+
+Enforces that every test has either `expect.assertions(<number>)` or
+`expect.hasAssertions()` as its first expression.
+
+### Why is this bad?
+
+Without explicit assertion counts, tests with asynchronous code,
+callbacks, or loops may pass even if some `expect` calls are never
+reached, silently hiding bugs.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+test("no assertions", () => {
+  // ...
+});
+test("assertions not first", () => {
+  expect(true).toBe(true);
+  // ...
+});
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+test("with assertion count", () => {
+  expect.assertions(1);
+  expect(true).toBe(true);
+});
+test("with hasAssertions", () => {
+  expect.hasAssertions();
+  expect(true).toBe(true);
+});
+```
+
+///Examples of **incorrect** code with `{ "onlyFunctionsWithAsyncKeyword": true }`:
+
+```javascript
+test("fetches data", async () => {
+  const data = await fetchData();
+  expect(data).toBe("peanut butter");
+});
+```
+
+Examples of **correct** code with `{ "onlyFunctionsWithAsyncKeyword": true }`:
+
+```javascript
+test("fetches data", async () => {
+  expect.assertions(1);
+  const data = await fetchData();
+  expect(data).toBe("peanut butter");
+});
+```
+
+Examples of **incorrect** code with `{ "onlyFunctionsWithExpectInLoop": true }`:
+
+```javascript
+test("all numbers are greater than zero", () => {
+  for (const number of getNumbers()) {
+    expect(number).toBeGreaterThan(0);
+  }
+});
+```
+
+Examples of **correct** code with `{ "onlyFunctionsWithExpectInLoop": true }`:
+
+```javascript
+test("all numbers are greater than zero", () => {
+  expect.hasAssertions();
+  for (const number of getNumbers()) {
+    expect(number).toBeGreaterThan(0);
+  }
+});
+```
+
+Examples of **incorrect** code with `{ "onlyFunctionsWithExpectInCallback": true }`:
+
+```javascript
+test("callback test", () => {
+  fetchData((data) => {
+    expect(data).toBe("peanut butter");
+  });
+});
+```
+
+Examples of **correct** code with `{ "onlyFunctionsWithExpectInCallback": true }`:
+
+```javascript
+test("callback test", () => {
+  expect.assertions(1);
+  fetchData((data) => {
+    expect(data).toBe("peanut butter");
+  });
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### onlyFunctionsWithAsyncKeyword
+
+type: `boolean`
+
+default: `false`
+
+### onlyFunctionsWithExpectInCallback
+
+type: `boolean`
+
+default: `false`
+
+### onlyFunctionsWithExpectInLoop
+
+type: `boolean`
+
+default: `false`
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
+
 ## References
 
 ---
@@ -61692,11 +66368,11 @@ url: /docs/guide/usage/linter/rules/vitest/prefer-expect-type-of.md
 
 ### What it does
 
-Enforce using `expectTypeOf` instead of `expect(typeof ...)`
+Enforce using [`expectTypeOf`](https://vitest.dev/api/expect-typeof) instead of `expect(typeof ...)`.
 
 ### Why is this bad?
 
-Vitest provide a more expressive type-safe way to test type than using `expect(typeof ...)`
+Vitest provides a more expressive, type-safe way to test types than using `expect(typeof ...)`.
 
 ### Examples
 
@@ -61732,6 +66408,10 @@ test("type checking", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.44.0.
+
 ## References
 
 ---
@@ -61746,7 +66426,7 @@ This rule enforces using a dynamic `import()` in `vi.mock()` or `vi.doMock()`, w
 
 ### Why is this bad?
 
-A lack of type information and IntelliSense increase the risk of mismatches between the real module and it's mock.
+A lack of type information and IntelliSense increases the risk of mismatches between the real module and its mock.
 
 ### Examples
 
@@ -61777,6 +66457,10 @@ default: `true`
 Whether the rule should generate fixes or not.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.49.0.
 
 ## References
 
@@ -61822,6 +66506,10 @@ describe("suite", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References
 
 ---
@@ -61861,6 +66549,10 @@ expectTypeOf(foo).toBe(false);
 
 ## How to use
 
+## Version
+
+This rule was added in v1.57.0.
+
 ## References
 
 ---
@@ -61897,6 +66589,10 @@ expectTypeOf(foo).toBeFalsy();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.1.
 
 ## References
 
@@ -61935,6 +66631,10 @@ expectTypeOf({}).toBeObject();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References
 
 ---
@@ -61971,6 +66671,92 @@ expectTypeOf(foo).toBeTruthy();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v0.7.1.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/prefer-to-contain.md
+---
+
+### What it does
+
+In order to have a better failure message, `toContain()` should be used upon
+asserting expectations on an array containing an object.
+
+### Why is this bad?
+
+This rule triggers a warning if `toBe()`, `toEqual()` or `toStrictEqual()` is
+used to assert object inclusion in an array
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+expect(a.includes(b)).toBe(true);
+expect(a.includes(b)).not.toBe(true);
+expect(a.includes(b)).toBe(false);
+expect(a.includes(b)).toEqual(true);
+expect(a.includes(b)).toStrictEqual(true);
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+expect(a).toContain(b);
+expect(a).not.toContain(b);
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.2.14.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/prefer-todo.md
+---
+
+### What it does
+
+When test cases are empty then it is better to mark them as `test.todo` as it
+will be highlighted in the summary output.
+
+### Why is this bad?
+
+This rule triggers a warning if empty test cases are used without 'test.todo'.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+test("i need to write this test"); // invalid
+test("i need to write this test", () => {}); // invalid
+test.skip("i need to write this test", () => {}); // invalid
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+test.todo("i need to write this test");
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References
 
@@ -62018,6 +66804,10 @@ test("element exists", async () => {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.58.0.
 
 ## References
 
@@ -62070,6 +66860,10 @@ test.concurrent("myLogic", (context) => {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.8.0.
+
 ## References
 
 ---
@@ -62080,22 +66874,23 @@ url: /docs/guide/usage/linter/rules/vitest/require-mock-type-parameters.md
 
 ### What it does
 
-Enforces the use of type parameters on vi.fn(), and optionally on vi.importActual() and vi.importMock().
+Enforces the use of type parameters on `vi.fn()`, and optionally on `vi.importActual()` and `vi.importMock()`.
 
-By default, only vi.fn() is checked. Set checkImportFunctions to true to also check vi.importActual() and vi.importMock().
+By default, only `vi.fn()` is checked. Set `checkImportFunctions` to `true` to also check `vi.importActual()` and `vi.importMock()`.
 
 ### Why is this bad?
 
-Without explicit type parameters, vi.fn() creates a mock typed as (...args: any\[]) => any.
+Without explicit type parameters, `vi.fn()` creates a mock typed as `(...args: any[]) => any`.
 This disables type checking between the mock and the real implementation, which can lead to two problems:
 
-* tests that fail due to incorrect mock usage when they should pass, or worse, tests that pass while the mock silently diverges from the actual runtime behavior.
+* tests that fail due to incorrect mock usage when they should pass
+* or worse, tests that pass while the mock silently diverges from the actual runtime behavior.
 
 ### Examples
 
 Examples of **incorrect** code for this rule configured as `{ "checkImportFunctions": false }`:
 
-```js
+```ts
 import { vi } from "vitest";
 
 test("foo", () => {
@@ -62105,7 +66900,7 @@ test("foo", () => {
 
 Examples of **incorrect** code for this rule configured as `{ "checkImportFunctions": true }`:
 
-```js
+```ts
 import { vi } from "vitest";
 
 vi.mock("./example.js", async () => {
@@ -62118,27 +66913,27 @@ const fs = await vi.importMock("fs");
 
 Examples of **correct** code for this rule configured as `{ "checkImportFunctions": false }`:
 
-```js
-import { vi } from 'vitest'
+```ts
+import { vi } from "vitest";
 
- test('foo', () => {
-   const myMockedFnOne = vi.fn<(arg1: string, arg2: boolean) => number>()
-   const myMockedFnTwo = vi.fn<() => void>()
-   const myMockedFnThree = vi.fn<any>()
- })
+test("foo", () => {
+  const myMockedFnOne = vi.fn<(arg1: string, arg2: boolean) => number>();
+  const myMockedFnTwo = vi.fn<() => void>();
+  const myMockedFnThree = vi.fn<any>();
+});
 ```
 
 Examples of **correct** code for this rule configured as `{ "checkImportFunctions": true }`:
 
-```js
+```ts
 import { vi } from "vitest";
 
 vi.mock("./example.js", async () => {
-  const originalModule = (await vi.importActual) < any > "./example.js";
+  const originalModule = await vi.importActual<any>("./example.js");
 
   return { ...originalModule };
 });
-const fs = (await vi.importMock) < any > "fs";
+const fs = await vi.importMock<any>("fs");
 ```
 
 ## Configuration
@@ -62154,6 +66949,10 @@ default: `false`
 Also require type parameters for `importActual` and `importMock`.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.58.0.
 
 ## References
 
@@ -62207,6 +67006,305 @@ test("slow test", async () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.58.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/require-top-level-describe.md
+---
+
+### What it does
+
+Requires test cases and hooks to be inside a top-level `describe` block.
+
+### Why is this bad?
+
+Having tests and hooks organized within `describe` blocks provides better
+structure and grouping for test suites. It makes test output more readable
+and helps with test organization, especially in larger codebases.
+
+This rule triggers a warning if a test case (`test` and `it`) or a hook
+(`beforeAll`, `beforeEach`, `afterEach`, `afterAll`) is not located in a
+top-level `describe` block.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+// Above a describe block
+test("my test", () => {});
+describe("test suite", () => {
+  it("test", () => {});
+});
+
+// Below a describe block
+describe("test suite", () => {});
+test("my test", () => {});
+
+// Same for hooks
+beforeAll("my beforeAll", () => {});
+describe("test suite", () => {});
+afterEach("my afterEach", () => {});
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+// Above a describe block
+// In a describe block
+describe("test suite", () => {
+  test("my test", () => {});
+});
+
+// In a nested describe block
+describe("test suite", () => {
+  test("my test", () => {});
+  describe("another test suite", () => {
+    test("my other test", () => {});
+  });
+});
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### maxNumberOfTopLevelDescribes
+
+type: `integer`
+
+default: `Infinity`
+
+The maximum number of top-level `describe` blocks allowed in a test file.
+
+## How to use
+
+## Version
+
+This rule was added in v0.4.2.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/valid-expect.md
+---
+
+### What it does
+
+Checks that `expect()` is called correctly.
+
+### Why is this bad?
+
+`expect()` is a function that is used to assert values in tests.
+It should be called with a single argument, which is the value to be tested.
+If you call `expect()` with no arguments, or with more than one argument, it will not work as expected.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+expect();
+expect("something");
+expect(true).toBeDefined;
+expect(Promise.resolve("Hi!")).resolves.toBe("Hi!");
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+expect("something").toEqual("something");
+expect(true).toBeDefined();
+expect(Promise.resolve("Hi!")).resolves.toBe("Hi!");
+```
+
+## Configuration
+
+This rule accepts a configuration object with the following properties:
+
+### alwaysAwait
+
+type: `boolean`
+
+default: `false`
+
+When `true`, async assertions must be awaited in all contexts (not just return statements).
+
+### asyncMatchers
+
+type: `string[]`
+
+default: `["toResolve", "toReject"]`
+
+List of matchers that are considered async and therefore require awaiting (e.g. `toResolve`, `toReject`).
+
+### maxArgs
+
+type: `integer`
+
+default: `1`
+
+Maximum number of arguments `expect` should be called with.
+
+### minArgs
+
+type: `integer`
+
+default: `1`
+
+Minimum number of arguments `expect` should be called with.
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.14.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/valid-expect-in-promise.md
+---
+
+### What it does
+
+Ensures that `expect` calls inside promise chains (`.then()`, `.catch()`,
+`.finally()`) are properly awaited or returned from the test.
+
+### Why is this bad?
+
+When `expect` is called inside a promise callback that is not awaited or
+returned, the test may pass even if the assertion fails because the test
+completes before the promise resolves. This leads to silently passing
+tests with broken assertions.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+test("promise test", async () => {
+  something().then((value) => {
+    expect(value).toBe("red");
+  });
+});
+
+test("promises test", () => {
+  const onePromise = something().then((value) => {
+    expect(value).toBe("red");
+  });
+  const twoPromise = something().then((value) => {
+    expect(value).toBe("blue");
+  });
+
+  return Promise.any([onePromise, twoPromise]);
+});
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+test("promise test", async () => {
+  await something().then((value) => {
+    expect(value).toBe("red");
+  });
+});
+
+test("promises test", () => {
+  const onePromise = something().then((value) => {
+    expect(value).toBe("red");
+  });
+  const twoPromise = something().then((value) => {
+    expect(value).toBe("blue");
+  });
+
+  return Promise.all([onePromise, twoPromise]);
+});
+```
+
+## How to use
+
+## Version
+
+This rule was added in v1.60.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vitest/valid-title.md
+---
+
+### What it does
+
+Checks that the titles of Jest and Vitest blocks are valid.
+
+Titles must be:
+
+* not empty,
+* strings,
+* not prefixed with their block name,
+* have no leading or trailing spaces.
+
+### Why is this bad?
+
+Titles that are not valid can be misleading and make it harder to understand the purpose of the test.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```javascript
+describe("", () => {});
+describe("foo", () => {
+  it("", () => {});
+});
+it("", () => {});
+test("", () => {});
+xdescribe("", () => {});
+xit("", () => {});
+xtest("", () => {});
+```
+
+Examples of **correct** code for this rule:
+
+```javascript
+describe("foo", () => {});
+it("bar", () => {});
+test("baz", () => {});
+```
+
+### Options
+
+```typescript
+interface Options {
+  ignoreSpaces?: boolean;
+  ignoreTypeOfTestName?: boolean;
+  ignoreTypeOfDescribeName?: boolean;
+  allowArguments?: boolean;
+  disallowedWords?: string[];
+  mustNotMatch?: Partial<Record<"describe" | "test" | "it", string>> | string;
+  mustMatch?: Partial<Record<"describe" | "test" | "it", string>> | string;
+}
+```
+
+## How to use
+
+## Version
+
+This rule was added in v0.0.14.
+
 ## References
 
 ---
@@ -62217,12 +67315,11 @@ url: /docs/guide/usage/linter/rules/vitest/warn-todo.md
 
 ### What it does
 
-This rule triggers warnings when `.todo` is used in `describe`, `it`, or `test` functions.
-It is recommended to use this with your CI pipeline to annotate PR diffs.
+This rule warns about usage of `.todo` in `describe`, `it`, or `test` functions.
 
 ### Why is this bad?
 
-The test that you push should be completed, any pending/"TODO" code should not be committed.
+The tests you push should be complete. Any pending/`TODO` code should not be committed.
 
 ### Examples
 
@@ -62243,6 +67340,10 @@ test([])("foo", () => {});
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.37.0.
 
 ## References
 
@@ -62429,6 +67530,10 @@ using an array or object, e.g. `defineEmits(['event1', 'event2'])`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.15.0.
+
 ## References
 
 ---
@@ -62499,6 +67604,10 @@ Enforce runtime declaration.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.15.0.
+
 ## References
 
 ---
@@ -62564,6 +67673,10 @@ Requires using a variable to store props and prohibits destructuring
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References
 
 ---
@@ -62621,6 +67734,10 @@ default: `1`
 The maximum number of props allowed in a Vue SFC.
 
 ## How to use
+
+## Version
+
+This rule was added in v1.19.0.
 
 ## References
 
@@ -62681,6 +67798,116 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vue/no-deprecated-data-object-declaration.md
+---
+
+### What it does
+
+Disallow object declaration on `data` (in Vue.js 3.0.0+).
+
+### Why is this bad?
+
+In Vue 3, declaring `data` as an object causes the same object to be
+shared between every instance of the component, which leads to cross-
+instance state pollution. `data` must be a function that returns a
+fresh object per instance.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```vue
+<script>
+export default {
+  data: {
+    foo: "bar",
+  },
+};
+</script>
+```
+
+Examples of **correct** code for this rule:
+
+```vue
+<script>
+export default {
+  data() {
+    return { foo: "bar" };
+  },
+};
+</script>
+```
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vue/no-deprecated-delete-set.md
+---
+
+### What it does
+
+Disallow using deprecated `$set` / `$delete` (in Vue.js 3.0.0+).
+
+### Why is this bad?
+
+In Vue 3, the instance methods `$set` / `$delete` and the global
+`Vue.set` / `Vue.delete` were removed. Reactivity is now backed by
+Proxies, so plain assignment and the `delete` operator work as
+expected and these helpers are no longer needed.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```vue
+<script>
+export default {
+  mounted() {
+    this.$set(obj, key, value);
+    this.$delete(obj, key);
+    Vue.set(obj, key, value);
+    Vue.delete(obj, key);
+  },
+};
+</script>
+```
+
+Examples of **correct** code for this rule:
+
+```vue
+<script>
+export default {
+  mounted() {
+    obj[key] = value;
+    delete obj[key];
+  },
+};
+</script>
+```
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
+
 ## References
 
 ---
@@ -62725,6 +67952,104 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.35.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vue/no-deprecated-events-api.md
+---
+
+### What it does
+
+Disallow using deprecated Events API (`$on`, `$off`, `$once`) in Vue.js 3.0.0+.
+
+### Why is this bad?
+
+In Vue.js 3.0.0+, the internal event APIs `$on`, `$off`, and `$once` have been removed.
+These methods were used for event handling between components but are no longer available.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```vue
+<script>
+export default {
+  mounted() {
+    this.$on("event", () => {});
+    this.$off("event");
+    this.$once("event", () => {});
+  },
+};
+</script>
+```
+
+Examples of **correct** code for this rule:
+
+```vue
+<script>
+import mitt from "mitt";
+
+const emitter = mitt();
+
+export default {
+  mounted() {
+    emitter.on("event", () => {});
+    emitter.off("event");
+    emitter.once("event", () => {});
+  },
+};
+</script>
+```
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
+
+## References
+
+---
+
+---
+url: /docs/guide/usage/linter/rules/vue/no-deprecated-vue-config-keycodes.md
+---
+
+### What it does
+
+Disallow using deprecated `Vue.config.keyCodes` (in Vue.js 3.0.0+).
+
+### Why is this bad?
+
+`Vue.config.keyCodes` was removed in Vue 3. Code that relies on it will
+silently stop working when upgrading.
+
+### Examples
+
+Examples of **incorrect** code for this rule:
+
+```js
+Vue.config.keyCodes = { enter: 13 };
+```
+
+Examples of **correct** code for this rule:
+
+```js
+Vue.config.silent = true;
+```
+
+## How to use
+
+## Version
+
+This rule was added in v1.62.0.
+
 ## References
 
 ---
@@ -62762,6 +68087,10 @@ let msg = "Hello!";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.20.0.
 
 ## References
 
@@ -62808,6 +68137,10 @@ import { ref } from "vue";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.21.0.
 
 ## References
 
@@ -62863,6 +68196,10 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
 ## References
 
 ---
@@ -62913,6 +68250,10 @@ export default {
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.15.0.
 
 ## References
 
@@ -62968,6 +68309,10 @@ const props = withDefaults(
 
 ## How to use
 
+## Version
+
+This rule was added in v1.17.0.
+
 ## References
 
 ---
@@ -63013,6 +68358,10 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References
 
 ---
@@ -63051,6 +68400,10 @@ import { createApp, ref, Component } from "vue";
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.20.0.
 
 ## References
 
@@ -63095,6 +68448,10 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.21.0.
+
 ## References
 
 ---
@@ -63130,6 +68487,10 @@ const a = ref(0);
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.17.0.
 
 ## References
 
@@ -63224,6 +68585,10 @@ defineEmits();
 
 ## How to use
 
+## Version
+
+This rule was added in v1.14.0.
+
 ## References
 
 ---
@@ -63316,6 +68681,10 @@ defineProps();
 ```
 
 ## How to use
+
+## Version
+
+This rule was added in v1.15.0.
 
 ## References
 

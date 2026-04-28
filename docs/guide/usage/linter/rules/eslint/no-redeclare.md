@@ -42,4 +42,8 @@ When set `true`, it flags redeclaring built-in globals (e.g., `let Object = 1;`)
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.13.
+
 ## References

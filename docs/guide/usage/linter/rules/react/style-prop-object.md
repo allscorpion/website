@@ -56,4 +56,8 @@ List of component names on which to allow `style` prop values of any type.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.11.0.
+
 ## References

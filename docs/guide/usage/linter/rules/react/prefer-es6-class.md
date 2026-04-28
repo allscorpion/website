@@ -40,4 +40,8 @@ Do not allow ES2015 class-style, prefer `createReactClass`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.5.0.
+
 ## References

@@ -48,4 +48,8 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.39.0.
+
 ## References

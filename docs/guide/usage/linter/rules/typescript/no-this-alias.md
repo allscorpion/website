@@ -53,4 +53,8 @@ An array of variable names that are allowed to alias `this`.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References

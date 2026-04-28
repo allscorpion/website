@@ -69,4 +69,8 @@ Examples of **correct** code for this rule:
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

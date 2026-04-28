@@ -37,4 +37,8 @@ but are not flagged by this rule at this time. They may be in the future.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.13.
+
 ## References

@@ -25,4 +25,8 @@ location.href = `javascript:void(0)`;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.15.
+
 ## References

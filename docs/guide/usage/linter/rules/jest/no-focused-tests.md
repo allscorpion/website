@@ -33,17 +33,10 @@ fit.each`
 `();
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/v1.1.9/docs/rules/no-focused-tests.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-focused-tests": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.8.
 
 ## References

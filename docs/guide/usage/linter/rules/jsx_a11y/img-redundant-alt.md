@@ -55,4 +55,8 @@ Words considered redundant in alt text that should trigger a warning.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

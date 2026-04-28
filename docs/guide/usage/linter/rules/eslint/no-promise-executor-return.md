@@ -95,4 +95,8 @@ If `true`, allows returning `void` expressions (e.g., `return void resolve()`).
 
 ## How to use
 
+## Version
+
+This rule was added in v1.33.0.
+
 ## References

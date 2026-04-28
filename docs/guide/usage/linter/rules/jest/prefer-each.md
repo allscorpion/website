@@ -45,4 +45,8 @@ to use it, add the following configuration to your `.oxlintrc.json`:
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.0.
+
 ## References

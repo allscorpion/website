@@ -80,4 +80,8 @@ Maximum number of parameters allowed in function definitions.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References

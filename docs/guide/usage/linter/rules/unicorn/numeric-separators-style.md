@@ -138,4 +138,8 @@ grouping will be enforced for eligible numbers even if they don't include separa
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

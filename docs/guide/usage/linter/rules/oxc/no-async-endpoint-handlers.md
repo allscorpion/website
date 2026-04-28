@@ -110,4 +110,8 @@ An array of names that are allowed to be async.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References

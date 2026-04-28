@@ -110,4 +110,8 @@ Whether to skip compound assignments (e.g., `a += b`).
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

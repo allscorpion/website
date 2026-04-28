@@ -249,4 +249,8 @@ Glob pattern to match import specifiers. This uses Rust's fast-glob library for 
 
 ## How to use
 
+## Version
+
+This rule was added in v1.2.0.
+
 ## References

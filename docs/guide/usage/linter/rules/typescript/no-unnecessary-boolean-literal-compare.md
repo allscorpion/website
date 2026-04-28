@@ -81,4 +81,8 @@ When false, `x === true` where x is `boolean | null` will be flagged.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

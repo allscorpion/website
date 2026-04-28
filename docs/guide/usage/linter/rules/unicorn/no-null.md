@@ -42,4 +42,8 @@ When set to `true`, the rule will also check strict equality/inequality comparis
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.21.
+
 ## References

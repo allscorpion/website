@@ -31,4 +31,8 @@ expectTypeOf({}).toBeObject();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.9.2.
+
 ## References

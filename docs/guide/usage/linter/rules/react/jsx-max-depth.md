@@ -52,4 +52,8 @@ The maximum allowed depth of nested JSX elements and fragments.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.36.0.
+
 ## References

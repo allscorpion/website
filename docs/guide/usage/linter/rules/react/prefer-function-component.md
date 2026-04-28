@@ -71,4 +71,8 @@ If `true`, classes that contain JSX but do not extend `Component` or
 
 ## How to use
 
+## Version
+
+This rule was added in v1.59.0.
+
 ## References

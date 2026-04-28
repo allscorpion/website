@@ -30,4 +30,8 @@ const createObject = (Object) => new Object();
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.2.
+
 ## References

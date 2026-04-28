@@ -57,17 +57,6 @@ describe("foo", () => {
 });
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-hooks.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-hooks": "error"
-  }
-}
-```
-
 ## Configuration
 
 This rule accepts a configuration object with the following properties:
@@ -81,5 +70,9 @@ default: `[]`
 An array of hook function names that are permitted for use.
 
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References

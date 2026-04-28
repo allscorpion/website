@@ -27,4 +27,8 @@ var foo2 = /^abc[123]/;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References

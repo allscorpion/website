@@ -37,4 +37,8 @@ let result = BigInt(9007199254740991);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.3.3.
+
 ## References

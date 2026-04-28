@@ -41,4 +41,8 @@ export const value = "Hello, world!";
 
 ## How to use
 
+## Version
+
+This rule was added in v0.4.4.
+
 ## References

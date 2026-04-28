@@ -39,4 +39,8 @@ export default {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References

@@ -43,4 +43,8 @@ Decides whether to prefer vitest function accessor
 
 ## How to use
 
+## Version
+
+This rule was added in v1.37.0.
+
 ## References

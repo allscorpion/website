@@ -72,4 +72,8 @@ Example: `["Foo", "Bar"]` to allow `x as Foo` or `x as Bar`.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

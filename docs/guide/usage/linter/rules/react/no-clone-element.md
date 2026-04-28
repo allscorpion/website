@@ -56,4 +56,8 @@ function List({ items, renderItem }) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.53.0.
+
 ## References

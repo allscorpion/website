@@ -171,4 +171,8 @@ default: `null`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.11.
+
 ## References

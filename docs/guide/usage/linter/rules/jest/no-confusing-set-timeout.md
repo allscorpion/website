@@ -44,4 +44,8 @@ describe("unit test", () => {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.14.
+
 ## References

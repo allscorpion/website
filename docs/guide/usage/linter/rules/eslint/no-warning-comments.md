@@ -68,4 +68,8 @@ Useful for ignoring common comment decorations like `*` in JSDoc-style comments.
 
 ## How to use
 
+## Version
+
+This rule was added in v1.24.0.
+
 ## References

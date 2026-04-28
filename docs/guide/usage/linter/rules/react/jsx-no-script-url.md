@@ -52,4 +52,8 @@ Whether to include components from settings.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.13.2.
+
 ## References

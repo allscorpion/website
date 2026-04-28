@@ -59,4 +59,8 @@ Requires using a variable to store props and prohibits destructuring
 
 ## How to use
 
+## Version
+
+This rule was added in v1.20.0.
+
 ## References

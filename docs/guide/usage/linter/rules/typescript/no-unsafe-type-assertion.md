@@ -42,4 +42,8 @@ const number = items[0] as number | string | undefined;
 
 ## How to use
 
+## Version
+
+This rule was added in v1.12.0.
+
 ## References

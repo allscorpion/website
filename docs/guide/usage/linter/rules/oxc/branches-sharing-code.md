@@ -53,4 +53,8 @@ cleanup();
 
 ## How to use
 
+## Version
+
+This rule was added in v1.22.0.
+
 ## References

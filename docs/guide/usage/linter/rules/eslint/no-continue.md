@@ -41,4 +41,8 @@ for (i = 0; i < 10; i++) {
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.14.
+
 ## References

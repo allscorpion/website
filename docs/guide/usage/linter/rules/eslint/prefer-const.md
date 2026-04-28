@@ -73,4 +73,8 @@ This is mainly useful for preventing conflicts with the `typescript/no-use-befor
 
 ## How to use
 
+## Version
+
+This rule was added in v1.43.0.
+
 ## References

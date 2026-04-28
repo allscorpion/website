@@ -56,4 +56,8 @@ Require `data-*` attributes to be lowercase, e.g. `data-foobar` instead of `data
 
 ## How to use
 
+## Version
+
+This rule was added in v0.2.0.
+
 ## References

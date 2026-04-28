@@ -36,4 +36,8 @@ window.postMessage(message, "*");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.15.15.
+
 ## References

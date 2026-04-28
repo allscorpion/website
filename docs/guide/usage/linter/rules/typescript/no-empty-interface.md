@@ -46,4 +46,8 @@ When set to `true`, allows empty interfaces that extend a single interface.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.6.
+
 ## References

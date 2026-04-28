@@ -64,4 +64,8 @@ function HomePage() {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.7.0.
+
 ## References

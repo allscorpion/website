@@ -55,4 +55,8 @@ Type arguments that only appear on the constructor are disallowed.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.14.0.
+
 ## References

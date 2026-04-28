@@ -4,7 +4,7 @@ url: /docs/guide/usage/linter/rules/jest/no-mocks-import.md
 
 ### What it does
 
-This rule reports imports from a path containing a **mocks** component.
+This rule reports imports from a path containing a `__mocks__` component.
 
 ### Why is this bad?
 
@@ -30,17 +30,10 @@ import thing from "thing";
 require("thing");
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/no-mocks-import.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/no-mocks-import": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.13.
 
 ## References

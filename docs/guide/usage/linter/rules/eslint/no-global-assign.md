@@ -33,4 +33,8 @@ Globals listed here can be assigned to without triggering warnings.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.7.
+
 ## References

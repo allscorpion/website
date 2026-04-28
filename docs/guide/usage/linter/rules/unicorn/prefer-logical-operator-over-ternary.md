@@ -28,4 +28,8 @@ console.log(foo ?? bar);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.15.
+
 ## References

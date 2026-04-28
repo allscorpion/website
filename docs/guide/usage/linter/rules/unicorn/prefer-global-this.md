@@ -48,4 +48,8 @@ globalThis.postMessage("done");
 
 ## How to use
 
+## Version
+
+This rule was added in v0.16.12.
+
 ## References

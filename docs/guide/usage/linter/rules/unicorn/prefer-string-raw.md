@@ -28,4 +28,8 @@ const regexp = new RegExp(String.raw`foo\.bar`);
 
 ## How to use
 
+## Version
+
+This rule was added in v0.12.0.
+
 ## References

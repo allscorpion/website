@@ -33,4 +33,8 @@ while (!done) {
 
 ## How to use
 
+## Version
+
+This rule was added in v1.48.0.
+
 ## References

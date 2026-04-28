@@ -42,4 +42,8 @@ If set to `true`, allows an empty `catch` block without triggering the linter.
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.3.
+
 ## References

@@ -34,4 +34,8 @@ const [, foo] = parts;
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.19.
+
 ## References

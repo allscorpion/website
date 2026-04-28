@@ -50,4 +50,8 @@ type: `"marquee" | "blink"`
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.22.
+
 ## References

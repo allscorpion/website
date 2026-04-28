@@ -27,17 +27,10 @@ Examples of **correct** code for this rule:
 test.todo("i need to write this test");
 ```
 
-This rule is compatible with [eslint-plugin-vitest](https://github.com/vitest-dev/eslint-plugin-vitest/blob/main/docs/rules/prefer-todo.md),
-to use it, add the following configuration to your `.oxlintrc.json`:
-
-```json
-{
-  "rules": {
-    "vitest/prefer-todo": "error"
-  }
-}
-```
-
 ## How to use
+
+## Version
+
+This rule was added in v0.0.16.
 
 ## References

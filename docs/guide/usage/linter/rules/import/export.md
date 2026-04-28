@@ -32,4 +32,8 @@ export * from "./export-all"; // No conflict if export-all.js also exports foo
 
 ## How to use
 
+## Version
+
+This rule was added in v0.0.21.
+
 ## References
