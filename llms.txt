@@ -17,8 +17,8 @@
 - [Command-line Interface](/docs/guide/usage/linter/cli.md)
 - [Configuration](/docs/guide/usage/formatter/config.md): Configure Oxfmt using a .oxfmtrc.json file.
 - [Configuration](/docs/guide/usage/linter/config.md): Configure Oxlint using .oxlintrc.json or oxlint.config.ts.
-- [Configuration options for the Oxfmt.](/docs/guide/usage/formatter/generated-config.md)
 - [Configuration options for the Oxfmt.](/docs/guide/usage/formatter/config-file-reference.md)
+- [Configuration options for the Oxfmt.](/docs/guide/usage/formatter/generated-config.md)
 - [Dead Code Elimination](/docs/guide/usage/minifier/dead-code-elimination.md)
 - [Dealing with Errors](/docs/learn/parser_in_rust/errors.md)
 - [Debugging](/docs/contribute/debugging.md)
